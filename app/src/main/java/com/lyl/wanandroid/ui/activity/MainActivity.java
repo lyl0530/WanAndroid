@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Next(View view) {
+        //throw new RuntimeException("test");
         startActivity(new Intent(this, LoginActivity.class));
     }
 }
