@@ -16,8 +16,8 @@ import com.lyl.wanandroid.view.LoginView;
  */
 public class LoginPresent {
     private static final String TAG = "lym LoginPresent";
-    private LoginModel mModel;
-    private LoginView mView;
+    private final LoginModel mModel;
+    private final LoginView mView;
 
     public LoginPresent(LoginView view){
         mView = view;
