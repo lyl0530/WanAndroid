@@ -1,12 +1,11 @@
 package com.lyl.wanandroid.model;
 
-import android.util.Log;
-
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.retrofit.RetrofitHelper;
 import com.lyl.wanandroid.retrofit.WanApi;
+import com.lyl.wanandroid.util.LogUtils;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
  * Describe : 数据层，负责从网络或数据库中获取数据
  */
 public class LoginModel {
-    private static final String TAG = "lym LoginModel";
+    private static final String TAG = LoginModel.class.getSimpleName();
     public void login(String userName, String pwd, RequestListener<LoginResult> l) {
         l.onStart();
         RetrofitHelper.getInstance().getRetrofit(Const.WAN_ANDROID_BASE_URL)
@@ -33,18 +32,23 @@ public class LoginModel {
 
                     @Override
                     public void onNext(LoginResult result) {
-                        Log.d(TAG, "onNext: " + result.toString());
+                        LogUtils.d(TAG, "onNext: " + result);
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
                         if (Const.SUCCESS_CODE == result.getErrorCode()) {
                             l.onSuccess(result);
                         } else {
-                            l.onFailed(result.getErrorCode(), result.getErrorMsg());
+                            l.onFailed(/*result.getErrorCode(), */result.getErrorMsg());
                         }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "onNext: " + e.getMessage());
-                        l.onFailed(Const.FAILED_CODE_LOGIN, e.getMessage());
+                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        l.onFailed(/*Const.FAILED_CODE_LOGIN, */e.getMessage());
                     }
 
                     @Override

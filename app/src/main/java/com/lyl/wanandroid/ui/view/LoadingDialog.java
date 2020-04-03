@@ -3,16 +3,16 @@ package com.lyl.wanandroid.ui.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.util.LogUtils;
 
 /**
  * Created by lym on 2020/4/3
  * Describe :
  */
 public class LoadingDialog{
-    private static final String TAG = "lym123 LoadingDialog";
+    private static final String TAG =  LoadingDialog.class.getSimpleName();
     private final Context mContext;
     private Dialog mDialog;
 
@@ -24,14 +24,14 @@ public class LoadingDialog{
         return new LoadingDialog(context);
     }
     public void show(){
-        Log.d(TAG, "show: ");
+        LogUtils.d(TAG, "show: ");
         mDialog = new Dialog(mContext, R.style.loadingDialog);
         mDialog.setContentView(R.layout.dialog_loading);
         mDialog.show();
     }
 
     public void dismiss(){
-        Log.d(TAG, "dismiss: ");
+        LogUtils.d(TAG, "dismiss: ");
         if (null != mDialog && mDialog.isShowing()){
             mDialog.dismiss();
         }

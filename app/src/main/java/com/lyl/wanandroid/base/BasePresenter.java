@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.base;
 
-import android.util.Log;
+
+import com.lyl.wanandroid.util.LogUtils;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationHandler;
@@ -13,7 +14,7 @@ import java.util.Arrays;
  * Describe :
  */
 public abstract class BasePresenter<V> {
-    private static final String TAG = "BasePresenter";
+    private static final String TAG = BasePresenter.class.getSimpleName();
     private WeakReference<V> mWeakReference; //弱引用, 防止内存泄漏
     private V mProxyView;
     /**
@@ -82,7 +83,7 @@ public abstract class BasePresenter<V> {
         }
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            Log.d(TAG, "invoke: method = " + method.getName() + ", args = " + Arrays.toString(args));
+            LogUtils.d(TAG, "invoke: method = " + method.getName() + ", args = " + Arrays.toString(args));
             // mView.hideProgressDialog()方法时，就调用了$Proxy0类中的hideProgressDialog()方法，
             // 进而调用父类Proxy中的h的invoke()方法.即InvocationHandler.invoke()。
             if (isViewAttached()){ //如果V层没被销毁, 执行V层的方法.

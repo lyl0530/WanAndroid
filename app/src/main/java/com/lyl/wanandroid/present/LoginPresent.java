@@ -1,7 +1,5 @@
 package com.lyl.wanandroid.present;
 
-import android.util.Log;
-
 import com.lyl.wanandroid.base.BasePresenter;
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.listener.RequestListener;
@@ -18,7 +16,6 @@ import com.lyl.wanandroid.view.LoginView;
  *      (所以一个检查方法是看你的presenter的import中有没有android的包名.)
  */
 public class LoginPresent extends BasePresenter<LoginView> {
-    private static final String TAG = "lym123";
     private final LoginModel mModel;
     private LoginView mView;
 
@@ -34,7 +31,6 @@ public class LoginPresent extends BasePresenter<LoginView> {
 
     @Override
     public void detach() {
-        Log.d(TAG, "detachView: ");
         if (null != getView()) {
             mView = null;
         }
@@ -54,7 +50,7 @@ public class LoginPresent extends BasePresenter<LoginView> {
             }
 
             @Override
-            public void onFailed(int code, String msg) {
+            public void onFailed(/*int code, */String msg) {
                 getView().loginFailed(msg);
             }
 

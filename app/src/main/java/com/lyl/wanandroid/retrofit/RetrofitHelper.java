@@ -1,9 +1,7 @@
 package com.lyl.wanandroid.retrofit;
 
-import android.util.Log;
-
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.lyl.wanandroid.BuildConfig;
+import com.lyl.wanandroid.util.LogUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Describe :
  */
 public class RetrofitHelper {
-    private static final String TAG = "lym RetrofitHelper";
+    private static final String TAG = RetrofitHelper.class.getSimpleName();
 
     private volatile static RetrofitHelper instance;
     private RetrofitHelper(){
@@ -39,8 +37,8 @@ public class RetrofitHelper {
 
     public Retrofit getRetrofit(String baseUrl){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(
-                msg -> Log.d(TAG, "log: " + msg));
-        if (BuildConfig.DEBUG) {
+                msg -> LogUtils.d(TAG, "log: " + msg));
+        if (LogUtils.isDebug()) {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         } else {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);

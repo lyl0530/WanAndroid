@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -12,10 +11,11 @@ import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.present.LoginPresent;
 import com.lyl.wanandroid.ui.view.LoadingDialog;
+import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.LoginView;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private LoginPresent mPresent;
     private LoadingDialog mLoadingDialog;
     private Context mContext;
@@ -53,12 +53,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void loginSuccess(LoginResult result) {
-        Log.d(TAG, "loginSuccess: " + result);
+        LogUtils.d(TAG, "loginSuccess: " + result);
     }
 
     @Override
     public void loginFailed(String msg) {
-        Log.d(TAG, "loginFailed: " + msg);
+        LogUtils.d(TAG, "loginFailed: " + msg);
     }
 
     public void onLogin(View view) {
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d(TAG, "onKeyDown: " + keyCode);
+        LogUtils.d(TAG, "onKeyDown: " + keyCode);
         if (KeyEvent.KEYCODE_BACK == keyCode){
             finish();
         }

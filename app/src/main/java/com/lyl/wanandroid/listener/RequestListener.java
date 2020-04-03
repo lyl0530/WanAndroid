@@ -7,7 +7,7 @@ package com.lyl.wanandroid.listener;
 public interface RequestListener<T> {
     void onStart();
     void onSuccess(/*int code, */T data);
-    void onFailed(int code, String msg);
+    void onFailed(/*int code, */String msg);
     //    void onError(ExceptionHandle handle);
     void onFinish();
 }
