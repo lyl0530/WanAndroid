@@ -20,6 +20,7 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginModel {
     private static final String TAG = "lym LoginModel";
     public void login(String userName, String pwd, RequestListener<LoginResult> l) {
+        l.onStart();
         RetrofitHelper.getInstance().getRetrofit(Const.WAN_ANDROID_BASE_URL)
                 .create(WanApi.class)
                 .login(userName, pwd)
@@ -48,6 +49,7 @@ public class LoginModel {
 
                     @Override
                     public void onComplete() {
+                        l.onFinish();
                     }
                 });
     }

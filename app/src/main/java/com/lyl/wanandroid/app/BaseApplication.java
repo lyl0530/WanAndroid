@@ -12,7 +12,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 public class BaseApplication extends Application {
 
     private static Context mAppContext;
-    public Context getContext() {
+    public static Context getContext() {
         return mAppContext;
     }
 
