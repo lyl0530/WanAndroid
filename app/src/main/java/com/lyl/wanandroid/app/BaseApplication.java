@@ -32,5 +32,12 @@ public class BaseApplication extends Application {
         CrashReport.initCrashReport(mAppContext, "a67a0e680c", true);
     }
 
+    public static boolean isLogin() {
+//        String userId = PreferenceConstant.getUserId();
+//        String token = PreferenceConstant.getUserToken();
+//        LogUtils.d(TAG, "userId = " + userId + "token = " + token);
+//        return token.length() > 0 && userId.length() > 0;
+        return false;
+    }
 
 }

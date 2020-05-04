@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_main_pager"
+        android:icon="@drawable/ic_bottom_bar_home"
+        android:title="@string/main_pager" />
+
+    <item
+        android:id="@+id/tab_hierarchy"
+        android:icon="@drawable/ic_bottom_bar_hierarchy"
+        android:title="@string/hierarchy" />
+
+    <item
+        android:id="@+id/tab_project"
+        android:icon="@drawable/ic_bottom_bar_project"
+        android:title="@string/project" />
+
+    <item
+        android:id="@+id/tab_official_accounts"
+        android:icon="@drawable/ic_bottom_bar_official_accounts"
+        android:title="@string/official_accounts" />
+
+</menu>

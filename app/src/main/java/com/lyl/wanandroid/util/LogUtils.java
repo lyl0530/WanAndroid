@@ -13,8 +13,11 @@ public class LogUtils {
     //便捷，但安全性还是不高，反编译后，修改代码，还是可以看到log
     //自己 App Module 中不能主动设置 android:debuggable，否则无论 Debug 还是 Release 版会始终是设置的值。当然本身就没有自动设置的必要。
     //推荐使用live template的功能
-
-
+    //参考：
+    //https://www.cnblogs.com/zhujiabin/p/6874508.html
+    //https://www.jb51.net/article/129634.htm
+    //https://www.jb51.net/article/129636.htm
+    //https://www.jianshu.com/p/658eb18838df
     public static boolean isDebug(){
         return 0 != (BaseApplication.getContext().getApplicationInfo().flags
                         & ApplicationInfo.FLAG_DEBUGGABLE);

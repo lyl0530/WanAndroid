@@ -1,69 +1,95 @@
 package com.lyl.wanandroid.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
-import com.lyl.wanandroid.bean.LoginResult;
-import com.lyl.wanandroid.present.LoginPresent;
-import com.lyl.wanandroid.ui.view.LoadingDialog;
+import com.lyl.wanandroid.ui.fragment.LoginFragment;
+import com.lyl.wanandroid.ui.fragment.RegisterFragment;
 import com.lyl.wanandroid.util.LogUtils;
-import com.lyl.wanandroid.view.LoginView;
 
-public class LoginActivity extends AppCompatActivity implements LoginView {
+import java.util.ArrayList;
+import java.util.List;
+
+public class LoginActivity extends AppCompatActivity implements /*LoginView, */View.OnClickListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private LoginPresent mPresent;
-    private LoadingDialog mLoadingDialog;
-    private Context mContext;
 
+
+    private FrameLayout mFrameLayout;
+    public static final int TYPE_ADD = 1;
+    public static final int TYPE_REPLACE = 2;
+
+    private TextView mLogin, mRegister;
+    private ViewPager mViewPager;
+    private List<Fragment> mFragmentList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mContext = this;
-        mPresent = new LoginPresent();
-        mPresent.attach(this);
+        initView();
+        initData();
     }
 
-    @Override
-    protected void onDestroy() {
-        mPresent.detach();
-        super.onDestroy();
+    private void initView() {
+        mViewPager = findViewById(R.id.login_register);
+        mLogin = findViewById(R.id.tv_login);
+        mRegister = findViewById(R.id.tv_register);
     }
 
+    private void initData() {
+        mFragmentList = new ArrayList<>();
+        mFragmentList.add(new LoginFragment());
+        mFragmentList.add(new RegisterFragment());
 
-    @Override
-    public void showProgressDialog() {
-        if (null == mLoadingDialog) {
-            mLoadingDialog = LoadingDialog.with(mContext);
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.addOnPageChangeListener(mPageChangeListener);
+
+        mLogin.setOnClickListener(this);
+        mRegister.setOnClickListener(this);
+    }
+
+    private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
+
         }
-        mLoadingDialog.show();
-    }
 
-    @Override
-    public void hideProgressDialog() {
-        if (null != mLoadingDialog) {
-            mLoadingDialog.dismiss();
+        @Override
+        public void onPageSelected(int i) {
+            setPosition(i);
         }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
+        }
+    };
+
+    private void setPosition(int i) {
+        mRegister.setVisibility(0 == i ? View.VISIBLE : View.INVISIBLE);
+        mLogin.setVisibility(0 == i ? View.INVISIBLE : View.VISIBLE);
+        mViewPager.setCurrentItem(i);
     }
 
-    @Override
-    public void loginSuccess(LoginResult result) {
-        LogUtils.d(TAG, "loginSuccess: " + result);
-    }
+    private FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
 
-    @Override
-    public void loginFailed(String msg) {
-        LogUtils.d(TAG, "loginFailed: " + msg);
-    }
-
-    public void onLogin(View view) {
-        mPresent.login("123147258", "123456");
-    }
+        @Override
+        public Fragment getItem(int i) {
+            return mFragmentList.get(i);
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -72,5 +98,21 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void onBack(View v) {
+        finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_login:
+                setPosition(0);
+                break;
+            case R.id.tv_register:
+                setPosition(1);
+                break;
+        }
     }
 }

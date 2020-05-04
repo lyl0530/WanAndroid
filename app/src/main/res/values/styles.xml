@@ -25,4 +25,10 @@
         <!--弹窗背景是否变暗-->
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+
+    <!--bottom view 底侧的字体大小 -->
+    <style name="bottom_text_size">
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

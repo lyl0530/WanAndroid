@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.MainActivity">
+
+    <include
+        layout="@layout/title_bar_layout"
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"
+        android:layout_above="@id/bottom_bar"
+        tools:openDrawer="start">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.view.ViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/vp_main" />
+        </android.support.design.widget.CoordinatorLayout>
+
+        <android.support.design.widget.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/nav_view"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/slider_bar_nav_header"
+            app:menu="@menu/nav_menu"
+
+            />
+        <!--    app:itemBackground="@drawable/drawer_item_bg"-->
+
+    </android.support.v4.widget.DrawerLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_55"
+        android:id="@+id/bottom_bar"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        app:itemTextColor="@drawable/main_bottom_navigation"
+        app:itemIconTint="@drawable/main_bottom_navigation"
+        app:menu="@menu/bottom_navigation"
+
+        />
+
+</RelativeLayout>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_username"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:layout_marginRight="@dimen/dp_40">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/selector_username"
+            android:drawablePadding="@dimen/dp_20"
+            android:hint="@string/login_username"
+            android:background="@drawable/shape_login_edit_text"
+            android:padding="@dimen/dp_10"
+            android:maxLines="1"
+            android:maxLength="23"
+            android:id="@+id/et_username"
+            android:inputType="text"
+            android:importantForAutofill="no" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_cancel"
+            android:layout_alignEnd="@id/et_username"
+            android:visibility="invisible"
+            android:id="@+id/btn_cancel"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_10" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_username"
+        android:layout_alignEnd="@id/rl_username"
+        android:layout_alignStart="@id/rl_username"
+        android:layout_marginTop="@dimen/dp_20"
+        android:id="@+id/rl_pwd">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/selector_pwd"
+            android:drawablePadding="@dimen/dp_20"
+            android:hint="@string/login_pwd"
+            android:autofillHints="@string/login_pwd"
+            android:background="@drawable/shape_login_edit_text"
+            android:padding="@dimen/dp_10"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:maxLength="23"
+            android:id="@+id/et_pwd" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_not_see_pwd"
+            android:layout_alignEnd="@id/et_pwd"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:visibility="invisible"
+            android:id="@+id/btn_see_pwd"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_pwd"
+        android:layout_alignStart="@id/rl_username"
+        android:layout_marginTop="@dimen/dp_20"
+        android:button="@drawable/selector_checkbox"
+        android:paddingStart="@dimen/dp_10"
+        android:text="@string/login_remember_pwd"
+        android:textSize="@dimen/sp_20"
+        android:textColor="@color/little_back"
+        android:id="@+id/remember_pwd"
+        android:clickable="true"
+        android:focusable="true"
+        tools:ignore="RtlSymmetry" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_18"
+        android:background="@drawable/shape_login_btn"
+        android:layout_alignStart="@id/rl_username"
+        android:layout_alignEnd="@id/rl_username"
+        android:layout_below="@id/remember_pwd"
+        android:layout_marginTop="@dimen/dp_30" />
+</RelativeLayout>

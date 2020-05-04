@@ -8,7 +8,7 @@
     <ProgressBar
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:indeterminateTint="@color/colorProgressBar"
+        android:indeterminateTint="@color/normal"
         android:indeterminateTintMode="src_atop"/>
 
 </RelativeLayout>

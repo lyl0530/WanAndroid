@@ -1,21 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.LoginActivity">
+    android:orientation="vertical"
+    tools:context=".ui.activity.LoginActivity"
+    android:background="@drawable/login_bg_shape">
 
     <Button
-        android:id="@+id/button"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
+        android:background="@drawable/ic_back"
+        android:layout_margin="@dimen/dp_6"
+        android:onClick="onBack" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onLogin"
+        android:textSize="@dimen/sp_50"
+        android:text="@string/login_welcome"
+        android:textColor="@color/normal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_80"
+        android:layout_marginBottom="@dimen/dp_80"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_welcome" />
+    <!--    <fragment-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_below="@id/tv_welcome"-->
+    <!--        android:id="@+id/login_register"-->
+    <!--        android:name="com.lyl.wanandroid.ui.fragment.LoginFragment"/>-->
+    <!--    <FrameLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_below="@id/tv_welcome"-->
+    <!--        android:id="@+id/login_register"/>-->
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/login_register"
+        android:layout_below="@id/tv_welcome"
+        android:layout_above="@id/tv_register" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:textSize="@dimen/sp_20"
+        android:textColor="@color/normal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_100"
+        android:drawableEnd="@drawable/login_next"
+        android:drawablePadding="@dimen/dp_10"
+        android:id="@+id/tv_register"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/login"
-        android:textAllCaps="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-<!--    https://blog.csdn.net/qunqunstyle99/article/details/81209031-->
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textSize="@dimen/sp_20"
+        android:textColor="@color/normal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_100"
+        android:drawableStart="@drawable/login_previous"
+        android:drawablePadding="@dimen/dp_10"
+        android:id="@+id/tv_login"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible" />
+</RelativeLayout>
