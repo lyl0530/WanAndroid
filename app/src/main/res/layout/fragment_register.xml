@@ -2,56 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!--    <EditText-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:drawableStart="@drawable/selector_username"-->
-    <!--        android:drawableEnd="@drawable/login_cancel"-->
-    <!--        android:layout_marginLeft="@dimen/dp_40"-->
-    <!--        android:layout_marginRight="@dimen/dp_40"-->
-    <!--        android:drawablePadding="@dimen/dp_20"-->
-    <!--        android:hint="@string/login_username"-->
-    <!--        android:background="@drawable/shape_login_edit_text"-->
-    <!--        android:padding="@dimen/dp_10"-->
-    <!--        android:maxLines="1"-->
-    <!--        android:maxLength="23"-->
-    <!--        android:id="@+id/et_username"/>-->
-    <!--    <EditText-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:drawableStart="@drawable/selector_pwd"-->
-    <!--        android:drawableEnd="@drawable/login_not_see_pwd"-->
-    <!--        android:layout_alignEnd="@id/et_username"-->
-    <!--        android:layout_alignStart="@id/et_username"-->
-    <!--        android:drawablePadding="@dimen/dp_20"-->
-    <!--        android:hint="@string/login_pwd"-->
-    <!--        android:background="@drawable/shape_login_edit_text"-->
-    <!--        android:padding="@dimen/dp_10"-->
-    <!--        android:inputType="textPassword"-->
-    <!--        android:maxLines="1"-->
-    <!--        android:maxLength="23"-->
-    <!--        android:id="@+id/et_pwd"-->
-    <!--        android:layout_below="@id/et_username"-->
-    <!--        android:layout_marginTop="@dimen/dp_20"/>-->
-    <!--    <EditText-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:drawableStart="@drawable/selector_pwd"-->
-    <!--        android:drawableEnd="@drawable/login_not_see_pwd"-->
-    <!--        android:layout_alignEnd="@id/et_username"-->
-    <!--        android:layout_alignStart="@id/et_username"-->
-    <!--        android:drawablePadding="@dimen/dp_20"-->
-    <!--        android:hint="@string/login_pwd"-->
-    <!--        android:background="@drawable/shape_login_edit_text"-->
-    <!--        android:padding="@dimen/dp_10"-->
-    <!--        android:inputType="textPassword"-->
-    <!--        android:maxLines="1"-->
-    <!--        android:maxLength="23"-->
-    <!--        android:id="@+id/et_re_pwd"-->
-    <!--        android:layout_below="@id/et_pwd"-->
-    <!--        android:layout_marginTop="@dimen/dp_20"/>-->
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,14 +57,14 @@
             android:maxLength="23"
             android:id="@+id/et_pwd" />
 
-        <ImageButton
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/login_not_see_pwd"
+            android:button="@drawable/selector_checkbox_see_pwd"
             android:layout_alignEnd="@id/et_pwd"
             android:layout_marginEnd="@dimen/dp_10"
             android:visibility="invisible"
-            android:id="@+id/btn_see_pwd"
+            android:id="@+id/see_pwd"
             android:layout_centerVertical="true" />
     </RelativeLayout>
 
@@ -125,7 +75,7 @@
         android:layout_alignEnd="@id/rl_username"
         android:layout_alignStart="@id/rl_username"
         android:layout_marginTop="@dimen/dp_20"
-        android:id="@+id/rl_re_pwd">
+        android:id="@+id/rl_pwd2">
 
         <EditText
             android:layout_width="match_parent"
@@ -139,21 +89,21 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:maxLength="23"
-            android:id="@+id/et_re_pwd" />
+            android:id="@+id/et_pwd2" />
 
-        <ImageButton
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/login_not_see_pwd"
-            android:layout_alignEnd="@id/et_re_pwd"
+            android:button="@drawable/selector_checkbox_see_pwd"
+            android:layout_alignEnd="@id/et_pwd2"
             android:layout_marginEnd="@dimen/dp_10"
             android:visibility="invisible"
-            android:id="@+id/btn_another_see_pwd"
+            android:id="@+id/see_pwd2"
             android:layout_centerVertical="true" />
     </RelativeLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register"
@@ -163,7 +113,7 @@
         android:background="@drawable/shape_login_btn"
         android:layout_alignStart="@id/rl_username"
         android:layout_alignEnd="@id/rl_username"
-        android:layout_below="@id/rl_re_pwd"
+        android:layout_below="@id/rl_pwd2"
         android:layout_marginTop="@dimen/dp_30" />
 
 </RelativeLayout>

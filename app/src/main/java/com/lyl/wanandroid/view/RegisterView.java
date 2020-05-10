@@ -1,12 +1,12 @@
 package com.lyl.wanandroid.view;
 
 import com.lyl.wanandroid.base.BaseView;
-import com.lyl.wanandroid.bean.LoginResult;
+import com.lyl.wanandroid.bean.RegisterResult;
 
 /**
  * Created by lym on 2020/3/29
  * Describe :
  */
-public interface LoginView extends BaseView<LoginResult> {
+public interface RegisterView extends BaseView<RegisterResult> {
 
 }

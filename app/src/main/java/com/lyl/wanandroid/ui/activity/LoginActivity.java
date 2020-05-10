@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements /*LoginView, */V
         mRegister.setOnClickListener(this);
     }
 
-    private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
+    private final ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int i, float v, int i1) {
 
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements /*LoginView, */V
         mViewPager.setCurrentItem(i);
     }
 
-    private FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+    private final FragmentPagerAdapter mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
         @Override
         public int getCount() {
             return mFragmentList.size();

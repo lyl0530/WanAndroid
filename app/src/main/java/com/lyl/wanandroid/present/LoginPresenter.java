@@ -15,11 +15,11 @@ import com.lyl.wanandroid.view.LoginView;
  *      不再与Android Framework中的类如Activity, Fragment等关联,这样有利于解耦和测试.
  *      (所以一个检查方法是看你的presenter的import中有没有android的包名.)
  */
-public class LoginPresent extends BasePresenter<LoginView> {
+public class LoginPresenter extends BasePresenter<LoginView> {
     private final LoginModel mModel;
     private LoginView mView;
 
-    public LoginPresent(){
+    public LoginPresenter() {
         mModel = new LoginModel();
     }
 
@@ -46,12 +46,12 @@ public class LoginPresent extends BasePresenter<LoginView> {
 
             @Override
             public void onSuccess(LoginResult res) {
-                getView().loginSuccess(res);
+                getView().Success(res);
             }
 
             @Override
-            public void onFailed(/*int code, */String msg) {
-                getView().loginFailed(msg);
+            public void onFailed(String msg) {
+                getView().Failed(msg);
             }
 
             @Override

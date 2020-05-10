@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "lym123 MainActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
     private DrawerLayout mDrawerLayout;
     private AppBarLayout mTitleBar;
     private ImageView mAvatar;
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.addDrawerListener(mToggle/*mDrawerListener*/);
     }
 
-    private ViewPager.OnPageChangeListener mPageChangeListener =
+    private final ViewPager.OnPageChangeListener mPageChangeListener =
             new ViewPager.OnPageChangeListener() {
 
                 @Override
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             };
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener mNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

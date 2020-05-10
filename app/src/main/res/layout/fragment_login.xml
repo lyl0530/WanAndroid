@@ -59,15 +59,17 @@
             android:maxLength="23"
             android:id="@+id/et_pwd" />
 
-        <ImageButton
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/login_not_see_pwd"
+            android:button="@drawable/selector_checkbox_see_pwd"
             android:layout_alignEnd="@id/et_pwd"
             android:layout_marginEnd="@dimen/dp_10"
             android:visibility="invisible"
-            android:id="@+id/btn_see_pwd"
-            android:layout_centerVertical="true" />
+            android:id="@+id/see_pwd"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:focusable="true" />
     </RelativeLayout>
 
     <CheckBox
@@ -76,11 +78,11 @@
         android:layout_below="@id/rl_pwd"
         android:layout_alignStart="@id/rl_username"
         android:layout_marginTop="@dimen/dp_20"
-        android:button="@drawable/selector_checkbox"
+        android:button="@drawable/selector_checkbox_rember_pwd"
         android:paddingStart="@dimen/dp_10"
         android:text="@string/login_remember_pwd"
         android:textSize="@dimen/sp_20"
-        android:textColor="@color/little_back"
+        android:textColor="@color/little_black"
         android:id="@+id/remember_pwd"
         android:clickable="true"
         android:focusable="true"

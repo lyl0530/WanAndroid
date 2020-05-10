@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.retrofit;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.util.LogUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -55,5 +56,10 @@ public class RetrofitHelper {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
+    }
+
+    public static WanApi getWanApi() {
+        return RetrofitHelper.getInstance().getRetrofit(Const.WAN_ANDROID_BASE_URL)
+                .create(WanApi.class);
     }
 }

@@ -2,10 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lyl.wanandroid">
 
+    <!-- permission begin -->
+
     <!--    权限放在application之前， 否则会有警告-->
     <!--    java.lang.SecurityException: Permission denied (missing INTERNET permission?) 解决-->
     <!--    Android app里试图用HttpUrlConnection获取网络连接,忘记在AndroidManifest清单文件里声明需要用到Internet的权限，运行时报此错误。-->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- permission end -->
 
 
     <!--

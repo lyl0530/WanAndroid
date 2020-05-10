@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -17,8 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.bean.LoginResult;
-import com.lyl.wanandroid.present.LoginPresent;
+import com.lyl.wanandroid.present.LoginPresenter;
 import com.lyl.wanandroid.ui.view.LoadingDialog;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.LoginView;
@@ -28,16 +29,16 @@ import com.lyl.wanandroid.view.LoginView;
  * Describe : 主页
  * 引入BaseFragment！！！
  */
-public class LoginFragment extends Fragment implements LoginView, View.OnClickListener {
-    private static final String TAG = "lym123 LoginFragment";
+public class LoginFragment extends BaseFragment implements LoginView, View.OnClickListener {
+    private static final String TAG = LoginFragment.class.getSimpleName();
 
     private Context mContext;
     private View mView;
-    private LoginPresent mPresent;
+    private LoginPresenter mPresenter;
     private LoadingDialog mLoadingDialog;
     private EditText mUserName, mPwd;
-    private ImageButton mCancel, mSeePwd;
-    private CheckBox mRememberPwd;
+    private ImageButton mCancel;
+    private CheckBox mRememberPwd, mSeePwd;
     private boolean seePwd = false;
     private boolean remember = false;
 
@@ -47,8 +48,8 @@ public class LoginFragment extends Fragment implements LoginView, View.OnClickLi
         mView = inflater.inflate(R.layout.fragment_login, container, false);
 
         mContext = getActivity();
-        mPresent = new LoginPresent();
-        mPresent.attach(this);
+        mPresenter = new LoginPresenter();
+        mPresenter.attach(this);
 
         mView.findViewById(R.id.btn_login).setOnClickListener(this);
         mUserName = mView.findViewById(R.id.et_username);
@@ -57,7 +58,7 @@ public class LoginFragment extends Fragment implements LoginView, View.OnClickLi
         mCancel.setOnClickListener(this);
         mPwd = mView.findViewById(R.id.et_pwd);
         mPwd.addTextChangedListener(pwdWatcher);
-        mSeePwd = mView.findViewById(R.id.btn_see_pwd);
+        mSeePwd = mView.findViewById(R.id.see_pwd);
         mSeePwd.setOnClickListener(this);
         mRememberPwd = mView.findViewById(R.id.remember_pwd);
         mRememberPwd.setOnClickListener(this);
@@ -65,7 +66,7 @@ public class LoginFragment extends Fragment implements LoginView, View.OnClickLi
         return mView;
     }
 
-    private TextWatcher userNameWatcher = new TextWatcher() {
+    private final TextWatcher userNameWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -82,7 +83,7 @@ public class LoginFragment extends Fragment implements LoginView, View.OnClickLi
         }
     };
 
-    private TextWatcher pwdWatcher = new TextWatcher() {
+    private final TextWatcher pwdWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -105,11 +106,11 @@ public class LoginFragment extends Fragment implements LoginView, View.OnClickLi
             case R.id.btn_cancel:
                 mUserName.setText("");
                 break;
-            case R.id.btn_see_pwd:
+            case R.id.see_pwd:
                 seePwd = !seePwd;
                 mSeePwd.setSelected(seePwd);
-                mSeePwd.setBackgroundResource(seePwd ? R.drawable.login_see_pwd
-                        : R.drawable.login_not_see_pwd);
+//                mSeePwd.setBackgroundResource(seePwd ? R.drawable.login_see_pwd
+//                        : R.drawable.login_not_see_pwd);
                 mPwd.setTransformationMethod(seePwd ? HideReturnsTransformationMethod.getInstance()
                         : PasswordTransformationMethod.getInstance()); //密码可见 : 密码不可见
                 break;
@@ -122,7 +123,13 @@ public class LoginFragment extends Fragment implements LoginView, View.OnClickLi
 //                mRememberPwd.setCompoundDrawables(drawable, null, null, null);
                 break;
             case R.id.btn_login:
-                mPresent.login("123147258", "123456");
+                String userName = mUserName.getText().toString();
+                String pwd = mPwd.getText().toString();
+                if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(pwd)) {
+                    mPresenter.login(userName, pwd);
+                } else { //for test
+                    mPresenter.login("123147258", "123456");
+                }
                 break;
         }
     }
@@ -144,18 +151,18 @@ public class LoginFragment extends Fragment implements LoginView, View.OnClickLi
     }
 
     @Override
-    public void loginSuccess(LoginResult result) {
+    public void Success(LoginResult result) {
         LogUtils.d(TAG, "loginSuccess: " + result);
     }
 
     @Override
-    public void loginFailed(String msg) {
-        LogUtils.d(TAG, "loginFailed: " + msg);
+    public void Failed(String msg) {
+        LogUtils.e(TAG, "loginFailed: " + msg);
     }
 
     @Override
     public void onDestroy() {
-        mPresent.detach();
+        mPresenter.detach();
         super.onDestroy();
     }
 

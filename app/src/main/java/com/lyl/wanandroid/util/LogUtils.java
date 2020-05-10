@@ -28,9 +28,10 @@ public class LogUtils {
             Log.v(tag, msg);
         }
     }
+
     public static void d(String tag, String msg) {
         if (isDebug()) {
-            Log.d(tag, msg);
+            Log.d(tag + " lyl123", msg);
         }
     }
     public static void i(String tag, String msg) {
@@ -45,7 +46,7 @@ public class LogUtils {
     }
     public static void e(String tag, String msg) {
         if (isDebug()) {
-            Log.e(tag, msg);
+            Log.e(tag + " lyl123", msg);
         }
     }
 }

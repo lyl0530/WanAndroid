@@ -4,6 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/vp_banner" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/little_black_bg"
+        android:layout_alignBottom="@id/vp_banner"
+        android:padding="@dimen/dp_8">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            android:text="@string/banner_title"
+            android:textColor="@color/white"
+            android:id="@+id/tv_banner_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            android:text="@string/banner_title_number"
+            android:textColor="@color/white"
+            android:id="@+id/tv_banner_number"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="200dp"-->
+    <!--        android:id="@+id/iv_test"/>-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
