@@ -1,39 +1,17 @@
-package com.lyl.wanandroid.present;
+package com.lyl.wanandroid.mvp.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
 import com.lyl.wanandroid.bean.BannerResult;
 import com.lyl.wanandroid.listener.RequestListener;
-import com.lyl.wanandroid.model.BannerModel;
-import com.lyl.wanandroid.view.BannerView;
+import com.lyl.wanandroid.mvp.view.BannerView;
 
 /**
  * Created by lym on 2020/5/6
  * Describe :
  */
 public class BannerPresenter extends BasePresenter<BannerView> {
-    private BannerView mView;
-    private final BannerModel mModel;
-
-    public BannerPresenter() {
-        mModel = new BannerModel();
-    }
-
-    @Override
-    public void attach(BannerView view) {
-        super.attach(view);
-        mView = view;
-    }
-
-    @Override
-    public void detach() {
-        if (null != getView()) {
-            mView = null;
-        }
-        super.detach();
-    }
-
     public void getBanner() {
-        mModel.getBanner(new RequestListener<BannerResult>() {
+        getModel().getBanner(new RequestListener<BannerResult>() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();

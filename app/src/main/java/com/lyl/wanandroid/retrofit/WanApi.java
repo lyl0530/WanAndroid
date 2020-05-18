@@ -2,6 +2,7 @@ package com.lyl.wanandroid.retrofit;
 
 import com.lyl.wanandroid.bean.BannerResult;
 import com.lyl.wanandroid.bean.LoginResult;
+import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 
 import io.reactivex.Observable;
@@ -16,8 +17,11 @@ import retrofit2.http.POST;
  */
 public interface WanApi {
 
-    // Field FormUrlEncoded成对出现
-    //https://www.wanandroid.com/user/login
+    /**
+     * https://www.wanandroid.com/user/login
+     * 登录
+     * Field FormUrlEncoded成对出现
+     */
     @POST("user/login")
     @FormUrlEncoded
     Observable<LoginResult> login(
@@ -41,6 +45,13 @@ public interface WanApi {
      */
     @GET("banner/json")
     Observable<BannerResult> getBanner();
+
+    /**
+     * https://www.wanandroid.com/user/logout/json
+     * 退出登录
+     */
+    @GET("user/logout/json")
+    Observable<LogoutResult> logout();
 
 
 }

@@ -25,7 +25,7 @@ public class RetrofitHelper {
 
     //面对高并发下的懒汉模式，最安全、高效的选择就是双重if判断加同步锁的方式。
     //https://blog.csdn.net/lyl0530/article/details/81348318
-    public static RetrofitHelper getInstance(){
+    private static RetrofitHelper getInstance() {
         if (null == instance) {//提高执行效率
             synchronized (RetrofitHelper.class) {
                 if (null == instance) {//出于线程安全的考虑
@@ -36,7 +36,7 @@ public class RetrofitHelper {
         return instance;
     }
 
-    public Retrofit getRetrofit(String baseUrl){
+    private Retrofit getRetrofit(String baseUrl) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(
                 msg -> LogUtils.d(TAG, "log: " + msg));
         if (LogUtils.isDebug()) {

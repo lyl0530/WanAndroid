@@ -3,6 +3,8 @@ package com.lyl.wanandroid.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.lyl.wanandroid.constant.Const;
+import com.lyl.wanandroid.constant.PreferenceConst;
 import com.tencent.bugly.crashreport.CrashReport;
 
 /**
@@ -29,15 +31,11 @@ public class BaseApplication extends Application {
         // 每一条Crash都会被立即上报；
         // 自定义日志将会在Logcat中输出。
         // 建议在测试阶段建议设置成true，发布时设置为false。
-        CrashReport.initCrashReport(mAppContext, "a67a0e680c", true);
+        CrashReport.initCrashReport(mAppContext, Const.BUGLY_ID, false);
     }
 
     public static boolean isLogin() {
-//        String userId = PreferenceConstant.getUserId();
-//        String token = PreferenceConstant.getUserToken();
-//        LogUtils.d(TAG, "userId = " + userId + "token = " + token);
-//        return token.length() > 0 && userId.length() > 0;
-        return false;
+        return PreferenceConst.instance().getUserId() > 0;
     }
 
 }

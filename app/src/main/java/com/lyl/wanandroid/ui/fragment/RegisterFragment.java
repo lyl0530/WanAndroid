@@ -19,15 +19,18 @@ import android.widget.Toast;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.bean.RegisterResult;
-import com.lyl.wanandroid.present.RegisterPresenter;
-import com.lyl.wanandroid.ui.view.LoadingDialog;
+import com.lyl.wanandroid.constant.PreferenceConst;
+import com.lyl.wanandroid.mvp.present.RegisterPresenter;
+import com.lyl.wanandroid.mvp.view.RegisterView;
+import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.util.LogUtils;
-import com.lyl.wanandroid.view.RegisterView;
+
+import java.util.Objects;
 
 /**
  * Created by lym on 2020/4/9
- * Describe : 主页
- * 引入BaseFragment！！！
+ * Describe : 注册
+ *
  */
 public class RegisterFragment extends BaseFragment implements View.OnClickListener, RegisterView {
     private static final String TAG = RegisterFragment.class.getSimpleName();
@@ -35,7 +38,6 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
     //private Context mContext;
     private View mView;
     private RegisterPresenter mPresenter;
-    private LoadingDialog mLoadingDialog;
     private EditText mUserName, mPwd, mPwd2;
     private ImageButton mCancel;
     private CheckBox mSeePwd, mSeePwd2;
@@ -54,16 +56,16 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         mPresenter.attach(this);
 
         mUserName = mView.findViewById(R.id.et_username);
-        mUserName.addTextChangedListener(userNameWatcher);
+        mUserName.addTextChangedListener(textWatcher);
         mCancel = mView.findViewById(R.id.btn_cancel);
         mCancel.setOnClickListener(this);
         mPwd = mView.findViewById(R.id.et_pwd);
-        mPwd.addTextChangedListener(pwdWatcher);
+        mPwd.addTextChangedListener(textWatcher);
         mSeePwd = mView.findViewById(R.id.see_pwd);
         mSeePwd.setOnClickListener(this);
 
         mPwd2 = mView.findViewById(R.id.et_pwd2);
-        mPwd2.addTextChangedListener(Pwd2Watcher);
+        mPwd2.addTextChangedListener(textWatcher);
         mSeePwd2 = mView.findViewById(R.id.see_pwd2);
         mSeePwd2.setOnClickListener(this);
 
@@ -71,7 +73,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         return mView;
     }
 
-    private final TextWatcher userNameWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -79,41 +81,18 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mCancel.setVisibility(s.length() > 0 ? View.VISIBLE : View.INVISIBLE);
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
-    private final TextWatcher pwdWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mSeePwd.setVisibility(s.length() > 0 ? View.VISIBLE : View.INVISIBLE);
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
-    private final TextWatcher Pwd2Watcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            mSeePwd2.setVisibility(s.length() > 0 ? View.VISIBLE : View.INVISIBLE);
+            int visible = TextUtils.isEmpty(mUserName.getText().toString())
+                    ? View.INVISIBLE
+                    : View.VISIBLE;
+            mCancel.setVisibility(visible);
+            visible = TextUtils.isEmpty(mPwd.getText().toString())
+                    ? View.INVISIBLE
+                    : View.VISIBLE;
+            mSeePwd.setVisibility(visible);
+            visible = TextUtils.isEmpty(mPwd2.getText().toString())
+                    ? View.INVISIBLE
+                    : View.VISIBLE;
+            mSeePwd2.setVisibility(visible);
         }
 
         @Override
@@ -157,30 +136,28 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void showProgressDialog() {
-        if (null == mLoadingDialog) {
-            mLoadingDialog = LoadingDialog.with(getContext());
-        }
-        mLoadingDialog.show();
+        super.showProgressDialog();
     }
 
 
     @Override
     public void hideProgressDialog() {
-        if (null != mLoadingDialog) {
-            mLoadingDialog.dismiss();
-        }
+        super.hideProgressDialog();
     }
 
     @Override
     public void Success(RegisterResult result) {
         LogUtils.d(TAG, "success: " + result);
         Toast.makeText(getContext(), getString(R.string.register_success), Toast.LENGTH_SHORT).show();
+        //preference
+        PreferenceConst.instance().setAccount(mUserName.getText().toString());
+        ((LoginActivity) Objects.requireNonNull(getActivity())).getViewPager().setCurrentItem(0);
     }
 
     @Override
     public void Failed(String msg) {
         LogUtils.d(TAG, "failed: " + msg);
-        Toast.makeText(getContext(), "failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

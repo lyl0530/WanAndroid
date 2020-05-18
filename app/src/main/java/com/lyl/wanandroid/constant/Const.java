@@ -5,14 +5,16 @@ package com.lyl.wanandroid.constant;
  * Describe :
  */
 public class Const {
+    //bugly id
+    public static final String BUGLY_ID = "a67a0e680c";
+
     //base url
     public static final String WAN_ANDROID_BASE_URL = "https://wanandroid.com/";
 
+    //preference
+    public static final String PREFERENCE_NAME = "FOR_MY_LOVE_LYM";
+
     //result code
     public static final int SUCCESS_CODE = 0;
-    //账号密码不匹配
-    public static final int FAILED_CODE_ACCOUNT_PWD_NOT_MATCH = -1;
-    //login failed
-    public static final int FAILED_CODE_LOGIN = 10001;
 
 }

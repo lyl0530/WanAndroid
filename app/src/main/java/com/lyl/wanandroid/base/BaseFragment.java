@@ -3,6 +3,8 @@ package com.lyl.wanandroid.base;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.lyl.wanandroid.widget.LoadingDialog;
+
 /**
  * Created by lym on 2020/5/6
  * Describe :
@@ -11,6 +13,7 @@ public class BaseFragment extends Fragment {
     private static final String TAG = BaseFragment.class.getSimpleName();
 
     private Context mContext;
+    private LoadingDialog mLoadingDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -20,5 +23,18 @@ public class BaseFragment extends Fragment {
 
     public Context getContext() {
         return mContext;
+    }
+
+    public void showProgressDialog() {
+        if (null == mLoadingDialog) {
+            mLoadingDialog = LoadingDialog.with(mContext);
+        }
+        mLoadingDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (null != mLoadingDialog) {
+            mLoadingDialog.dismiss();
+        }
     }
 }

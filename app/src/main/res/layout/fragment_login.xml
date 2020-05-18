@@ -78,7 +78,7 @@
         android:layout_below="@id/rl_pwd"
         android:layout_alignStart="@id/rl_username"
         android:layout_marginTop="@dimen/dp_20"
-        android:button="@drawable/selector_checkbox_rember_pwd"
+        android:button="@drawable/selector_checkbox_remember_pwd"
         android:paddingStart="@dimen/dp_10"
         android:text="@string/login_remember_pwd"
         android:textSize="@dimen/sp_20"

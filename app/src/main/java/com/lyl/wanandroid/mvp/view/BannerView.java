@@ -1,4 +1,4 @@
-package com.lyl.wanandroid.view;
+package com.lyl.wanandroid.mvp.view;
 
 import com.lyl.wanandroid.base.BaseView;
 import com.lyl.wanandroid.bean.BannerResult;

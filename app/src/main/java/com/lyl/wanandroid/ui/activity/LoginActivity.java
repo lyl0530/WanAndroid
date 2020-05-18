@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity implements /*LoginView, */V
     private TextView mLogin, mRegister;
     private ViewPager mViewPager;
     private List<Fragment> mFragmentList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,5 +115,9 @@ public class LoginActivity extends AppCompatActivity implements /*LoginView, */V
                 setPosition(1);
                 break;
         }
+    }
+
+    public ViewPager getViewPager() {
+        return mViewPager;
     }
 }

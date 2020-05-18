@@ -4,14 +4,15 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -19,24 +20,34 @@ import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.bean.BannerResult;
-import com.lyl.wanandroid.present.BannerPresenter;
-import com.lyl.wanandroid.ui.view.LoadingDialog;
+import com.lyl.wanandroid.mvp.present.BannerPresenter;
+import com.lyl.wanandroid.mvp.view.BannerView;
+import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.util.LogUtils;
-import com.lyl.wanandroid.view.BannerView;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+//import org.apache.commons.lang3.StringEscapeUtils;
+
 
 /**
  * Created by lym on 2020/4/9
  * Describe : 主页
- * 引入BaseFragment！！！
+ *
  */
-public class MainFragment extends BaseFragment implements BannerView {
+public class MainFragment extends BaseFragment implements BannerView, View.OnClickListener {
     private static final String TAG = MainFragment.class.getSimpleName();
 
     private View mView;
     private Context mContext;
+
+    private AppBarLayout mTitleBar;
+    private ImageView mAvatar;
+
     private ViewPager mViewPager;
     private MyAdapter mAdapter;
 
@@ -49,7 +60,6 @@ public class MainFragment extends BaseFragment implements BannerView {
     private TextView mBannerTitle, mBannerNumber;
 
     private BannerPresenter mPresenter;
-    private LoadingDialog mLoadingDialog;
 
     @Nullable
     @Override
@@ -64,10 +74,17 @@ public class MainFragment extends BaseFragment implements BannerView {
 
         //获取Banner信息，得到Banner图张数
         mPresenter.getBanner();
+
         return mView;
     }
 
     private void initView() {
+
+        //titleBar
+        mTitleBar = mView.findViewById(R.id.title_bar);
+        mAvatar = mTitleBar.findViewById(R.id.avatar);
+        mAvatar.setOnClickListener(this);
+
         mViewPager = mView.findViewById(R.id.vp_banner);
         mBannerTitle = mView.findViewById(R.id.tv_banner_title);
         mBannerNumber = mView.findViewById(R.id.tv_banner_number);
@@ -75,17 +92,12 @@ public class MainFragment extends BaseFragment implements BannerView {
 
     @Override
     public void showProgressDialog() {
-        if (null == mLoadingDialog) {
-            mLoadingDialog = LoadingDialog.with(mContext);
-        }
-        mLoadingDialog.show();
+        super.showProgressDialog();
     }
 
     @Override
     public void hideProgressDialog() {
-        if (null != mLoadingDialog) {
-            mLoadingDialog.dismiss();
-        }
+        super.hideProgressDialog();
     }
 
     @Override
@@ -99,9 +111,12 @@ public class MainFragment extends BaseFragment implements BannerView {
             if (null == banner) continue;
             mImgPathList.add(banner.getImagePath());
             mUrlList.add(banner.getUrl());
-            mTitleList.add(banner.getTitle());
+            String title = banner.getTitle();
+            String newTitle = StringEscapeUtils.unescapeHtml4(title);
+            LogUtils.d(TAG, "Success: " + title + ", " + newTitle);
+            mTitleList.add(newTitle);
         }
-        Log.d(TAG, "Success: " + mImgPathList.toString() + ", " +
+        LogUtils.d(TAG, "Success: " + mImgPathList.toString() + ", " +
                 mUrlList.toString() + ", " + mTitleList.toString());
 
         //2 获取Banner图片
@@ -146,7 +161,7 @@ public class MainFragment extends BaseFragment implements BannerView {
 
         @Override
         public void onPageSelected(int i) {
-            Log.d(TAG, "onPageSelected: " + i + ", title = " +
+            LogUtils.d(TAG, "onPageSelected: " + i + ", title = " +
                     mTitleList.get(i) + ", num = " + (i + 1) + "/" + mTitleList.size());
             mBannerTitle.setText(mTitleList.get(i));
             mBannerNumber.setText((i + 1) + "/" + mTitleList.size());
@@ -161,6 +176,16 @@ public class MainFragment extends BaseFragment implements BannerView {
     @Override
     public void Failed(String msg) {
         LogUtils.e(TAG, msg);
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.avatar:
+                ((MainActivity) Objects.requireNonNull(getActivity())).clickMainAvatar();
+                break;
+        }
     }
 
     private class MyAdapter extends PagerAdapter {
@@ -198,7 +223,7 @@ public class MainFragment extends BaseFragment implements BannerView {
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            Log.d(TAG, "instantiateItem: " + position);
+            LogUtils.d(TAG, "instantiateItem: " + position);
             //https://blog.csdn.net/liangcaiyun2013/article/details/45100903
             //始终存在2个view，左滑或者右滑都会预先加载下一个view，销毁多余的view。
             //参数position非当前item的index，而是预先加载的下个view的index。
@@ -215,7 +240,7 @@ public class MainFragment extends BaseFragment implements BannerView {
                 @Override
                 public void onClick(View v) {
                     int currentItem = mViewPager.getCurrentItem();
-                    Log.d(TAG, "onClick: " + (v instanceof ImageView) + ", " + currentItem);
+                    LogUtils.d(TAG, "onClick: " + (v instanceof ImageView) + ", " + currentItem);
                     //open it's url
 
                 }

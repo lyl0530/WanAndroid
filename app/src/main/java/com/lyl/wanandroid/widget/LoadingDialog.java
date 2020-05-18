@@ -1,4 +1,4 @@
-package com.lyl.wanandroid.ui.view;
+package com.lyl.wanandroid.widget;
 
 
 import android.app.Dialog;

@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.base;
 
 
+import com.lyl.wanandroid.mvp.model.Model;
 import com.lyl.wanandroid.util.LogUtils;
 
 import java.lang.ref.WeakReference;
@@ -17,6 +18,15 @@ public abstract class BasePresenter<V> {
     private static final String TAG = BasePresenter.class.getSimpleName();
     private WeakReference<V> mWeakReference; //弱引用, 防止内存泄漏
     private V mProxyView;
+    private final Model mModel;
+
+    protected BasePresenter() {
+        mModel = new Model();
+    }
+
+    protected Model getModel() {
+        return mModel;
+    }
     /**
      * 关联V层和P层
      */

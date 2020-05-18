@@ -1,10 +1,9 @@
-package com.lyl.wanandroid.present;
+package com.lyl.wanandroid.mvp.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.listener.RequestListener;
-import com.lyl.wanandroid.model.LoginModel;
-import com.lyl.wanandroid.view.LoginView;
+import com.lyl.wanandroid.mvp.view.LoginView;
 
 
 
@@ -16,29 +15,8 @@ import com.lyl.wanandroid.view.LoginView;
  *      (所以一个检查方法是看你的presenter的import中有没有android的包名.)
  */
 public class LoginPresenter extends BasePresenter<LoginView> {
-    private final LoginModel mModel;
-    private LoginView mView;
-
-    public LoginPresenter() {
-        mModel = new LoginModel();
-    }
-
-    @Override
-    public void attach(LoginView view) {
-        super.attach(view);
-        mView = view;
-    }
-
-    @Override
-    public void detach() {
-        if (null != getView()) {
-            mView = null;
-        }
-        super.detach();
-    }
-    
     public void login(String userName, String pwd){
-        mModel.login(userName, pwd, new RequestListener<LoginResult>() {
+        getModel().login(userName, pwd, new RequestListener<LoginResult>() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
