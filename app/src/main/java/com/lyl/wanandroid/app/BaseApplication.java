@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.constant.PreferenceConst;
+import com.lyl.wanandroid.retrofit.RetrofitHelper;
 import com.tencent.bugly.crashreport.CrashReport;
 
 /**
@@ -32,6 +33,9 @@ public class BaseApplication extends Application {
         // 自定义日志将会在Logcat中输出。
         // 建议在测试阶段建议设置成true，发布时设置为false。
         CrashReport.initCrashReport(mAppContext, Const.BUGLY_ID, false);
+
+        RetrofitHelper.init();
+
     }
 
     public static boolean isLogin() {
