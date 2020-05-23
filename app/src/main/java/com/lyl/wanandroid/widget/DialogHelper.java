@@ -17,8 +17,8 @@ import com.lyl.wanandroid.R;
  * Describe :
  */
 public class DialogHelper {
-    private Context mContext;
-    private LayoutInflater mInflater;
+    private final Context mContext;
+    private final LayoutInflater mInflater;
 
     public DialogHelper(Context context) {
         mContext = context;

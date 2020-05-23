@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.addDrawerListener(mToggle);
     }
 
-    private MenuItem.OnMenuItemClickListener mMenuItemClickListener
+    private final MenuItem.OnMenuItemClickListener mMenuItemClickListener
             = new MenuItem.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {

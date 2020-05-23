@@ -11,48 +11,52 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <android.support.v4.view.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/vp_banner"
-        android:layout_below="@id/title_bar" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/little_black_bg"
-        android:layout_alignBottom="@id/vp_banner"
-        android:padding="@dimen/dp_8">
+        android:layout_below="@id/title_bar"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
-            android:text="@string/banner_title"
-            android:textColor="@color/white"
-            android:id="@+id/tv_banner_title" />
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/vp_banner" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/sp_14"
-            android:text="@string/banner_title_number"
-            android:textColor="@color/white"
-            android:id="@+id/tv_banner_number"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_alignParentEnd="true" />
+            android:background="@color/little_black_bg"
+            android:layout_alignBottom="@id/vp_banner"
+            android:padding="@dimen/dp_8">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_14"
+                android:text="@string/banner_title"
+                android:textColor="@color/white"
+                android:id="@+id/tv_banner_title"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusableInTouchMode="true"
+                android:scrollHorizontally="true"
+                android:layout_toStartOf="@id/tv_banner_number"
+                android:layout_alignParentStart="true"
+                android:singleLine="true" />
+            <!--            https://blog.csdn.net/baidu_33396702/article/details/50326845-->
+            <!--            textView跑马灯效果-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_14"
+                android:text="@string/banner_title_number"
+                android:textColor="@color/white"
+                android:id="@+id/tv_banner_number"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
     </RelativeLayout>
-
-
-    <!--    <ImageView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="200dp"-->
-    <!--        android:id="@+id/iv_test"/>-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_pager"
-        android:textSize="30sp"
-        android:gravity="center"
-        android:layout_centerInParent="true" />
 </RelativeLayout>

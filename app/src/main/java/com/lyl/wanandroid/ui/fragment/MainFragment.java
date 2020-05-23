@@ -2,6 +2,8 @@ package com.lyl.wanandroid.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -24,9 +26,12 @@ import com.lyl.wanandroid.mvp.present.BannerPresenter;
 import com.lyl.wanandroid.mvp.view.BannerView;
 import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.widget.BannerScroller;
+import com.lyl.wanandroid.widget.BannerTransformer;
 
 import org.apache.commons.text.StringEscapeUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -61,6 +66,14 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
 
     private BannerPresenter mPresenter;
 
+    private int oriImgCnt;//从server端获取的图片数量
+    private int curImgCnt;//图DABCDA,补头补尾后的可以轮播的数量
+
+    private RequestOptions requestOptions;
+
+    private final int MSG_BANNER = 1;
+    private final int DELAY = 2 * 1000;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,7 +81,7 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         mContext = getContext();
 
         initView();
-
+        initData();
         mPresenter = new BannerPresenter();
         mPresenter.attach(this);
 
@@ -78,8 +91,21 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         return mView;
     }
 
-    private void initView() {
+    private void initData() {
+        //https://blog.csdn.net/lpCrazyBoy/article/details/85296285
+        requestOptions = new RequestOptions()
+                //.circleCrop()//如果需要裁剪图片，比如圆形，椭圆形等等
+                .placeholder(R.drawable.ic_default_avatar)
+                .error(R.drawable.ic_default_avatar)
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
+        //DiskCacheStrategy.NONE： 表示关闭Glide的硬盘缓存机制,不缓存任何内容。
+        //DiskCacheStrategy.SOURCE： 表示只缓存原始图片。
+        //DiskCacheStrategy.RESULT： 表示只缓存转换过后的图片（默认选项）。
+        //DiskCacheStrategy.ALL ： 表示既缓存原始图片，也缓存转换过后的图片。
 
+    }
+
+    private void initView() {
         //titleBar
         mTitleBar = mView.findViewById(R.id.title_bar);
         mAvatar = mTitleBar.findViewById(R.id.avatar);
@@ -119,10 +145,23 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         LogUtils.d(TAG, "Success: " + mImgPathList.toString() + ", " +
                 mUrlList.toString() + ", " + mTitleList.toString());
 
+        oriImgCnt = mImgPathList.size();
+        curImgCnt = oriImgCnt + 2;
         //2 获取Banner图片
-        for (int i = 0; i < mImgPathList.size(); i++) {
+        for (int i = 0; i < curImgCnt; i++) {
             mImageViewList.add(new ImageView(mContext));
-            displayBannerWithGlide(i);
+            String imgPath;
+            if (0 == i) {
+                imgPath = mImgPathList.get(oriImgCnt - 1);
+            } else if (curImgCnt - 1 == i) {
+                imgPath = mImgPathList.get(0);
+            } else {
+                imgPath = mImgPathList.get(i - 1);
+            }
+
+            Glide.with(this).load(imgPath)
+                    .apply(requestOptions)
+                    .into(mImageViewList.get(i));
         }
 
         //3 display banner
@@ -130,46 +169,77 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         mAdapter = new MyAdapter();
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(mPageChangeListener);
+        mViewPager.setCurrentItem(1);
 
-        mBannerTitle.setText(mTitleList.get(0));
-        mBannerNumber.setText(1 + "/" + mTitleList.size());
+        setBannerScroller();
+        mViewPager.setPageTransformer(true, new BannerTransformer());
+
+        mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
     }
 
-    private void displayBannerWithGlide(int position) {
-        //https://blog.csdn.net/lpCrazyBoy/article/details/85296285
-        RequestOptions requestOptions = new RequestOptions()
-                //.circleCrop()//如果需要裁剪图片，比如圆形，椭圆形等等
-                .placeholder(R.drawable.ic_default_avatar)
-                .error(R.drawable.ic_default_avatar)
-                .diskCacheStrategy(DiskCacheStrategy.ALL);
-        //DiskCacheStrategy.NONE： 表示关闭Glide的硬盘缓存机制,不缓存任何内容。
-        //DiskCacheStrategy.SOURCE： 表示只缓存原始图片。
-        //DiskCacheStrategy.RESULT： 表示只缓存转换过后的图片（默认选项）。
-        //DiskCacheStrategy.ALL ： 表示既缓存原始图片，也缓存转换过后的图片。
-
-        Glide.with(this).load(mImgPathList.get(position))
-                .apply(requestOptions)
-                .into(mImageViewList.get(position));
-    }
 
     private ViewPager.OnPageChangeListener mPageChangeListener
             = new ViewPager.OnPageChangeListener() {
         @Override
-        public void onPageScrolled(int i, float v, int i1) {
-
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            //position 当前所在页面
+            //positionOffset 当前所在页面偏移百分比
+            //positionOffsetPixels 当前所在页面偏移量
         }
 
         @Override
         public void onPageSelected(int i) {
-            LogUtils.d(TAG, "onPageSelected: " + i + ", title = " +
-                    mTitleList.get(i) + ", num = " + (i + 1) + "/" + mTitleList.size());
-            mBannerTitle.setText(mTitleList.get(i));
-            mBannerNumber.setText((i + 1) + "/" + mTitleList.size());
+            LogUtils.d(TAG, "onPageSelected: " + i);
+
+            int titleIndex;//Banner图title对应的下标
+            int currentItem = mViewPager.getCurrentItem();
+            if (currentItem == 0) {//第一张图
+                titleIndex = oriImgCnt - 1;//curImgCnt - 3;
+            } else if (currentItem == curImgCnt - 1) {//最后一张图
+                titleIndex = 0;
+            } else {
+                titleIndex = i - 1;
+            }
+            mBannerTitle.setText(mTitleList.get(titleIndex));
+            mBannerNumber.setText((titleIndex + 1) + "/" + oriImgCnt);
+
+            LogUtils.d(TAG, "title = " + mTitleList.get(titleIndex) +
+                    ", num = " + (titleIndex + 1) + "/" + oriImgCnt);
         }
 
         @Override
-        public void onPageScrollStateChanged(int i) {
+        public void onPageScrollStateChanged(int state) {
+            int currentItem = mViewPager.getCurrentItem();
+            LogUtils.d(TAG, "onPageScrollStateChanged: currentItem = " + currentItem);
+            switch (state) {
+                case ViewPager.SCROLL_STATE_IDLE:
+                    LogUtils.i(TAG, "---->onPageScrollStateChanged 无动作");
+                    if (oriImgCnt > 1) {
+                        if (currentItem == 0) {
+                            mViewPager.setCurrentItem(curImgCnt - 2, false);
+                        } else if (currentItem == curImgCnt - 1) {
+                            mViewPager.setCurrentItem(1, false);
+                        }
+                    }
+                    break;
+                case ViewPager.SCROLL_STATE_DRAGGING:
+                    LogUtils.i(TAG, "---->onPageScrollStateChanged 点击、滑屏");
+                    mHandler.removeCallbacksAndMessages(null);
+                    mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
+                    //https://blog.csdn.net/oweixiao123/article/details/23459041
+                    //图     D A B C D A
+                    //index  0 1 2 3 4 5
+                    // 图D划向图A的时候，currentItem为4,当手指抬起，动作释放，划动完成后，
+                    // 划动状态会变为SCROLL_STATE_IDLE，此时currentItem为5，进入第二个if
+                    // 设置当前Item为1，即显示图片A
+                    // setCurrentItem参数2为false:不显示跳转过程的动画
+                    // 若在onPageSelected中执行setCurrentItem，从图D到图A切换时，会突然没有动画，很突兀。
 
+                    break;
+                case ViewPager.SCROLL_STATE_SETTLING:
+                    LogUtils.i(TAG, "---->onPageScrollStateChanged 释放");
+                    break;
+            }
         }
     };
 
@@ -178,6 +248,29 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         LogUtils.e(TAG, msg);
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
+
+    private void setBannerScroller() {
+        try {
+            Field mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            BannerScroller scroller = new BannerScroller(getContext());
+            mScroller.set(mViewPager, scroller);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_BANNER:
+                    mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+                    mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -223,7 +316,7 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            LogUtils.d(TAG, "instantiateItem: " + position);
+            //LogUtils.d(TAG, "instantiateItem: " + position);
             //https://blog.csdn.net/liangcaiyun2013/article/details/45100903
             //始终存在2个view，左滑或者右滑都会预先加载下一个view，销毁多余的view。
             //参数position非当前item的index，而是预先加载的下个view的index。
@@ -250,10 +343,11 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         }
     }
 
-
     @Override
     public void onDestroy() {
         mPresenter.detach();
+        mHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
+
 }
