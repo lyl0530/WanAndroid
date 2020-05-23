@@ -7,13 +7,18 @@ import android.view.View;
 
 /**
  * Created by lym on 2020/5/23
- * Describe : banner移动动画
+ * Describe : ViewPager移动动画
  * 1.position=0,静止状态下当前显示的page的位置
  * 2.position=1,静止状态下,当前page右边的第一个page的位置,依此类推,逐渐+1
  * 3.position=-1,静止状态下,当前page左边的第一个page的位置,此次类推,逐渐+1
+ *
+ * 其他特效：
+ * https://www.jianshu.com/p/3a199fbe1f7f
+ * https://blog.csdn.net/sclgxt/article/details/75572229
+ *
  */
-public class BannerTransformer implements ViewPager.PageTransformer {
-    private static final String TAG = BannerTransformer.class.getSimpleName();
+public class ViewPagerTransformer implements ViewPager.PageTransformer {
+    private static final String TAG = ViewPagerTransformer.class.getSimpleName();
 
     private static final float MIN_SCALE = 0.25f;
 

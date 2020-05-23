@@ -26,8 +26,8 @@ import com.lyl.wanandroid.mvp.present.BannerPresenter;
 import com.lyl.wanandroid.mvp.view.BannerView;
 import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.util.LogUtils;
-import com.lyl.wanandroid.widget.BannerScroller;
-import com.lyl.wanandroid.widget.BannerTransformer;
+import com.lyl.wanandroid.widget.ViewPagerScroller;
+import com.lyl.wanandroid.widget.ViewPagerTransformer;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -171,8 +171,8 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         mViewPager.addOnPageChangeListener(mPageChangeListener);
         mViewPager.setCurrentItem(1);
 
-        setBannerScroller();
-        mViewPager.setPageTransformer(true, new BannerTransformer());
+        setViewPagerScroller();
+        mViewPager.setPageTransformer(true, new ViewPagerTransformer());
 
         mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
     }
@@ -249,11 +249,12 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    private void setBannerScroller() {
+    //设置ViewPager滑动的速度
+    private void setViewPagerScroller() {
         try {
             Field mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
-            BannerScroller scroller = new BannerScroller(getContext());
+            ViewPagerScroller scroller = new ViewPagerScroller(getContext());
             mScroller.set(mViewPager, scroller);
         } catch (Exception e) {
             e.printStackTrace();
