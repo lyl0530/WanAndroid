@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -16,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.adapter.BannerFragmentPagerAdapter;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.bean.BannerResult;
 import com.lyl.wanandroid.mvp.present.BannerPresenter;
@@ -27,9 +28,6 @@ import com.lyl.wanandroid.mvp.view.BannerView;
 import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.widget.ViewPagerScroller;
-import com.lyl.wanandroid.widget.ViewPagerTransformer;
-
-import org.apache.commons.text.StringEscapeUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -54,7 +52,8 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
     private ImageView mAvatar;
 
     private ViewPager mViewPager;
-    private MyAdapter mAdapter;
+    //private MyAdapter mAdapter;
+    private BannerFragmentPagerAdapter mAdapter;
 
     private List<Integer> mImages = new ArrayList<>();//图片对应的id
     private List<ImageView> mImageViewList = new ArrayList<>();//图片视图
@@ -131,50 +130,57 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         LogUtils.d(TAG, "loginSuccess: " + res);
         if (null == res || null == res.getData()) return;
 
-        //1 set data
-        for (int i = 0; i < res.getData().size(); i++) {
-            BannerResult.DataBean banner = res.getData().get(i);
-            if (null == banner) continue;
-            mImgPathList.add(banner.getImagePath());
-            mUrlList.add(banner.getUrl());
-            String title = banner.getTitle();
-            String newTitle = StringEscapeUtils.unescapeHtml4(title);
-            LogUtils.d(TAG, "Success: " + title + ", " + newTitle);
-            mTitleList.add(newTitle);
-        }
-        LogUtils.d(TAG, "Success: " + mImgPathList.toString() + ", " +
-                mUrlList.toString() + ", " + mTitleList.toString());
-
-        oriImgCnt = mImgPathList.size();
-        curImgCnt = oriImgCnt + 2;
-        //2 获取Banner图片
-        for (int i = 0; i < curImgCnt; i++) {
-            mImageViewList.add(new ImageView(mContext));
-            String imgPath;
-            if (0 == i) {
-                imgPath = mImgPathList.get(oriImgCnt - 1);
-            } else if (curImgCnt - 1 == i) {
-                imgPath = mImgPathList.get(0);
-            } else {
-                imgPath = mImgPathList.get(i - 1);
-            }
-
-            Glide.with(this).load(imgPath)
-                    .apply(requestOptions)
-                    .into(mImageViewList.get(i));
-        }
-
-        //3 display banner
-        //mImages.add(R.drawable.ic_default_avatar);
-        mAdapter = new MyAdapter();
+//        //1 set data
+//        for (int i = 0; i < res.getData().size(); i++) {
+//            BannerResult.DataBean banner = res.getData().get(i);
+//            if (null == banner) continue;
+//            mImgPathList.add(banner.getImagePath());
+//            mUrlList.add(banner.getUrl());
+//            String title = banner.getTitle();
+//            String newTitle = StringEscapeUtils.unescapeHtml4(title);
+//            LogUtils.d(TAG, "Success: " + title + ", " + newTitle);
+//            mTitleList.add(newTitle);
+//        }
+//        LogUtils.d(TAG, "Success: " + mImgPathList.toString() + ", " +
+//                mUrlList.toString() + ", " + mTitleList.toString());
+//
+//        oriImgCnt = mImgPathList.size();
+//        curImgCnt = oriImgCnt + 2;
+//        //2 获取Banner图片
+//        for (int i = 0; i < curImgCnt; i++) {
+//            mImageViewList.add(new ImageView(mContext));
+//            String imgPath;
+//            if (0 == i) {
+//                imgPath = mImgPathList.get(oriImgCnt - 1);
+//            } else if (curImgCnt - 1 == i) {
+//                imgPath = mImgPathList.get(0);
+//            } else {
+//                imgPath = mImgPathList.get(i - 1);
+//            }
+//
+//            Glide.with(this).load(imgPath)
+//                    .apply(requestOptions)
+//                    .into(mImageViewList.get(i));
+//        }
+//
+//        //3 display banner
+//        //mImages.add(R.drawable.ic_default_avatar);
+//        mAdapter = new MyAdapter();
+//        mViewPager.setAdapter(mAdapter);
+//        mViewPager.addOnPageChangeListener(mPageChangeListener);
+//        mViewPager.setCurrentItem(1);
+//
+//        setViewPagerScroller();
+//        mViewPager.setPageTransformer(true, new ViewPagerTransformer());
+//
+//        mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
+        FragmentActivity activity = getActivity();
+        if (null == activity) return;
+        mAdapter = new BannerFragmentPagerAdapter(activity.getSupportFragmentManager(), res);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.addOnPageChangeListener(mPageChangeListener);
-        mViewPager.setCurrentItem(1);
+        //mViewPager.addOnPageChangeListener(mPageChangeListener);
+        //mViewPager.setCurrentItem(1);
 
-        setViewPagerScroller();
-        mViewPager.setPageTransformer(true, new ViewPagerTransformer());
-
-        mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
     }
 
 

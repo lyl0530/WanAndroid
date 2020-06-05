@@ -1,14 +1,16 @@
 package com.lyl.wanandroid.bean;
 
+
 import com.lyl.wanandroid.base.BaseResult;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by lym on 2020/5/6
  * Describe :
  */
-public class BannerResult extends BaseResult {
+public class BannerResult extends BaseResult implements Serializable {
 
     private List<DataBean> data;
 
@@ -27,7 +29,7 @@ public class BannerResult extends BaseResult {
                 '}';
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * desc : 享学~
          * id : 29

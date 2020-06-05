@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:paddingStart="@dimen/dp_10"
+    android:paddingEnd="@dimen/dp_10">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/iv_banner"
+        android:scaleType="fitXY"
+        android:src="@drawable/banner_empty" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/little_black_bg"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/dp_8">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            android:text="@string/banner_title"
+            android:textColor="@color/white"
+            android:id="@+id/tv_banner_title"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"
+            android:layout_toStartOf="@id/tv_banner_number"
+            android:layout_alignParentStart="true"
+            android:singleLine="true" />
+        <!--            https://blog.csdn.net/baidu_33396702/article/details/50326845-->
+        <!--            textView跑马灯效果-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            android:text="@string/banner_title_number"
+            android:textColor="@color/white"
+            android:id="@+id/tv_banner_number"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+</RelativeLayout>
