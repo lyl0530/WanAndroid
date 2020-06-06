@@ -33,7 +33,7 @@ public class BannerFragment extends Fragment {
     private String mIndex;
     private BannerResult.DataBean mData;
 
-    public static BannerFragment getInstance(String index, BannerResult.DataBean data) {
+    public static BannerFragment newInstance(String index, BannerResult.DataBean data) {
         BannerFragment fragment = new BannerFragment();
         Bundle bundle = new Bundle();
         bundle.putString(BUNDLE_BANNER_INDEX, index);
@@ -42,13 +42,26 @@ public class BannerFragment extends Fragment {
         return fragment;
     }
 
+    //在onCreate中获取Arguments
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        if (null == arguments) return;
+        mIndex = arguments.getString(BUNDLE_BANNER_INDEX, "");
+        mData = (BannerResult.DataBean) arguments.getSerializable(BUNDLE_BANNER_DATA);
+        Log.d(TAG, "initData: [" + mIndex + "]: " + mData);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //参数3 false:表示布局为独立的
         mRootView = inflater.inflate(R.layout.fragment_banner, container, false);
         return mRootView;
     }
 
+    //onViewCreated-布局加载完后，会调用该方法，在其内获取控件，进行赋值
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initView();
@@ -62,10 +75,6 @@ public class BannerFragment extends Fragment {
     }
 
     private void initData() {
-        Bundle arguments = getArguments();
-        if (null == arguments) return;
-        mIndex = arguments.getString(BUNDLE_BANNER_INDEX, "");
-        mData = (BannerResult.DataBean) arguments.getSerializable(BUNDLE_BANNER_DATA);
         if (null == mData) return;
         Log.d(TAG, "initData: [" + mIndex + "]: " + mData);
 

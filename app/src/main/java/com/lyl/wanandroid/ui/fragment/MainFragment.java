@@ -178,6 +178,7 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         if (null == activity) return;
         mAdapter = new BannerFragmentPagerAdapter(activity.getSupportFragmentManager(), res);
         mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(res.getData().size());
         //mViewPager.addOnPageChangeListener(mPageChangeListener);
         //mViewPager.setCurrentItem(1);
 
