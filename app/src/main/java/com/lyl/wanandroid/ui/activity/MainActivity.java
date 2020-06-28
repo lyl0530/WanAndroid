@@ -28,6 +28,7 @@ import com.lyl.wanandroid.constant.PreferenceConst;
 import com.lyl.wanandroid.ui.fragment.HierarchyFragment;
 import com.lyl.wanandroid.ui.fragment.MainFragment;
 import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.view.CircleView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView mNavigationView;
     private LinearLayout mSliderBar;
     //private ImageButton mCloseDrawer;
-    private ImageView mSliderBarAvatar;
+    private /*ImageView*/ CircleView mSliderBarAvatar;
     private TextView mSliderBarNickName;
     private FragmentPagerAdapter mAdapter;
     private static final int FM_CNT = 4;//fragment的数量

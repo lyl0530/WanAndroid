@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <declare-styleable name="CircleView">
+        <attr name="r" format="dimension"/>
+        <attr name="src" format="reference"/>
+    </declare-styleable>
+</resources>

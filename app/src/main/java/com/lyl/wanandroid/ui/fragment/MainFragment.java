@@ -26,6 +26,7 @@ import com.lyl.wanandroid.mvp.present.BannerPresenter;
 import com.lyl.wanandroid.mvp.view.BannerView;
 import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.view.CircleView;
 import com.lyl.wanandroid.widget.ViewPagerScroller;
 import com.lyl.wanandroid.widget.ViewPagerTransformer;
 
@@ -51,7 +52,7 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
     private Context mContext;
 
     private AppBarLayout mTitleBar;
-    private ImageView mAvatar;
+    private /*ImageView*/ CircleView mAvatar;
 
     private ViewPager mViewPager;
     private MyAdapter mAdapter;
@@ -96,8 +97,8 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         //https://blog.csdn.net/lpCrazyBoy/article/details/85296285
         requestOptions = new RequestOptions()
                 //.circleCrop()//如果需要裁剪图片，比如圆形，椭圆形等等
-                .placeholder(R.drawable.ic_default_avatar)
-                .error(R.drawable.ic_default_avatar)
+                .placeholder(R.drawable.banner_empty)
+                .error(R.drawable.banner_empty)
                 .diskCacheStrategy(DiskCacheStrategy.ALL);
         //DiskCacheStrategy.NONE： 表示关闭Glide的硬盘缓存机制,不缓存任何内容。
         //DiskCacheStrategy.SOURCE： 表示只缓存原始图片。
@@ -111,6 +112,7 @@ public class MainFragment extends BaseFragment implements BannerView, View.OnCli
         mTitleBar = mView.findViewById(R.id.title_bar);
         mAvatar = mTitleBar.findViewById(R.id.avatar);
         mAvatar.setOnClickListener(this);
+        //new Thread(mAvatar).start();
 
         mViewPager = mView.findViewById(R.id.vp_banner);
         mBannerTitle = mView.findViewById(R.id.tv_banner_title);

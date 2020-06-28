@@ -10,14 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/ic_default_avatar"-->
+            <!--android:id="@+id/avatar"-->
+            <!--android:layout_marginStart="@dimen/dp_5"-->
+            <!--android:layout_centerVertical="true" />-->
+        <com.lyl.wanandroid.view.CircleView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_default_avatar"
+            app:r="25dp"
+            app:src="@drawable/temp"
             android:id="@+id/avatar"
-            android:layout_marginStart="@dimen/dp_5"
-            android:layout_centerVertical="true" />
-
+            android:layout_margin="3dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
