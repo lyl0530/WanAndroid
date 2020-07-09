@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +24,8 @@ import android.widget.Toast;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.constant.PreferenceConst;
-import com.lyl.wanandroid.ui.fragment.HierarchyFragment;
-import com.lyl.wanandroid.ui.fragment.MainFragment;
+import com.lyl.wanandroid.ui.fragment.FragmentHierarchy;
+import com.lyl.wanandroid.ui.fragment.FragmentMain;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.CircleView;
 
@@ -90,14 +89,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Fragment fm;
                 switch (position) {
                     case 1:
-                        fm = new HierarchyFragment();
+                        fm = new FragmentHierarchy();
                         break;
                     case 2:// tab 2
                     case 3:// tab 3 temp input here
                         fm = new Fragment();
                         break;
                     default:
-                        fm = new MainFragment();
+                        fm = new FragmentMain();
                         break;
                 }
                 return fm;

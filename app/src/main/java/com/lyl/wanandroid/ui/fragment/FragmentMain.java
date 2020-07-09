@@ -45,8 +45,8 @@ import java.util.Objects;
  * Describe : 主页
  *
  */
-public class MainFragment extends BaseFragment implements BannerView, View.OnClickListener {
-    private static final String TAG = MainFragment.class.getSimpleName();
+public class FragmentMain extends BaseFragment implements BannerView, View.OnClickListener {
+    private static final String TAG = FragmentMain.class.getSimpleName();
 
     private View mView;
     private Context mContext;

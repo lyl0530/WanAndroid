@@ -2,8 +2,10 @@ package com.lyl.wanandroid.mvp.model;
 
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.bean.BannerResult;
+import com.lyl.wanandroid.bean.HierarchyResult;
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
+import com.lyl.wanandroid.bean.NavigationResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.listener.RequestListener;
@@ -152,6 +154,80 @@ public class Model {
 
                     @Override
                     public void onNext(BannerResult result) {
+                        LogUtils.d(TAG, "onNext: " + result);
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
+    public void getHierarchy(RequestListener<HierarchyResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .getHierarchy()
+                .compose(getTransformer())
+                .subscribe(new Observer<HierarchyResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(HierarchyResult result) {
+                        LogUtils.d(TAG, "onNext: " + result);
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
+    public void getNavigation(RequestListener<NavigationResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .getNavigation()
+                .compose(getTransformer())
+                .subscribe(new Observer<NavigationResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(NavigationResult result) {
                         LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");

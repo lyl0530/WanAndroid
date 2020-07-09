@@ -32,8 +32,8 @@ import java.util.Objects;
  * Describe : 注册
  *
  */
-public class RegisterFragment extends BaseFragment implements View.OnClickListener, RegisterView {
-    private static final String TAG = RegisterFragment.class.getSimpleName();
+public class FragmentRegister extends BaseFragment implements View.OnClickListener, RegisterView {
+    private static final String TAG = FragmentRegister.class.getSimpleName();
 
     //private Context mContext;
     private View mView;

@@ -21,7 +21,7 @@ import com.lyl.wanandroid.bean.BannerResult;
  * Created by lym on 2020/6/5
  * Describe :
  */
-public class BannerFragment extends Fragment {
+public class FragmentBanner extends Fragment {
     private static final String TAG = "BannerFragment";
 
     private static final String BUNDLE_BANNER_INDEX = "bundle_banner_index";
@@ -33,8 +33,8 @@ public class BannerFragment extends Fragment {
     private String mIndex;
     private BannerResult.DataBean mData;
 
-    public static BannerFragment newInstance(String index, BannerResult.DataBean data) {
-        BannerFragment fragment = new BannerFragment();
+    public static FragmentBanner newInstance(String index, BannerResult.DataBean data) {
+        FragmentBanner fragment = new FragmentBanner();
         Bundle bundle = new Bundle();
         bundle.putString(BUNDLE_BANNER_INDEX, index);
         bundle.putSerializable(BUNDLE_BANNER_DATA, data);

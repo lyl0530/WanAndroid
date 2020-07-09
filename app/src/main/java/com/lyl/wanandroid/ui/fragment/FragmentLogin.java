@@ -32,8 +32,8 @@ import java.util.Objects;
  * Describe : 登录
  *
  */
-public class LoginFragment extends BaseFragment implements LoginView, View.OnClickListener {
-    private static final String TAG = LoginFragment.class.getSimpleName();
+public class FragmentLogin extends BaseFragment implements LoginView, View.OnClickListener {
+    private static final String TAG = FragmentLogin.class.getSimpleName();
 
     private Context mContext;
     private View mView;

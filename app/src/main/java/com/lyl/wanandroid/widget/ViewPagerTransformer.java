@@ -61,7 +61,7 @@ public class ViewPagerTransformer implements ViewPager.PageTransformer {
         } else if (position <= 1f) {//当前view
             view.setAlpha(1 - position);//pos变大，透明度越低，越不可见
 
-            //把view的左边中间 设置为缩放轴点
+            //把view的左边中间 设置为缩放轴点 - 设置旋转中心
             view.setPivotY(0.5f * view.getHeight());
 
             //设置view向左的偏移量

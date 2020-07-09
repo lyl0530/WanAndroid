@@ -15,8 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
-import com.lyl.wanandroid.ui.fragment.LoginFragment;
-import com.lyl.wanandroid.ui.fragment.RegisterFragment;
+import com.lyl.wanandroid.ui.fragment.FragmentLogin;
+import com.lyl.wanandroid.ui.fragment.FragmentRegister;
 import com.lyl.wanandroid.util.LogUtils;
 
 public class LoginActivity extends AppCompatActivity implements /*LoginView, */View.OnClickListener {
@@ -74,9 +74,9 @@ public class LoginActivity extends AppCompatActivity implements /*LoginView, */V
             @Override
             public Fragment getItem(int i) {
                 if (1 == i) {
-                    return new RegisterFragment();
+                    return new FragmentRegister();
                 }
-                return new LoginFragment();
+                return new FragmentLogin();
                 //return mFragmentList.get(i);
             }
 

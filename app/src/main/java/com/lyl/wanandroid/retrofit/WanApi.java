@@ -1,8 +1,10 @@
 package com.lyl.wanandroid.retrofit;
 
 import com.lyl.wanandroid.bean.BannerResult;
+import com.lyl.wanandroid.bean.HierarchyResult;
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
+import com.lyl.wanandroid.bean.NavigationResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 
 import io.reactivex.Observable;
@@ -53,5 +55,19 @@ public interface WanApi {
     @GET("user/logout/json")
     Observable<LogoutResult> logout();
 
+
+    /**
+     * https://www.wanandroid.com/tree/json
+     * 体系数据
+     */
+    @GET("tree/json")
+    Observable<HierarchyResult> getHierarchy();
+
+    /**
+     * https://www.wanandroid.com/navi/json
+     * 体系数据
+     */
+    @GET("navi/json")
+    Observable<NavigationResult> getNavigation();
 
 }

@@ -8,7 +8,7 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.lyl.wanandroid.bean.BannerResult;
-import com.lyl.wanandroid.ui.fragment.BannerFragment;
+import com.lyl.wanandroid.ui.fragment.FragmentBanner;
 
 /**
  * Created by lym on 2020/6/5
@@ -26,7 +26,7 @@ public class BannerFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        return BannerFragment.newInstance((i + 1) + "/" + getCount(), mRes.getData().get(i));
+        return FragmentBanner.newInstance((i + 1) + "/" + getCount(), mRes.getData().get(i));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class BannerFragmentPagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        BannerFragment fm = (BannerFragment) super.instantiateItem(container, position);
+        FragmentBanner fm = (FragmentBanner) super.instantiateItem(container, position);
         mFragmentList.put(position, fm);
         return fm;
     }
