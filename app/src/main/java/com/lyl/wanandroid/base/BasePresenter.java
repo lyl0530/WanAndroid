@@ -14,7 +14,7 @@ import java.util.Arrays;
  * Created by lym on 2020/4/2
  * Describe :
  */
-public abstract class BasePresenter<V> {
+public abstract class BasePresenter<V extends BaseView> {
     private static final String TAG = BasePresenter.class.getSimpleName();
     private WeakReference<V> mWeakReference; //弱引用, 防止内存泄漏
     private V mProxyView;

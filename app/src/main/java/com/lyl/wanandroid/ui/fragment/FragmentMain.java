@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,9 +23,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.bean.BannerResult;
-import com.lyl.wanandroid.mvp.present.BannerPresenter;
-import com.lyl.wanandroid.mvp.view.BannerView;
+import com.lyl.wanandroid.bean.TopArticleResult;
+import com.lyl.wanandroid.mvp.present.MainPresenter;
+import com.lyl.wanandroid.mvp.view.MainView;
 import com.lyl.wanandroid.ui.activity.MainActivity;
+import com.lyl.wanandroid.ui.activity.Test;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.CircleView;
 import com.lyl.wanandroid.widget.ViewPagerScroller;
@@ -45,7 +48,7 @@ import java.util.Objects;
  * Describe : 主页
  *
  */
-public class FragmentMain extends BaseFragment implements BannerView, View.OnClickListener {
+public class FragmentMain extends BaseFragment implements MainView, View.OnClickListener {
     private static final String TAG = FragmentMain.class.getSimpleName();
 
     private View mView;
@@ -66,7 +69,7 @@ public class FragmentMain extends BaseFragment implements BannerView, View.OnCli
 
     private TextView mBannerTitle, mBannerNumber;
 
-    private BannerPresenter mPresenter;
+    private MainPresenter mPresenter;
 
     private int oriImgCnt;//从server端获取的图片数量
     private int curImgCnt;//图DABCDA,补头补尾后的可以轮播的数量
@@ -84,7 +87,7 @@ public class FragmentMain extends BaseFragment implements BannerView, View.OnCli
 
         initView();
         initData();
-        mPresenter = new BannerPresenter();
+        mPresenter = new MainPresenter();
         mPresenter.attach(this);
 
         //获取Banner信息，得到Banner图张数
@@ -120,18 +123,8 @@ public class FragmentMain extends BaseFragment implements BannerView, View.OnCli
     }
 
     @Override
-    public void showProgressDialog() {
-        super.showProgressDialog();
-    }
-
-    @Override
-    public void hideProgressDialog() {
-        super.hideProgressDialog();
-    }
-
-    @Override
     public void Success(BannerResult res) {
-        LogUtils.d(TAG, "loginSuccess: " + res);
+        LogUtils.d(TAG, "banner Success: " + res);
         if (null == res || null == res.getData()) return;
 
         //1 set data
@@ -183,8 +176,29 @@ public class FragmentMain extends BaseFragment implements BannerView, View.OnCli
 //        mAdapter = new BannerFragmentPagerAdapter(activity.getSupportFragmentManager(), res);
 //        mViewPager.setAdapter(mAdapter);
 //        mViewPager.setOffscreenPageLimit(res.getData().size());
+    }
 
+    @Override
+    public void showProgressDialog() {
+        super.showProgressDialog();
+    }
 
+    @Override
+    public void hideProgressDialog() {
+        super.hideProgressDialog();
+
+        //获取置顶文章列表
+        if (null != mPresenter && !sExecute) {
+            sExecute = true;
+            mPresenter.getTopArticle();
+        }
+    }
+
+    private static boolean sExecute = false;
+    @Override
+    public void Success(TopArticleResult res) {
+        LogUtils.d(TAG, "top article Success: " + res);
+        if (null == res || null == res.getData()) return;
     }
 
 
@@ -356,7 +370,9 @@ public class FragmentMain extends BaseFragment implements BannerView, View.OnCli
 
     @Override
     public void onDestroy() {
-        mPresenter.detach();
+        if (null != mPresenter) {
+            mPresenter.detach();
+        }
         mHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }

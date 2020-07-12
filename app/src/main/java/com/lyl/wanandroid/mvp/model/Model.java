@@ -7,6 +7,7 @@ import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.NavigationResult;
 import com.lyl.wanandroid.bean.RegisterResult;
+import com.lyl.wanandroid.bean.TopArticleResult;
 import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.retrofit.RetrofitHelper;
@@ -154,6 +155,44 @@ public class Model {
 
                     @Override
                     public void onNext(BannerResult result) {
+                        LogUtils.d(TAG, "onNext: " + result);
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
+    //获取置顶文章
+    public void getTopArticle(RequestListener<TopArticleResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .getTopArticle()
+                .compose(getTransformer())
+                .subscribe(new Observer<TopArticleResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(TopArticleResult result) {
                         LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");

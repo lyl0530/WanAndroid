@@ -162,7 +162,9 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onDestroy() {
-        mPresenter.detach();
+        if (null != mPresenter) {
+            mPresenter.detach();
+        }
         super.onDestroy();
     }
 

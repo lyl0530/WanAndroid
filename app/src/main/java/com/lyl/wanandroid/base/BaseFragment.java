@@ -9,7 +9,7 @@ import com.lyl.wanandroid.widget.LoadingDialog;
  * Created by lym on 2020/5/6
  * Describe :
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements BaseView{
     private static final String TAG = BaseFragment.class.getSimpleName();
 
     private Context mContext;
@@ -25,6 +25,7 @@ public class BaseFragment extends Fragment {
         return mContext;
     }
 
+    @Override
     public void showProgressDialog() {
         if (null == mLoadingDialog) {
             mLoadingDialog = LoadingDialog.with(mContext);
@@ -32,6 +33,7 @@ public class BaseFragment extends Fragment {
         mLoadingDialog.show();
     }
 
+    @Override
     public void hideProgressDialog() {
         if (null != mLoadingDialog) {
             mLoadingDialog.dismiss();

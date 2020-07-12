@@ -3,6 +3,7 @@ package com.lyl.wanandroid.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import com.lyl.wanandroid.base.BaseFragment;
  * Created by lym on 2020/4/9
  * Describe :
  */
-public class FragmentHierarchy extends BaseFragment implements View.OnClickListener {
+public class FragmentHierarchy extends Fragment implements View.OnClickListener {
     private View mRootView;
     private ViewPager mVp;
     private FragmentActivity mActivity;

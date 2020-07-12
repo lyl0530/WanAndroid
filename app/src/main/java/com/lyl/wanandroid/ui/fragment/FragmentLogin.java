@@ -209,7 +209,9 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
 
     @Override
     public void onDestroy() {
-        mPresenter.detach();
+        if (null != mPresenter) {
+            mPresenter.detach();
+        }
         super.onDestroy();
     }
 

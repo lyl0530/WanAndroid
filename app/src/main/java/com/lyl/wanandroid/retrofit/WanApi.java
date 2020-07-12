@@ -6,6 +6,7 @@ import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.NavigationResult;
 import com.lyl.wanandroid.bean.RegisterResult;
+import com.lyl.wanandroid.bean.TopArticleResult;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -65,9 +66,15 @@ public interface WanApi {
 
     /**
      * https://www.wanandroid.com/navi/json
-     * 体系数据
+     * 导航数据
      */
     @GET("navi/json")
     Observable<NavigationResult> getNavigation();
 
+    /**
+     * https://www.wanandroid.com/article/top/json
+     * 首页的置顶文章
+     */
+    @GET("article/top/json")
+    Observable<TopArticleResult> getTopArticle();
 }

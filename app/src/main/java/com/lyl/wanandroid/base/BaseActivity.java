@@ -8,7 +8,7 @@ import com.lyl.wanandroid.widget.LoadingDialog;
  * Created by lym on 2020/4/13
  * Describe :
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private LoadingDialog mLoadingDialog;
 
