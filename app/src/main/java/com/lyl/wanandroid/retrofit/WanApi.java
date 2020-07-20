@@ -4,6 +4,7 @@ import com.lyl.wanandroid.bean.BannerResult;
 import com.lyl.wanandroid.bean.HierarchyResult;
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
+import com.lyl.wanandroid.bean.MainArticleResult;
 import com.lyl.wanandroid.bean.NavigationResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 import com.lyl.wanandroid.bean.TopArticleResult;
@@ -13,6 +14,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by lym on 2020/3/29
@@ -77,4 +79,11 @@ public interface WanApi {
      */
     @GET("article/top/json")
     Observable<TopArticleResult> getTopArticle();
+
+    /**
+     * https://www.wanandroid.com/article/list/0/json
+     * 首页的置顶文章
+     */
+    @GET("article/list/{pageIndex}/json")
+    Observable<MainArticleResult> getMainArticle(@Path("pageIndex") int pageIndex);
 }

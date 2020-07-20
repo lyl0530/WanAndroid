@@ -20,10 +20,13 @@ import android.widget.Toast;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.bean.LoginResult;
+import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.constant.PreferenceConst;
 import com.lyl.wanandroid.mvp.present.LoginPresenter;
 import com.lyl.wanandroid.mvp.view.LoginView;
 import com.lyl.wanandroid.util.LogUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Objects;
 
@@ -197,6 +200,7 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
             PreferenceConst.instance().setUserId(result.getData().getId());
         }
         saveUserNamePwd();
+        EventBus.getDefault().post(Const.LOGIN);
         Toast.makeText(getContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show();
         Objects.requireNonNull(getActivity()).finish();
     }

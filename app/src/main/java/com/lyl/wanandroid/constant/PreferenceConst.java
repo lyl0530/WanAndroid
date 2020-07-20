@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.lyl.wanandroid.app.BaseApplication;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by lym on 2020/5/12
  * Describe :
@@ -69,6 +72,22 @@ public class PreferenceConst {
 
     public int getUserId() {
         return mPreference.getInt(USER_ID, 0);
+    }
+
+    private static final String DOMAIN_NAME = "wanandroid.com";
+    public void setDomainName(String domainName) {
+        mPreference.edit().putString(DOMAIN_NAME, domainName).apply();
+    }
+    public String getDomainName() {
+        return mPreference.getString(DOMAIN_NAME, "");
+    }
+
+    private static final String COOKIES = "COOKIES";
+    public void setCookieSet(HashSet<String> cookieSet) {
+        mPreference.edit().putStringSet(COOKIES, cookieSet).apply();
+    }
+    public Set<String> getCookieSet() {
+        return mPreference.getStringSet(COOKIES, new HashSet<>());
     }
 
 }

@@ -10,10 +10,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +27,23 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
+import com.lyl.wanandroid.bean.ArticleBean;
 import com.lyl.wanandroid.bean.BannerResult;
+import com.lyl.wanandroid.bean.MainArticleResult;
 import com.lyl.wanandroid.bean.TopArticleResult;
+import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.mvp.present.MainPresenter;
 import com.lyl.wanandroid.mvp.view.MainView;
 import com.lyl.wanandroid.ui.activity.MainActivity;
-import com.lyl.wanandroid.ui.activity.Test;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.CircleView;
 import com.lyl.wanandroid.widget.ViewPagerScroller;
 import com.lyl.wanandroid.widget.ViewPagerTransformer;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -79,6 +89,12 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     private final int MSG_BANNER = 1;
     private final int DELAY = 2 * 1000;
 
+    private ListView mListView;
+    private static boolean sExecute = false;
+    private List<ArticleBean> dataList = new ArrayList<>();
+
+    private int curPage = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -87,15 +103,107 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
         initView();
         initData();
+
+        EventBus.getDefault().register(this);//这句话要放在初始化组件(findViewById)之后，不然页面接收不到参数
+
         mPresenter = new MainPresenter();
         mPresenter.attach(this);
 
-        //获取Banner信息，得到Banner图张数
-        mPresenter.getBanner();
-
+        getMainInfo();
         return mView;
     }
 
+    private ArticleAdapter mArticleAdapter;
+
+    private void initView() {
+        //titleBar
+        mTitleBar = mView.findViewById(R.id.title_bar);
+        mAvatar = mTitleBar.findViewById(R.id.avatar);
+        mAvatar.setOnClickListener(this);
+        //new Thread(mAvatar).start();
+
+        mTitleBar.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(getActivity(), Test.class));//test
+                getMainInfo();
+//                showProgressDialog();
+//                mPresenter.getTopArticle();
+            }
+        });
+
+        mViewPager = mView.findViewById(R.id.vp_banner);
+        mBannerTitle = mView.findViewById(R.id.tv_banner_title);
+        mBannerNumber = mView.findViewById(R.id.tv_banner_number);
+
+        mListView = mView.findViewById(R.id.lv_top_article);
+        mArticleAdapter = new ArticleAdapter();
+        mListView.setAdapter(mArticleAdapter);
+    }
+
+    private class ArticleAdapter extends BaseAdapter{
+        @Override
+        public int getCount() {
+            return dataList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return dataList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (null == convertView){
+                convertView = View.inflate(mContext, R.layout.layout_article_list, null);
+                holder = new ViewHolder();
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder)convertView.getTag();
+            }
+            holder.ibtnCollect = convertView.findViewById(R.id.ibtn_collect);
+            holder.tvTitle = convertView.findViewById(R.id.tv_title);
+            holder.tvAuthor = convertView.findViewById(R.id.tv_author);
+            holder.tvTime = convertView.findViewById(R.id.tv_time);
+            holder.imgNew = convertView.findViewById(R.id.img_new);
+            holder.imgTop = convertView.findViewById(R.id.img_top);
+
+            ArticleBean bean = dataList.get(position);
+            int drawableResId = bean.isCollect() ?
+                    R.drawable.icon_collected :
+                    R.drawable.icon_collecte;
+
+            String title = bean.getTitle();
+            Log.d(TAG, "getView: " + title + ", " + bean.isCollect());
+
+            String author = bean.getAuthor();
+            if (TextUtils.isEmpty(author)) {
+                author = bean.getShareUser();
+            }
+            String time = bean.getNiceDate();
+
+
+            holder.ibtnCollect.setBackground(getResources().getDrawable(drawableResId));
+            holder.tvTitle.setText(title);
+            holder.tvAuthor.setText(author);
+            holder.tvTime.setText(time);
+            if(0 == position) {
+                holder.imgNew.setVisibility(View.VISIBLE);
+            } else {
+                holder.imgNew.setVisibility(View.GONE);
+            }
+            holder.imgTop.setVisibility(View.VISIBLE);
+
+            return convertView;
+        }
+
+    }
     private void initData() {
         //https://blog.csdn.net/lpCrazyBoy/article/details/85296285
         requestOptions = new RequestOptions()
@@ -110,23 +218,51 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
     }
 
-    private void initView() {
-        //titleBar
-        mTitleBar = mView.findViewById(R.id.title_bar);
-        mAvatar = mTitleBar.findViewById(R.id.avatar);
-        mAvatar.setOnClickListener(this);
-        //new Thread(mAvatar).start();
+    private void getMainInfo(){
+        if (null == mPresenter) return;
+        Log.d(TAG, " 111234 getMainInfo: ");
 
-        mViewPager = mView.findViewById(R.id.vp_banner);
-        mBannerTitle = mView.findViewById(R.id.tv_banner_title);
-        mBannerNumber = mView.findViewById(R.id.tv_banner_number);
+//        dataList.clear();
+        showProgressDialog();
+        //获取Banner信息，得到Banner图张数
+        mPresenter.getBanner();
+        //获取置顶文章列表
+        mPresenter.getTopArticle();
+        mPresenter.getMainArticle(curPage);
+    }
+
+    private boolean login = false;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void test(String str){
+        if (Const.LOGIN.equals(str)){
+            Toast.makeText(mContext,str,Toast.LENGTH_SHORT).show();
+            //getMainInfo();
+            login = true;
+        }
     }
 
     @Override
-    public void Success(BannerResult res) {
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.d(TAG, "111234 setUserVisibleHint: " + isVisibleToUser);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, " 111234 onResume: " + login);
+        if (login) {
+            getMainInfo();
+            login = false;
+        }
+    }
+
+    @Override
+    public void getBannerSuccess(BannerResult res) {
         LogUtils.d(TAG, "banner Success: " + res);
         if (null == res || null == res.getData()) return;
-
+        mHandler.removeCallbacksAndMessages(null);
+        mImageViewList.clear();
         //1 set data
         for (int i = 0; i < res.getData().size(); i++) {
             BannerResult.DataBean banner = res.getData().get(i);
@@ -179,6 +315,51 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     }
 
     @Override
+    public void getBannerFailed(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getTopArticleSuccess(TopArticleResult res) {
+        LogUtils.d(TAG, "top_article Success: " + res);
+        if (null == res || null == res.getData()) return;
+        dataList = res.getData();
+        mArticleAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getTopArticleFailed(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getMainArticleSuccess(MainArticleResult res) {
+        LogUtils.d(TAG, "main article Success: " + res);
+        if (null == res || null == res.getData()) return;
+
+        curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
+
+        dataList.addAll(res.getData().getDatas());
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getMainArticleFailed(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void Failed(String msg) {
+        LogUtils.e(TAG, msg);
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void Finish() {
+        hideProgressDialog();
+    }
+
+    @Override
     public void showProgressDialog() {
         super.showProgressDialog();
     }
@@ -186,19 +367,12 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     @Override
     public void hideProgressDialog() {
         super.hideProgressDialog();
-
-        //获取置顶文章列表
-        if (null != mPresenter && !sExecute) {
-            sExecute = true;
-            mPresenter.getTopArticle();
-        }
     }
 
-    private static boolean sExecute = false;
-    @Override
-    public void Success(TopArticleResult res) {
-        LogUtils.d(TAG, "top article Success: " + res);
-        if (null == res || null == res.getData()) return;
+    private static class ViewHolder {
+        ImageButton ibtnCollect;
+        TextView tvTitle, tvAuthor, tvTime;
+        ImageView imgNew, imgTop;
     }
 
 
@@ -266,12 +440,6 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
             }
         }
     };
-
-    @Override
-    public void Failed(String msg) {
-        LogUtils.e(TAG, msg);
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
 
     //设置ViewPager滑动的速度
     private void setViewPagerScroller() {
@@ -366,6 +534,12 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
             container.addView(imageView);
             return imageView;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroyView();
     }
 
     @Override

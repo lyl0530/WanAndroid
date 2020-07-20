@@ -36,4 +36,6 @@
 
     <string name="banner_title">Banner图title</string>
     <string name="banner_title_number">1/4</string>
+    <string name="top">置顶</string>
+    <string name="new_article">新文章</string>
 </resources>

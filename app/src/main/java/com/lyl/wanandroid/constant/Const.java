@@ -17,4 +17,9 @@ public class Const {
     //result code
     public static final int SUCCESS_CODE = 0;
 
+    public static final String LOGIN = "LOGIN";
+
+    public static final String COOKIE_NAME = "Cookie";
+    public static final String SAVE_USER_LOGIN_KEY = "user/login";
+    public static final String SET_COOKIE_KEY = "set-cookie";
 }
