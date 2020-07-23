@@ -12,6 +12,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textCursorDrawable="@drawable/text_cursor_shape"
             android:drawableStart="@drawable/selector_username"
             android:drawablePadding="@dimen/dp_20"
             android:hint="@string/login_username"
@@ -47,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/selector_pwd"
+            android:textCursorDrawable="@drawable/text_cursor_shape"
             android:drawablePadding="@dimen/dp_20"
             android:hint="@string/login_pwd"
             android:autofillHints="@string/login_pwd"
@@ -81,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/selector_pwd"
+            android:textCursorDrawable="@drawable/text_cursor_shape"
             android:drawablePadding="@dimen/dp_20"
             android:hint="@string/login_pwd"
             android:autofillHints="@string/login_pwd"

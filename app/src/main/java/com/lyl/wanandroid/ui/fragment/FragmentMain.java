@@ -27,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.bean.ArticleBean;
 import com.lyl.wanandroid.bean.BannerResult;
 import com.lyl.wanandroid.bean.MainArticleResult;
@@ -137,6 +138,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         mBannerNumber = mView.findViewById(R.id.tv_banner_number);
 
         mListView = mView.findViewById(R.id.lv_top_article);
+        mListView.setVerticalScrollBarEnabled(false);
         mArticleAdapter = new ArticleAdapter();
         mListView.setAdapter(mArticleAdapter);
     }
@@ -190,6 +192,20 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
 
             holder.ibtnCollect.setBackground(getResources().getDrawable(drawableResId));
+            holder.ibtnCollect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick: " + bean);
+                    if (bean.isCollect()){//取消收藏
+                        if (null != mPresenter){
+                            mPresenter.unCollectArticle(bean.getId(), position);
+                        }
+                    } else { //收藏
+                        mPresenter.collectArticle(bean.getId(), position);
+                    }
+                }
+            });
+
             holder.tvTitle.setText(title);
             holder.tvAuthor.setText(author);
             holder.tvTime.setText(time);
@@ -245,6 +261,11 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         Log.d(TAG, "111234 setUserVisibleHint: " + isVisibleToUser);
+        if (!isVisibleToUser){//main fragment 不可见时，停止轮播图
+            mHandler.removeCallbacksAndMessages(null);
+        } else {
+            mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
+        }
     }
 
     @Override
@@ -357,6 +378,39 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     @Override
     public void Finish() {
         hideProgressDialog();
+    }
+
+    @Override
+    public void collectArticleSuccess(BaseResult res, int position) {
+        Log.d(TAG, "collectArticleSuccess: " + res);
+        ArticleBean bean = dataList.get(position);
+        bean.setCollect(true);
+        dataList.set(position, bean);
+        mArticleAdapter.notifyDataSetChanged();
+        Toast.makeText(mContext, "收藏成功！", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void collectArticleFailed(String msg) {
+        Log.e(TAG, "collectArticleFailed: " + msg);
+        Toast.makeText(mContext, "收藏失败："+msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void unCollectArticleSuccess(BaseResult res, int position) {
+        Log.d(TAG, "unCollectArticleSuccess: " + res);
+        ArticleBean bean = dataList.get(position);
+        bean.setCollect(false);
+        dataList.set(position, bean);
+        mArticleAdapter.notifyDataSetChanged();
+        Toast.makeText(mContext, "取消收藏成功！", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void unCollectArticleFailed(String msg) {
+        Log.e(TAG, "collectArticleFailed: " + msg);
+        Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

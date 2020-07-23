@@ -86,4 +86,23 @@ public interface WanApi {
      */
     @GET("article/list/{pageIndex}/json")
     Observable<MainArticleResult> getMainArticle(@Path("pageIndex") int pageIndex);
+
+    /**
+     * https://www.wanandroid.com/lg/collect/1165/json
+     * 收藏站内文章
+     */
+    @POST("lg/collect/{id}/json")
+    Observable<MainArticleResult> collectArticle(@Path("id") int id);
+
+
+    /**
+     * https://www.wanandroid.com/lg/uncollect_originId/2333/json
+     * 文章列表处取消收藏
+     */
+    @POST("lg/uncollect_originId/{id}/json")
+    Observable<MainArticleResult> unCollectArticle(@Path("id") int id);
+
+
+
+
 }

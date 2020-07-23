@@ -1,5 +1,6 @@
 package com.lyl.wanandroid.mvp.view;
 
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.base.BaseView;
 import com.lyl.wanandroid.bean.BannerResult;
 import com.lyl.wanandroid.bean.MainArticleResult;
@@ -10,16 +11,21 @@ import com.lyl.wanandroid.bean.TopArticleResult;
  * Describe :
  */
 public interface MainView extends BaseView {
-    //首页 - banner
+    //棣栭〉 - banner
     void getBannerSuccess(BannerResult res);
     void getBannerFailed(String msg);
-    //置顶文章
+    //缃《鏂囩珷
     void getTopArticleSuccess(TopArticleResult res);
     void getTopArticleFailed(String msg);
-    //首页文章
+    //棣栭〉鏂囩珷
     void getMainArticleSuccess(MainArticleResult res);
     void getMainArticleFailed(String msg);
 
-    //三个接口 调用完毕
+    //涓変釜鎺ュ彛 璋冪敤瀹屾瘯
     void Finish();
+
+    void collectArticleSuccess(BaseResult res, int position);
+    void collectArticleFailed(String msg);
+    void unCollectArticleSuccess(BaseResult res, int position);
+    void unCollectArticleFailed(String msg);
 }

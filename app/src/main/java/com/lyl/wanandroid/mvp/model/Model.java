@@ -331,6 +331,82 @@ public class Model {
                 });
     }
 
+    //收藏站内文章
+    public void collectArticle(int id, RequestListener<BaseResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .collectArticle(id)
+                .compose(getTransformer())
+                .subscribe(new Observer<BaseResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(BaseResult result) {
+                        LogUtils.d(TAG, "onNext: " + result);
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
+    //文章列表处取消收藏
+    public void unCollectArticle(int id, RequestListener<BaseResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .unCollectArticle(id)
+                .compose(getTransformer())
+                .subscribe(new Observer<BaseResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(BaseResult result) {
+                        LogUtils.d(TAG, "onNext: " + result);
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
     protected <T> ObservableTransformer getTransformer() {
         return /*(ObservableTransformer<T, T>) */RESULT_TRANSFORMER;
     }
