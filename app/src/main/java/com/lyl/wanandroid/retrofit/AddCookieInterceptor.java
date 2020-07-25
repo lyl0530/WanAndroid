@@ -31,13 +31,14 @@ public class AddCookieInterceptor implements Interceptor {
             String cookies = PreferenceConst.instance().getDomainName();
 
             HashSet<String> cookieSet = (HashSet<String>)PreferenceConst.instance().getCookieSet();
-            for (String cookie : cookieSet) {
-                builder.addHeader("Cookie", cookie);
-                Log.v(TAG, "Adding Header  Cookie: " + cookie);
-                // This is done so I know which headers are being added;
-                // this interceptor is used after the normal logging of OkHttp
+            if (null != cookieSet){
+                for (String cookie : cookieSet) {
+                    builder.addHeader("Cookie", cookie);
+                    Log.v(TAG, "Adding Header  Cookie: " + cookie);
+                    // This is done so I know which headers are being added;
+                    // this interceptor is used after the normal logging of OkHttp
+                }
             }
-
 //            Log.d(TAG, "cookies:" + cookies);
 //            if (!TextUtils.isEmpty(cookies)) {
 //                builder.addHeader(Const.COOKIE_NAME, cookies);

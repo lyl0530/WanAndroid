@@ -76,7 +76,6 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        //super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
             mAccount = PreferenceConst.instance().getAccount();
             LogUtils.d(TAG, "setUserVisibleHint: " + mAccount);
@@ -200,7 +199,7 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
             PreferenceConst.instance().setUserId(result.getData().getId());
         }
         saveUserNamePwd();
-        EventBus.getDefault().post(Const.LOGIN);
+        EventBus.getDefault().post(Const.REFRESH_MAIN);
         Toast.makeText(getContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show();
         Objects.requireNonNull(getActivity()).finish();
     }

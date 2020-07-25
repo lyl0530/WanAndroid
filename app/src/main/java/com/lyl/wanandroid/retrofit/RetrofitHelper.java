@@ -52,10 +52,10 @@ public class RetrofitHelper {
                 .addInterceptor(interceptor)
                 .connectTimeout(8000, TimeUnit.SECONDS)
 //                .cookieJar(cookieJar)//增加 cookieJar，登录后使用cookie，可获取用户的收藏列表等信息
-//                .addInterceptor(new AddCookiesInterceptor())
-//                .addInterceptor(new ReceivedCookiesInterceptor())
-                .addInterceptor(new AddCookieInterceptor())
-                .addInterceptor(new GetCookieInterceptor())
+                .addInterceptor(new AddCookiesInterceptor())
+                .addInterceptor(new ReceivedCookiesInterceptor())
+//                .addInterceptor(new AddCookieInterceptor())
+//                .addInterceptor(new GetCookieInterceptor())
                 .build();
 
         mWanApi = new Retrofit.Builder()
@@ -95,7 +95,7 @@ public class RetrofitHelper {
                 for (String header : originalResponse.headers("Set-Cookie")) {
                     cookies.add(header);
                 }
-                Log.d(TAG, "lll123 intercept: " + cookies);
+                Log.d(TAG, "lyl123 intercept: " + cookies);
                 PreferenceConst.instance().setCookieSet(cookies);
 //                Preferences.getDefaultPreferences().edit()
 //                        .putStringSet(Preferences.PREF_COOKIES, cookies)
@@ -107,17 +107,17 @@ public class RetrofitHelper {
     }
 
     private static class AddCookiesInterceptor implements Interceptor {
-
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
             HashSet<String> preferences = (HashSet)PreferenceConst.instance().getCookieSet();
-//            HashSet<String> preferences = (HashSet) Preferences.getDefaultPreferences().getStringSet(Preferences.PREF_COOKIES, new HashSet<>());
-            for (String cookie : preferences) {
-                builder.addHeader("Cookie", cookie);
-                Log.v("lll123", "Adding Header: " + cookie); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
+            if (null != preferences) {
+                for (String cookie : preferences) {
+                    builder.addHeader("Cookie", cookie);
+                    Log.d("lyl123", "Adding Header: " + cookie); // This is done so I know which headers are being added; this interceptor is used after the normal logging of OkHttp
+                }
             }
-
+            Log.d("lyl123", "Header: " + builder);
             return chain.proceed(builder.build());
         }
     }

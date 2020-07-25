@@ -1,7 +1,6 @@
 package com.lyl.wanandroid.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.bean.ArticleBean;
@@ -51,7 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-//import org.apache.commons.lang3.StringEscapeUtils;
 
 
 /**
@@ -93,7 +92,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     private ListView mListView;
     private static boolean sExecute = false;
     private List<ArticleBean> dataList = new ArrayList<>();
-
+    private int topArticleCnt = 0;
     private int curPage = 0;
 
     @Nullable
@@ -177,12 +176,13 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
             holder.imgTop = convertView.findViewById(R.id.img_top);
 
             ArticleBean bean = dataList.get(position);
-            int drawableResId = bean.isCollect() ?
+            int drawableResId = bean.isCollect() && BaseApplication.isLogin() ?
                     R.drawable.icon_collected :
                     R.drawable.icon_collecte;
 
             String title = bean.getTitle();
-            Log.d(TAG, "getView: " + title + ", " + bean.isCollect());
+            String newTitle = StringEscapeUtils.unescapeHtml4(title);
+            Log.d(TAG, "getView: " + newTitle + ", " + bean.isCollect());
 
             String author = bean.getAuthor();
             if (TextUtils.isEmpty(author)) {
@@ -206,19 +206,23 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                 }
             });
 
-            holder.tvTitle.setText(title);
+            holder.tvTitle.setText(newTitle);
             holder.tvAuthor.setText(author);
             holder.tvTime.setText(time);
-            if(0 == position) {
+
+            if(0 == position || topArticleCnt == position) {
                 holder.imgNew.setVisibility(View.VISIBLE);
             } else {
                 holder.imgNew.setVisibility(View.GONE);
             }
-            holder.imgTop.setVisibility(View.VISIBLE);
+            if (position < topArticleCnt) {
+                holder.imgTop.setVisibility(View.VISIBLE);
+            } else {
+                holder.imgTop.setVisibility(View.GONE);
+            }
 
             return convertView;
         }
-
     }
     private void initData() {
         //https://blog.csdn.net/lpCrazyBoy/article/details/85296285
@@ -236,25 +240,14 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
     private void getMainInfo(){
         if (null == mPresenter) return;
-        Log.d(TAG, " 111234 getMainInfo: ");
+        Log.d(TAG, "getMainInfo");
 
-//        dataList.clear();
         showProgressDialog();
         //获取Banner信息，得到Banner图张数
         mPresenter.getBanner();
         //获取置顶文章列表
         mPresenter.getTopArticle();
         mPresenter.getMainArticle(curPage);
-    }
-
-    private boolean login = false;
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void test(String str){
-        if (Const.LOGIN.equals(str)){
-            Toast.makeText(mContext,str,Toast.LENGTH_SHORT).show();
-            //getMainInfo();
-            login = true;
-        }
     }
 
     @Override
@@ -268,22 +261,35 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         }
     }
 
+    private boolean refreshMain = false;//登录、登出成功后，首页刷新
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setRefreshMain(String str){
+        if (Const.REFRESH_MAIN.equals(str)){
+            refreshMain = true;
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, " 111234 onResume: " + login);
-        if (login) {
+        Log.d(TAG, "onResume: loginRefresh = " + refreshMain);
+        if (refreshMain) {
             getMainInfo();
-            login = false;
+//            mArticleAdapter.notifyDataSetChanged();
+            refreshMain = false;
         }
     }
 
     @Override
     public void getBannerSuccess(BannerResult res) {
-        LogUtils.d(TAG, "banner Success: " + res);
+//        LogUtils.d(TAG, "banner Success: " + res);
         if (null == res || null == res.getData()) return;
         mHandler.removeCallbacksAndMessages(null);
         mImageViewList.clear();
+        mImgPathList.clear();
+        mTitleList.clear();
+        mUrlList.clear();
+
         //1 set data
         for (int i = 0; i < res.getData().size(); i++) {
             BannerResult.DataBean banner = res.getData().get(i);
@@ -292,12 +298,9 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
             mUrlList.add(banner.getUrl());
             String title = banner.getTitle();
             String newTitle = StringEscapeUtils.unescapeHtml4(title);
-            LogUtils.d(TAG, "Success: " + title + ", " + newTitle);
+//            LogUtils.d(TAG, "Success: " + title + ", " + newTitle);
             mTitleList.add(newTitle);
         }
-        LogUtils.d(TAG, "Success: " + mImgPathList.toString() + ", " +
-                mUrlList.toString() + ", " + mTitleList.toString());
-
         oriImgCnt = mImgPathList.size();
         curImgCnt = oriImgCnt + 2;
         //2 获取Banner图片
@@ -316,6 +319,10 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                     .apply(requestOptions)
                     .into(mImageViewList.get(i));
         }
+
+        LogUtils.d(TAG, "Success: mImgPathList \n" + mImgPathList.toString() + "\n mUrlList \n" +
+                mUrlList.toString() + "\n mTitleList \n" + mTitleList.toString() +
+                "\n mImageViewList.size = " + mImageViewList.size());
 
         //3 display banner
         //mImages.add(R.drawable.ic_default_avatar);
@@ -342,9 +349,11 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
     @Override
     public void getTopArticleSuccess(TopArticleResult res) {
-        LogUtils.d(TAG, "top_article Success: " + res);
+//        LogUtils.d(TAG, "top_article Success: " + res);
         if (null == res || null == res.getData()) return;
         dataList = res.getData();
+        topArticleCnt = dataList.size();
+        LogUtils.d(TAG, "top_article Success, data size = topArticleCnt =" + dataList.size());
         mArticleAdapter.notifyDataSetChanged();
     }
 
@@ -355,12 +364,15 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
     @Override
     public void getMainArticleSuccess(MainArticleResult res) {
-        LogUtils.d(TAG, "main article Success: " + res);
+//        LogUtils.d(TAG, "main article Success: " + res);
         if (null == res || null == res.getData()) return;
 
         curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
 
         dataList.addAll(res.getData().getDatas());
+        LogUtils.d(TAG, "main_article Success, data size = " + res.getData().getDatas().size() +
+                ", dataList size = " + dataList.size());
+
         mAdapter.notifyDataSetChanged();
     }
 
@@ -441,7 +453,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
         @Override
         public void onPageSelected(int i) {
-            LogUtils.d(TAG, "onPageSelected: " + i);
+//            LogUtils.d(TAG, "onPageSelected: " + i);
 
             int titleIndex;//Banner图title对应的下标
             int currentItem = mViewPager.getCurrentItem();
@@ -455,17 +467,17 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
             mBannerTitle.setText(mTitleList.get(titleIndex));
             mBannerNumber.setText((titleIndex + 1) + "/" + oriImgCnt);
 
-            LogUtils.d(TAG, "title = " + mTitleList.get(titleIndex) +
-                    ", num = " + (titleIndex + 1) + "/" + oriImgCnt);
+//            LogUtils.d(TAG, "title = " + mTitleList.get(titleIndex) +
+//                    ", num = " + (titleIndex + 1) + "/" + oriImgCnt);
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
             int currentItem = mViewPager.getCurrentItem();
-            LogUtils.d(TAG, "onPageScrollStateChanged: currentItem = " + currentItem);
+//            LogUtils.d(TAG, "onPageScrollStateChanged: currentItem = " + currentItem);
             switch (state) {
                 case ViewPager.SCROLL_STATE_IDLE:
-                    LogUtils.i(TAG, "---->onPageScrollStateChanged 无动作");
+//                    LogUtils.i(TAG, "---->onPageScrollStateChanged 无动作");
                     if (oriImgCnt > 1) {
                         if (currentItem == 0) {
                             mViewPager.setCurrentItem(curImgCnt - 2, false);
@@ -475,7 +487,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                     }
                     break;
                 case ViewPager.SCROLL_STATE_DRAGGING:
-                    LogUtils.i(TAG, "---->onPageScrollStateChanged 点击、滑屏");
+//                    LogUtils.i(TAG, "---->onPageScrollStateChanged 点击、滑屏");
                     mHandler.removeCallbacksAndMessages(null);
                     mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
                     //https://blog.csdn.net/oweixiao123/article/details/23459041
@@ -489,7 +501,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
                     break;
                 case ViewPager.SCROLL_STATE_SETTLING:
-                    LogUtils.i(TAG, "---->onPageScrollStateChanged 释放");
+//                    LogUtils.i(TAG, "---->onPageScrollStateChanged 释放");
                     break;
             }
         }

@@ -8,11 +8,14 @@ import android.view.View;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseActivity;
 import com.lyl.wanandroid.bean.LogoutResult;
+import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.constant.PreferenceConst;
 import com.lyl.wanandroid.mvp.present.LogoutPresenter;
 import com.lyl.wanandroid.mvp.view.LogoutView;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.widget.DialogHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class SettingActivity extends BaseActivity implements LogoutView {
     private static final String TAG = SettingActivity.class.getSimpleName();
@@ -81,10 +84,12 @@ public class SettingActivity extends BaseActivity implements LogoutView {
     @Override
     public void Success(LogoutResult result) {
         LogUtils.d(TAG, "loginSuccess: " + result);
+        EventBus.getDefault().post(Const.REFRESH_MAIN);//刷新首页
         //退出登录成功 - 清除缓存
         PreferenceConst.instance().setUserId(0);
         PreferenceConst.instance().setAccount("");
         PreferenceConst.instance().setPwd("");
+        PreferenceConst.instance().setCookieSet(null);//清除本地cookie
         finish();
     }
 

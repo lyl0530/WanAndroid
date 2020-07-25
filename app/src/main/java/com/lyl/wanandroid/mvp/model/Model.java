@@ -43,7 +43,7 @@ public class Model {
 
                     @Override
                     public void onNext(RegisterResult result) {
-                        LogUtils.d(TAG, "onNext: " + result);
+                        //LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");
                             return;
@@ -57,7 +57,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -90,12 +90,11 @@ public class Model {
                         } else {
                             l.onFailed(result.getErrorMsg());
                         }
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -133,7 +132,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -156,7 +155,7 @@ public class Model {
 
                     @Override
                     public void onNext(BannerResult result) {
-                        LogUtils.d(TAG, "onNext: " + result);
+//                        LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");
                             return;
@@ -170,7 +169,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -194,7 +193,7 @@ public class Model {
 
                     @Override
                     public void onNext(TopArticleResult result) {
-                        LogUtils.d(TAG, "onNext: " + result);
+//                        LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");
                             return;
@@ -208,7 +207,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -232,7 +231,7 @@ public class Model {
 
                     @Override
                     public void onNext(MainArticleResult result) {
-                        LogUtils.d(TAG, "onNext: " + result);
+//                        LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");
                             return;
@@ -246,7 +245,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -269,7 +268,7 @@ public class Model {
 
                     @Override
                     public void onNext(HierarchyResult result) {
-                        LogUtils.d(TAG, "onNext: " + result);
+//                        LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");
                             return;
@@ -283,7 +282,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -306,7 +305,7 @@ public class Model {
 
                     @Override
                     public void onNext(NavigationResult result) {
-                        LogUtils.d(TAG, "onNext: " + result);
+//                        LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");
                             return;
@@ -320,7 +319,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -344,7 +343,7 @@ public class Model {
 
                     @Override
                     public void onNext(BaseResult result) {
-                        LogUtils.d(TAG, "onNext: " + result);
+//                        LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");
                             return;
@@ -358,7 +357,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 
@@ -382,7 +381,7 @@ public class Model {
 
                     @Override
                     public void onNext(BaseResult result) {
-                        LogUtils.d(TAG, "onNext: " + result);
+//                        LogUtils.d(TAG, "onNext: " + result);
                         if (null == result) {
                             l.onFailed("结果为空");
                             return;
@@ -396,7 +395,7 @@ public class Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtils.e(TAG, "onNext: " + e.getMessage());
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
                         l.onFailed(e.getMessage());
                     }
 

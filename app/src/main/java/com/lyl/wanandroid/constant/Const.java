@@ -18,6 +18,7 @@ public class Const {
     public static final int SUCCESS_CODE = 0;
 
     public static final String LOGIN = "LOGIN";
+    public static final String REFRESH_MAIN = "REFRESH_MAIN";
 
     public static final String COOKIE_NAME = "Cookie";
     public static final String SAVE_USER_LOGIN_KEY = "user/login";
