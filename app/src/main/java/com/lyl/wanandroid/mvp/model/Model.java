@@ -350,6 +350,8 @@ public class Model {
                         }
                         if (Const.SUCCESS_CODE == result.getErrorCode()) {
                             l.onSuccess(result);
+                        } else if (Const.LOGIN_CODE == result.getErrorCode()) {
+                            l.onFailed(Const.LOGIN_MSG+id);
                         } else {
                             l.onFailed(result.getErrorMsg());
                         }

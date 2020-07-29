@@ -1,12 +1,14 @@
 package com.lyl.wanandroid.ui.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,9 +17,14 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.ui.fragment.FragmentLogin;
 import com.lyl.wanandroid.ui.fragment.FragmentRegister;
 import com.lyl.wanandroid.util.LogUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class LoginActivity extends AppCompatActivity implements /*LoginView, */View.OnClickListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -41,8 +48,11 @@ public class LoginActivity extends AppCompatActivity implements /*LoginView, */V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        articleId = getIntent().getIntExtra(Const.ARTICLE_ID, -1);
         initView();
         initData();
+
+        EventBus.getDefault().register(this);//这句话要放在初始化组件(findViewById)之后，不然页面接收不到参数
     }
 
     private void initView() {
@@ -146,5 +156,31 @@ public class LoginActivity extends AppCompatActivity implements /*LoginView, */V
 
     public ViewPager getViewPager() {
         return mViewPager;
+    }
+
+    private int articleId = -1;//登录成功后，把要收藏的文章索引传回去
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void setRefreshMain(String str){
+        Log.d(TAG, "setRefreshMain: 20200729  " + str + ", " + articleId);
+        if (Const.REFRESH_MAIN.equals(str) && articleId > 0){
+            Intent intent = new Intent();
+            intent.putExtra(Const.ARTICLE_ID, articleId);
+            setResult(Const.RESULT_CODE_LOGIN, intent);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+//        Log.d(TAG, "onPause: 32121 ");
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+//        Log.d(TAG, "onDestroy: 32121 ");
+        //setResult(Const.RESULT_CODE_LOGIN);
+
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

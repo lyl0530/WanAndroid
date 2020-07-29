@@ -33,6 +33,11 @@ public class MainPresenter extends BasePresenter<MainView> {
         if (getBannerFinish && getTopArticleFinish && getMainArticleFinish) {
             LogUtils.e(TAG, " All Finish:");
             getView().Finish();
+            //三个变量要置false，否则，每次刷新都会走三次Finish方法。
+            //登录成功收藏功能就会有问题。
+            getBannerFinish = false;
+            getTopArticleFinish = false;
+            getMainArticleFinish = false;
         }
     }
 

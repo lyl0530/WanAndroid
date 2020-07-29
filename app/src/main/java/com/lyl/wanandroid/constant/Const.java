@@ -16,11 +16,17 @@ public class Const {
 
     //result code
     public static final int SUCCESS_CODE = 0;
+    public static final int LOGIN_CODE = -1001;
+    public static final String LOGIN_MSG = "LOGIN";
 
-    public static final String LOGIN = "LOGIN";
     public static final String REFRESH_MAIN = "REFRESH_MAIN";
 
     public static final String COOKIE_NAME = "Cookie";
     public static final String SAVE_USER_LOGIN_KEY = "user/login";
     public static final String SET_COOKIE_KEY = "set-cookie";
+
+    //未登录时，点击收藏，页面跳转
+    public static final int REQUEST_CODE_LOGIN = 1001;
+    public static final int RESULT_CODE_LOGIN = 1002;
+    public static final String ARTICLE_ID = "article_id";
 }

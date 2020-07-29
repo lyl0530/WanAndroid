@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +36,7 @@ import com.lyl.wanandroid.bean.TopArticleResult;
 import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.mvp.present.MainPresenter;
 import com.lyl.wanandroid.mvp.view.MainView;
+import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.CircleView;
@@ -195,7 +197,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
             holder.ibtnCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick: " + bean);
+                    Log.d(TAG, "onClick: 20200729: " + bean.getId());
                     if (bean.isCollect()){//取消收藏
                         if (null != mPresenter){
                             mPresenter.unCollectArticle(bean.getId(), position);
@@ -280,6 +282,33 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: 20200729 = " + requestCode + ", " + resultCode);
+        if (Const.REQUEST_CODE_LOGIN == requestCode && Const.RESULT_CODE_LOGIN == resultCode){
+            articleId = data.getIntExtra(Const.ARTICLE_ID, -1);
+            Log.d(TAG, "onActivityResult: articleId = " + articleId);
+        }
+    }
+
+    private int articleId;
+    private void collectArticleAfterLogin(){
+        if (articleId > 0 ){
+            //从list中获取当前是否为true，不为true的时候再调用collect方法
+            for(int i = 0; i < dataList.size(); i++){
+                ArticleBean d = dataList.get(i);
+                if(null !=  d && articleId == d.getId()){
+                    Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
+                    if(!d.isCollect()) {
+                        Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
+                        mPresenter.collectArticle(articleId, i);
+                    }
+                    break;
+                }
+            }
+        }
+    }
     @Override
     public void getBannerSuccess(BannerResult res) {
 //        LogUtils.d(TAG, "banner Success: " + res);
@@ -390,6 +419,11 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     @Override
     public void Finish() {
         hideProgressDialog();
+        Log.d(TAG, "Finish: 20200729 will enter collectArticleAfterLogin");
+        //退出登录也会刷新首页
+        if (BaseApplication.isLogin()) {
+            collectArticleAfterLogin();
+        }
     }
 
     @Override
@@ -405,8 +439,21 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
     @Override
     public void collectArticleFailed(String msg) {
-        Log.e(TAG, "collectArticleFailed: " + msg);
-        Toast.makeText(mContext, "收藏失败："+msg, Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "collectArticleFailed: 20200729 " + msg);
+        if (!TextUtils.isEmpty(msg) && msg.startsWith(Const.LOGIN_MSG)){
+            try {
+                int articleId = Integer.parseInt(msg.substring(Const.LOGIN_MSG.length()));
+                Log.d(TAG, "collectArticleFailed: 20200729 = " + articleId);
+                Intent intent = new Intent(mContext, LoginActivity.class);
+                intent.putExtra(Const.ARTICLE_ID, articleId);
+                startActivityForResult(intent, Const.REQUEST_CODE_LOGIN);
+            } catch (NumberFormatException e){
+                Log.e(TAG, "collectArticleFailed: articleId获取失败");
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(mContext, "收藏失败：" + msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
