@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/titleBarH"
+        android:scrollbars="none"
+        android:background="@color/colorPrimary"
+        android:id="@+id/scrollView">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_text"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
+<!--        android:layout_gravity="center_vertical"
+layout_gravity是设置自身相当于父容器的对齐方式
+-->
+<!--        android:gravity="center_vertical"-->
+    </HorizontalScrollView>
+</LinearLayout>

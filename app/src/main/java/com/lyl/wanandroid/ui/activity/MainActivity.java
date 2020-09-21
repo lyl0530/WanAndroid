@@ -26,6 +26,7 @@ import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.constant.PreferenceConst;
 import com.lyl.wanandroid.ui.fragment.FragmentHierarchy;
 import com.lyl.wanandroid.ui.fragment.FragmentMain;
+import com.lyl.wanandroid.ui.fragment.FragmentProject;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.CircleView;
 
@@ -92,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         fm = new FragmentHierarchy();
                         break;
                     case 2:// tab 2
+                        fm = new FragmentProject();
+                        break;
                     case 3:// tab 3 temp input here
                         fm = new Fragment();
                         break;

@@ -204,4 +204,8 @@
     <dimen name="sp_99">99sp</dimen>
     <dimen name="sp_100">100sp</dimen>
 
+
+    <dimen name="titleBarH">50dp</dimen>
+    <dimen name="titleTextSize">20sp</dimen>
+
 </resources>
