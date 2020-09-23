@@ -7,6 +7,7 @@ import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.MainArticleResult;
 import com.lyl.wanandroid.bean.NavigationResult;
+import com.lyl.wanandroid.bean.ProjectResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 import com.lyl.wanandroid.bean.TopArticleResult;
 import com.lyl.wanandroid.constant.Const;
@@ -408,6 +409,43 @@ public class Model {
                 });
     }
 
+    //获取项目的整个分类
+    public void getProject(RequestListener<ProjectResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .getProject()
+                .compose(getTransformer())
+                .subscribe(new Observer<ProjectResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(ProjectResult result) {
+//                        LogUtils.d(TAG, "onNext: " + result);
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
     protected <T> ObservableTransformer getTransformer() {
         return /*(ObservableTransformer<T, T>) */RESULT_TRANSFORMER;
     }

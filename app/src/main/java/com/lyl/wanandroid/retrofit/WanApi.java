@@ -6,8 +6,11 @@ import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.MainArticleResult;
 import com.lyl.wanandroid.bean.NavigationResult;
+import com.lyl.wanandroid.bean.ProjectResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 import com.lyl.wanandroid.bean.TopArticleResult;
+
+import javax.crypto.interfaces.PBEKey;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -102,6 +105,13 @@ public interface WanApi {
     @POST("lg/uncollect_originId/{id}/json")
     Observable<MainArticleResult> unCollectArticle(@Path("id") int id);
 
+
+    /**
+     * https://www.wanandroid.com/project/tree/json
+     * 获取项目的整个分类
+     */
+    @GET("project/tree/json")
+    Observable<ProjectResult> getProject();
 
 
 
