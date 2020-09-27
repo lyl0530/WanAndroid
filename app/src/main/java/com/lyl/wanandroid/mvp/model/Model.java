@@ -7,6 +7,7 @@ import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.MainArticleResult;
 import com.lyl.wanandroid.bean.NavigationResult;
+import com.lyl.wanandroid.bean.ProjectArticleListResult;
 import com.lyl.wanandroid.bean.ProjectResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 import com.lyl.wanandroid.bean.TopArticleResult;
@@ -24,6 +25,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.http.Path;
 
 /**
  * Created by lym on 2020/5/15
@@ -446,6 +448,46 @@ public class Model {
                     }
                 });
     }
+
+    //获取单个项目的文章列表
+    public void getProjectArticleList(int curPageId,
+                                      int cid,
+                                      RequestListener<ProjectArticleListResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .getProjectArticleList(curPageId, cid)
+                .compose(getTransformer())
+                .subscribe(new Observer<ProjectArticleListResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(ProjectArticleListResult result) {
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
     protected <T> ObservableTransformer getTransformer() {
         return /*(ObservableTransformer<T, T>) */RESULT_TRANSFORMER;
     }

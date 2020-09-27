@@ -13,27 +13,45 @@ import com.lyl.wanandroid.util.LogUtils;
  */
 public class LoadingDialog{
     private static final String TAG =  LoadingDialog.class.getSimpleName();
-    private final Context mContext;
-    private Dialog mDialog;
+    private static Context sContext;
+    private static volatile Dialog sDialog;
 
     private LoadingDialog(Context context){
-        mContext = context;
+        sContext = context;
     }
 
     public static LoadingDialog with(Context context){
         return new LoadingDialog(context);
     }
+    
+    private static Dialog newInstance(){
+        if (null == sDialog) {
+            synchronized (Dialog.class) {
+                if (null == sDialog) {
+                    sDialog = new Dialog(sContext, R.style.loadingDialog);
+                }
+            }
+        }
+        return sDialog;
+    }
+    
     public void show(){
         LogUtils.d(TAG, "show: ");
-        mDialog = new Dialog(mContext, R.style.loadingDialog);
-        mDialog.setContentView(R.layout.dialog_loading);
-        mDialog.show();
+//        sDialog = new Dialog(sContext, R.style.loadingDialog);
+        newInstance();
+        sDialog.setContentView(R.layout.dialog_loading);
+        sDialog.show();
     }
 
     public void dismiss(){
         LogUtils.d(TAG, "dismiss: ");
-        if (null != mDialog && mDialog.isShowing()){
-            mDialog.dismiss();
+        if (null != sDialog && sDialog.isShowing()){
+            sDialog.dismiss();
         }
+    }
+
+    public boolean isShow(){
+        boolean b = null != sDialog && sDialog.isShowing();
+        return null != sDialog && sDialog.isShowing();
     }
 }

@@ -6,6 +6,7 @@ import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.MainArticleResult;
 import com.lyl.wanandroid.bean.NavigationResult;
+import com.lyl.wanandroid.bean.ProjectArticleListResult;
 import com.lyl.wanandroid.bean.ProjectResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 import com.lyl.wanandroid.bean.TopArticleResult;
@@ -18,6 +19,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by lym on 2020/3/29
@@ -112,6 +114,17 @@ public interface WanApi {
      */
     @GET("project/tree/json")
     Observable<ProjectResult> getProject();
+
+    /**
+     * https://www.wanandroid.com/project/list/1/json?cid=249
+     * 获取单个项目的文章列表
+     * 去掉url中问号后面的字段，只使用@Query注解
+     * https://blog.csdn.net/gao511147456/article/details/108262617
+     */
+    @GET("project/list/{curPageId}/json")
+    Observable<ProjectArticleListResult> getProjectArticleList(@Path("curPageId") int curPageId,
+                                                               @Query("cid") int cid);
+
 
 
 

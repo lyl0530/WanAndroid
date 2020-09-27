@@ -30,7 +30,9 @@ public abstract class BaseFragment extends Fragment implements BaseView{
         if (null == mLoadingDialog) {
             mLoadingDialog = LoadingDialog.with(mContext);
         }
-        mLoadingDialog.show();
+        if(!mLoadingDialog.isShow()) {
+            mLoadingDialog.show();
+        }
     }
 
     @Override

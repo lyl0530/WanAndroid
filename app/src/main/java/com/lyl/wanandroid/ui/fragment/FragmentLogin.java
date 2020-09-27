@@ -181,16 +181,16 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
         }
     }
 
-    @Override
-    public void showProgressDialog() {
-        super.showProgressDialog();
-    }
+//    @Override
+//    public void showProgressDialog() {
+//        super.showProgressDialog();
+//    }
 
 
-    @Override
-    public void hideProgressDialog() {
-        super.hideProgressDialog();
-    }
+//    @Override
+//    public void hideProgressDialog() {
+//        super.hideProgressDialog();
+//    }
 
     @Override
     public void Success(LoginResult result) {

@@ -253,6 +253,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.tab_hierarchy:
                     setPosition(1);
                     break;
+                case R.id.tab_project:
+                    setPosition(2);
+                    break;
                 default:
                     break;
             }

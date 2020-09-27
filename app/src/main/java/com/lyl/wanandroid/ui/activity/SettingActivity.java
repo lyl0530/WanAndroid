@@ -71,15 +71,15 @@ public class SettingActivity extends BaseActivity implements LogoutView {
     }
 
 
-    @Override
-    public void showProgressDialog() {
-        super.showProgressDialog();
-    }
-
-    @Override
-    public void hideProgressDialog() {
-        super.hideProgressDialog();
-    }
+//    @Override
+//    public void showProgressDialog() {
+//        super.showProgressDialog();
+//    }
+//
+//    @Override
+//    public void hideProgressDialog() {
+//        super.hideProgressDialog();
+//    }
 
     @Override
     public void Success(LogoutResult result) {
