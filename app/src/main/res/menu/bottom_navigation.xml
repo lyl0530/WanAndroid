@@ -16,7 +16,6 @@
         android:title="@string/navigation" />
 
     <item
-        android:id="@+id/tab_official_accounts"
         android:icon="@drawable/ic_bottom_bar_official_accounts"
         android:title="@string/official_accounts"
         android:visible="false"/>

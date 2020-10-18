@@ -92,9 +92,7 @@ public class RetrofitHelper {
             if (!originalResponse.headers("Set-Cookie").isEmpty()) {
                 HashSet<String> cookies = new HashSet<>();
 
-                for (String header : originalResponse.headers("Set-Cookie")) {
-                    cookies.add(header);
-                }
+                cookies.addAll(originalResponse.headers("Set-Cookie"));
                 Log.d(TAG, "lyl123 intercept: " + cookies);
                 PreferenceConst.instance().setCookieSet(cookies);
 //                Preferences.getDefaultPreferences().edit()

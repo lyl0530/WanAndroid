@@ -47,7 +47,9 @@
             android:lines="1"
             android:textSize="@dimen/normalTextSize"
             tools:ignore="RtlSymmetry"
-            android:id="@+id/et_search"/>
+            android:id="@+id/et_search"
+            android:autofillHints="@string/search_hint"
+            android:inputType="text" />
     </RelativeLayout>
 
     <FrameLayout

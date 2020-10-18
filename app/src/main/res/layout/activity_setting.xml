@@ -68,8 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/tv_night_mode"
-            android:background="@color/little_dark"
-            android:id="@+id/div_1"/>
+            android:background="@color/little_dark" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -89,7 +88,6 @@
             android:textColor="@color/dark"
             android:gravity="center_vertical"
             android:drawablePadding="@dimen/settingItemPadding"
-            android:id="@+id/tv_show_banner"
             android:layout_centerVertical="true"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -117,7 +115,6 @@
             android:textColor="@color/dark"
             android:gravity="center_vertical"
             android:drawablePadding="@dimen/settingItemPadding"
-            android:id="@+id/tv_clear_cache"
             android:layout_centerVertical="true"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
@@ -162,8 +159,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/tv_version_info"
-            android:background="@color/little_dark"
-            android:id="@+id/div_3"/>
+            android:background="@color/little_dark" />
     </RelativeLayout>
 
     <TextView
@@ -178,7 +174,6 @@
         android:textColor="@color/dark"
         android:gravity="center_vertical"
         android:drawablePadding="@dimen/settingItemPadding"
-        android:id="@+id/tv_about_us"
         android:drawableEnd="@drawable/ic_next"
         android:layout_below="@id/rl_version_info"/>
 

@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.ui.activity;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -47,6 +48,7 @@ public class WebActivity extends BaseActivity{
 
     private ProgressBar mProgress;
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
         mProgress = findViewById(R.id.pb);
         mWebView = findViewById(R.id.wv);

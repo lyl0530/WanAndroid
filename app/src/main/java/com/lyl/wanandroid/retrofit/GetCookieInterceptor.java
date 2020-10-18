@@ -69,13 +69,12 @@ public class GetCookieInterceptor implements Interceptor {
     }
 
     private String encodeCookie(List<String> cookies) {
-        StringBuilder sb = new StringBuilder();
         HashSet<String> cookieSet = new HashSet<>();
         for (String cookie : cookies){
             Log.d("lyl123", "encodeCookie: " + cookie);
             //cookie.split(";")
             cookieSet.add(cookie);
         }
-        return sb.toString();
+        return "";
     }
 }

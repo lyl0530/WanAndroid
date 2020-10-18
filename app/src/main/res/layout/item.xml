@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     tools:text="test"
     android:background="@drawable/text_bg_shape"
-    android:id="@+id/tv"
     android:textSize="15sp"
     android:textColor="#000"
     android:paddingLeft="15dp"
