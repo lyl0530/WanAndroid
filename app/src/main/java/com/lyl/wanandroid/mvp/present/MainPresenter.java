@@ -1,7 +1,5 @@
 package com.lyl.wanandroid.mvp.present;
 
-import android.util.Log;
-
 import com.lyl.wanandroid.base.BasePresenter;
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.bean.BannerResult;
@@ -105,7 +103,12 @@ public class MainPresenter extends BasePresenter<MainView> {
             @Override
             public void onSuccess(MainArticleResult res) {
                 getMainArticleSuccess = true;
-                getView().getMainArticleSuccess(res);
+                try {
+                    getView().getMainArticleSuccess(res);
+                } catch (Exception e){
+                    LogUtils.e(TAG, e.getMessage());
+                }
+
             }
 
             @Override

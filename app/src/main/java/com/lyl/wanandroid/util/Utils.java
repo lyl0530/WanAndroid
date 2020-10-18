@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.lyl.wanandroid.constant.Const;
+import com.lyl.wanandroid.ui.activity.WebActivity;
 
 
 public class Utils {
@@ -40,8 +41,8 @@ public class Utils {
 
     public static void openInWebView(Context context, String url){
         Log.d(TAG, "onItemClicked: url = " + url);
-//        Intent intent = new Intent(context, WebActivity.class);
-//        intent.putExtra(Const.WEB_VIEW_URL, url);
-//        context.startActivity(intent);
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra(Const.WEB_VIEW_URL, url);
+        context.startActivity(intent);
     }
 }
