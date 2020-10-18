@@ -136,7 +136,7 @@ public class FrgmHierarchy extends BaseFragment implements HierarchyView {
             }
             Log.d(TAG, "getView: " + data.getName() + ", " + itemList);
             viewHolder.mTvTitle.setText(data.getName());
-            viewHolder.mLayoutContent.addItem(itemList, cidList, true);
+                viewHolder.mLayoutContent.addItem(itemList/*, cidList, true*/);
 
             return convertView;
         }

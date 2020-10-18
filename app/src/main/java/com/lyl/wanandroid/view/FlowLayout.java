@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +104,7 @@ public class FlowLayout extends ViewGroup {
             //当前行最后一个元素对应的index
             boolean lastLine = i+1 >= arr.size();//最后一行
             int curLineLastEleIndex = lastLine ? cnt-1 : arr.get(i + 1) - 1;//下一行的前一个元素，为当前行的最后一个元素
-            Log.d(TAG, "onLayout: line" + i + "=[" + curLineFirstEleIndex + "," + curLineLastEleIndex + "]");
+//            Log.d(TAG, "onLayout: line" + i + "=[" + curLineFirstEleIndex + "," + curLineLastEleIndex + "]");
 
             preL = 0;//每进入新的一行，preL要置0，curL才会从最左侧开始计算
             curT = (preT == 0) ? paddingT : (preT+distanceV);
@@ -125,8 +126,14 @@ public class FlowLayout extends ViewGroup {
         }
     }
 
-    public void addItem(List<String> itemList, List<String> list, boolean hierarchy) {
-        if (null != itemList && itemList.size() > 0) {
+    public void addItem(List<String> itemList/*, List<String> list, boolean hierarchy*/) {
+        if (null != itemList) {
+//            Log.d(TAG, "addItem: cnt1 = " + getChildCount());
+            if (getChildCount() != 0) {
+                removeAllViews();
+                Log.d(TAG, "addItem: cnt2 = " + getChildCount());
+            }
+
             for (int i = 0; i < itemList.size(); i++) {
                 TextView tv = (TextView)LayoutInflater.from(getContext()).inflate(R.layout.item, null);
                 tv.setText(itemList.get(i));
@@ -134,14 +141,25 @@ public class FlowLayout extends ViewGroup {
                 tv.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String url = hierarchy ? "https://www.wanandroid.com/article/list/0/json?cid=" + list.get(pos) :
-                                list.get(pos);
-
-                        Log.d(TAG, "onClick: " + url);
+//                        String url = hierarchy ? "https://www.wanandroid.com/article/list/0/json?cid=" + list.get(pos) :
+//                                list.get(pos);
+                        Log.d(TAG, "onClick: pos = " + pos);
+                        if (null != mListener){
+                            mListener.clickItem(pos);
+                        }
                     }
                 });
                 addView(tv);
             }
         }
     }
+
+    public interface ItemClickListener{
+        void clickItem(int position);
+    }
+    private ItemClickListener mListener;
+    public void setItemClickListener(ItemClickListener listener){
+        mListener = listener;
+    }
+
 }

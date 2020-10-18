@@ -3,6 +3,7 @@ package com.lyl.wanandroid.mvp.model;
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.bean.BannerResult;
 import com.lyl.wanandroid.bean.HierarchyResult;
+import com.lyl.wanandroid.bean.HotKeyResult;
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.MainArticleResult;
@@ -26,6 +27,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by lym on 2020/5/15
@@ -488,6 +490,79 @@ public class Model {
                 });
     }
 
+    //热词搜索
+    public void getHotKey(RequestListener<HotKeyResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .getHotKey()
+                .compose(getTransformer())
+                .subscribe(new Observer<HotKeyResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(HotKeyResult result) {
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
+    //搜索
+    public void search(int pageIndex, String key, RequestListener<ProjectArticleListResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .search(pageIndex, key)
+                .compose(getTransformer())
+                .subscribe(new Observer<ProjectArticleListResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(ProjectArticleListResult result) {
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (Const.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(TAG, "onError: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
     protected <T> ObservableTransformer getTransformer() {
         return /*(ObservableTransformer<T, T>) */RESULT_TRANSFORMER;
     }

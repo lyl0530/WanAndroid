@@ -136,7 +136,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
             }
             Log.d(TAG, "getView: " + data.getName() + ", " + itemList);
             viewHolder.mTvTitle.setText(data.getName());
-            viewHolder.mLayoutContent.addItem(itemList, urlList, false);
+                viewHolder.mLayoutContent.addItem(itemList/*, urlList, false*/);
 
             return convertView;
         }

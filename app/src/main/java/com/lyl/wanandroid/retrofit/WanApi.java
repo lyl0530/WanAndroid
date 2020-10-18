@@ -2,6 +2,7 @@ package com.lyl.wanandroid.retrofit;
 
 import com.lyl.wanandroid.bean.BannerResult;
 import com.lyl.wanandroid.bean.HierarchyResult;
+import com.lyl.wanandroid.bean.HotKeyResult;
 import com.lyl.wanandroid.bean.LoginResult;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.bean.MainArticleResult;
@@ -11,7 +12,6 @@ import com.lyl.wanandroid.bean.ProjectResult;
 import com.lyl.wanandroid.bean.RegisterResult;
 import com.lyl.wanandroid.bean.TopArticleResult;
 
-import javax.crypto.interfaces.PBEKey;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -125,7 +125,25 @@ public interface WanApi {
     Observable<ProjectArticleListResult> getProjectArticleList(@Path("curPageId") int curPageId,
                                                                @Query("cid") int cid);
 
+    /**
+     * https://www.wanandroid.com/hotkey/json
+     * 搜索热词
+     */
+    @GET("hotkey/json")
+    Observable<HotKeyResult> getHotKey();
 
 
-
+    /**
+     * https://www.wanandroid.com/article/query/0/json?k=%s
+     * 搜索
+     * 方法：POST
+     * 参数：
+     * 页码：拼接在链接上，从0开始。
+     * k ： 搜索关键词
+     * 支持多个关键词，用空格隔开
+     */
+    @FormUrlEncoded
+    @POST("article/query/{page}/json")
+    Observable<ProjectArticleListResult> search(@Path("page") int page,
+                                         @Field("k") String k);
 }

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ import com.lyl.wanandroid.mvp.present.MainPresenter;
 import com.lyl.wanandroid.mvp.view.MainView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.ui.activity.MainActivity;
+import com.lyl.wanandroid.ui.activity.SearchActivity;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.CircleView;
 import com.lyl.wanandroid.widget.ViewPagerScroller;
@@ -111,8 +113,13 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         mPresenter = new MainPresenter();
         mPresenter.attach(this);
 
-        getMainInfo();
         return mView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getMainInfo();
     }
 
     private ArticleAdapter mArticleAdapter;
@@ -127,10 +134,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         mTitleBar.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(getActivity(), Test.class));//test
-                getMainInfo();
-//                showProgressDialog();
-//                mPresenter.getTopArticle();
+                startActivity(new Intent(getActivity(), SearchActivity.class));
             }
         });
 
@@ -208,7 +212,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                 }
             });
 
-            holder.tvTitle.setText(newTitle);
+            holder.tvTitle.setText(StringEscapeUtils.unescapeHtml4(newTitle));
             holder.tvAuthor.setText(author);
             holder.tvTime.setText(time);
 

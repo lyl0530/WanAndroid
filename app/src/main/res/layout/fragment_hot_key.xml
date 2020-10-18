@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_hot_key"
+        android:textSize="@dimen/normalTextSize"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:visibility="invisible"
+        android:id="@+id/tv_hot_key"/>
+    <com.lyl.wanandroid.view.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fl_hot_key"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_history"
+        android:textSize="@dimen/normalTextSize"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:visibility="invisible"
+        android:id="@+id/tv_search_history"/>
+
+    <com.lyl.wanandroid.view.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fl_history"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"/>
+</LinearLayout>
