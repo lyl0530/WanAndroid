@@ -29,4 +29,10 @@ public class Const {
     public static final int REQUEST_CODE_LOGIN = 1001;
     public static final int RESULT_CODE_LOGIN = 1002;
     public static final String ARTICLE_ID = "article_id";
+
+    public static final String WEB_VIEW_URL = "web_view_url";
+
+    public static final String ARTICLE_TITLE_LIST = "article_title_list";
+    public static final String ARTICLE_CID_LIST= "article_cid_list";
+    public static final String ARTICLE_POSITION = "article_position";
 }

@@ -116,12 +116,13 @@ public interface WanApi {
     Observable<ProjectResult> getProject();
 
     /**
-     * https://www.wanandroid.com/project/list/1/json?cid=249
+     * https://www.wanandroid.com/project/list/1/json?cid=249 - 完整项目
+     * https://www.wanandroid.com/article/list/0/json?cid=15 - 体系里的分类
      * 获取单个项目的文章列表
      * 去掉url中问号后面的字段，只使用@Query注解
      * https://blog.csdn.net/gao511147456/article/details/108262617
      */
-    @GET("project/list/{curPageId}/json")
+    @GET("article/list/{curPageId}/json")
     Observable<ProjectArticleListResult> getProjectArticleList(@Path("curPageId") int curPageId,
                                                                @Query("cid") int cid);
 

@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,8 +20,10 @@ import com.lyl.wanandroid.bean.NavigationResult;
 import com.lyl.wanandroid.mvp.present.NavigationPresenter;
 import com.lyl.wanandroid.mvp.view.NavigationView;
 import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.util.Utils;
 import com.lyl.wanandroid.view.FlowLayout;
 
+import org.apache.commons.text.StringEscapeUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +33,8 @@ import java.util.List;
  */
 public class FrgmNavigation extends BaseFragment implements NavigationView {
     private static final String TAG = "FrgmNavigation";
-    private Activity mActivity;
+//    private Activity mActivity;
+    private Context mContext;
     private View mRootView;
     private ListView mListView;
     private MyAdapter mAdapter;
@@ -40,10 +44,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
     private NavigationResult mRes;
     private List<NavigationResult.DataBean> mDataList;
     public static FrgmNavigation newInstance(){
-        FrgmNavigation fragment = new FrgmNavigation();
-//        new
-//        fragment.setArguments();
-        return  fragment;
+        return  new FrgmNavigation();
     }
 
     @Nullable
@@ -57,7 +58,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mListView = mRootView.findViewById(R.id.lv);
-        mActivity = getActivity();
+        mContext = getActivity();
         mPresenter = new NavigationPresenter();
         mPresenter.attach(this);
 
@@ -111,7 +112,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
             ViewHolder viewHolder=null;
 
             if (null == convertView){
-                convertView = LayoutInflater.from(mActivity).inflate(R.layout.layout_normal_item, parent, false);
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_normal_item, parent, false);
                 viewHolder = new ViewHolder();
                 convertView.setTag(viewHolder);
             } else {
@@ -124,20 +125,26 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
             NavigationResult.DataBean data = mDataList.get(position);
             List<NavigationResult.DataBean.ArticlesBean> list = data.getArticles();
 
-//            if (null == list) return
-            //StringBuilder sb = new StringBuilder();
             ArrayList<String> itemList = new ArrayList<>();
             ArrayList<String> urlList = new ArrayList<>();
 
             for (NavigationResult.DataBean.ArticlesBean bean : list){
-                //sb.append(bean.getTitle()).append(" ");
-                itemList.add(bean.getTitle());
+                itemList.add(StringEscapeUtils.unescapeHtml4(bean.getTitle()));
                 urlList.add(bean.getLink());
             }
             Log.d(TAG, "getView: " + data.getName() + ", " + itemList);
-            viewHolder.mTvTitle.setText(data.getName());
+            if (itemList.size() > 0) {
+                viewHolder.mTvTitle.setText(data.getName());
                 viewHolder.mLayoutContent.addItem(itemList/*, urlList, false*/);
-
+                viewHolder.mLayoutContent.setItemClickListener(new FlowLayout.ItemClickListener() {
+                    @Override
+                    public void clickItem(int index) {
+                        Log.d(TAG, "clickItem: index = " + index);
+                        //在webView中打开url
+                        Utils.openInWebView(mContext, urlList.get(index));
+                    }
+                });
+            }
             return convertView;
         }
 

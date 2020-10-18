@@ -1,37 +1,26 @@
 package com.lyl.wanandroid.ui.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.adapter.ProjectArticleListAdapter;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.bean.ProjectArticleListResult;
-import com.lyl.wanandroid.bean.ProjectResult;
 import com.lyl.wanandroid.mvp.present.ProjectArticleListPresenter;
-import com.lyl.wanandroid.mvp.present.ProjectPresenter;
 import com.lyl.wanandroid.mvp.view.ProjectArticleListView;
-import com.lyl.wanandroid.mvp.view.ProjectView;
 import com.lyl.wanandroid.util.Utils;
+import com.lyl.wanandroid.view.SpacesItemDecoration;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lym on 2020/4/9
@@ -45,7 +34,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     private int cId;
     private String name;
 
-    private int curPageId = 1;
+    private int curPageId = 0;
 
     private ProjectArticleListPresenter mPresenter;
     private RecyclerView mRv;
@@ -89,15 +78,15 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
         initDate();
     }
 
-    private TextView tv;
+//    private TextView tv;
     private void initView() {
         mRv = mRootView.findViewById(R.id.project_article_rv);
         LinearLayoutManager lm = new LinearLayoutManager(mContext);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(lm);
-
-        tv = mRootView.findViewById(R.id.fr_content);
-        tv.setText(name);
+        mRv.addItemDecoration(new SpacesItemDecoration(20));
+//        tv = mRootView.findViewById(R.id.fr_content);
+//        tv.setText(name);
     }
 
     private void initDate() {
@@ -115,9 +104,21 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
 
     @Override
     public void Success(ProjectArticleListResult res) {
-        Log.d(TAG, "Success: res = " + res.getData().getDatas().size());
-        mAdapter = new ProjectArticleListAdapter(mContext, res.getData().getDatas());
-        mRv.setAdapter(mAdapter);
+        if (null != res && null != res.getData() && null != res.getData().getDatas()){
+            List<ProjectArticleListResult.DataBean.DatasBean> dataList = res.getData().getDatas();
+            Log.d(TAG, "dataList = " + dataList);
+            mAdapter = new ProjectArticleListAdapter(mContext, dataList);
+            mAdapter.setOnItemClickListener(new ProjectArticleListAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClicked(View view, int position) {
+                    ProjectArticleListResult.DataBean.DatasBean bean = dataList.get(position);
+                    if (null != bean){
+                        Utils.openInWebView(mContext, bean.getLink());
+                    }
+                }
+            });
+            mRv.setAdapter(mAdapter);
+        }
     }
 
 //    @Override

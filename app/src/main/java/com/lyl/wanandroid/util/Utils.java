@@ -1,10 +1,16 @@
 package com.lyl.wanandroid.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 
+import com.lyl.wanandroid.constant.Const;
+
+
 public class Utils {
+    private static final String TAG = "Utils";
 
     public static int getScreenW(Context context){
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -26,5 +32,16 @@ public class Utils {
     public static int px2dp(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    /**
+     * WebView打开url
+     */
+
+    public static void openInWebView(Context context, String url){
+        Log.d(TAG, "onItemClicked: url = " + url);
+//        Intent intent = new Intent(context, WebActivity.class);
+//        intent.putExtra(Const.WEB_VIEW_URL, url);
+//        context.startActivity(intent);
     }
 }

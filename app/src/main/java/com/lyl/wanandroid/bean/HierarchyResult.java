@@ -193,6 +193,34 @@ public class HierarchyResult extends BaseResult implements Serializable {
             public void setChildren(List<?> children) {
                 this.children = children;
             }
+
+            @Override
+            public String toString() {
+                return "ChildrenBean{" +
+                        "courseId=" + courseId +
+                        ", id=" + id +
+                        ", name='" + name + '\'' +
+                        ", order=" + order +
+                        ", parentChapterId=" + parentChapterId +
+                        ", userControlSetTop=" + userControlSetTop +
+                        ", visible=" + visible +
+                        ", children=" + children +
+                        '}';
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "courseId=" + courseId +
+                    ", id=" + id +
+                    ", name='" + name + '\'' +
+                    ", order=" + order +
+                    ", parentChapterId=" + parentChapterId +
+                    ", userControlSetTop=" + userControlSetTop +
+                    ", visible=" + visible +
+                    ", children=" + children +
+                    '}';
         }
     }
 }

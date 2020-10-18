@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -41,6 +42,7 @@ import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.ui.activity.SearchActivity;
 import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.util.Utils;
 import com.lyl.wanandroid.view.CircleView;
 import com.lyl.wanandroid.widget.ViewPagerScroller;
 import com.lyl.wanandroid.widget.ViewPagerTransformer;
@@ -146,6 +148,12 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         mListView.setVerticalScrollBarEnabled(false);
         mArticleAdapter = new ArticleAdapter();
         mListView.setAdapter(mArticleAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Utils.openInWebView(mContext, dataList.get(position).getLink());
+            }
+        });
     }
 
     private class ArticleAdapter extends BaseAdapter{

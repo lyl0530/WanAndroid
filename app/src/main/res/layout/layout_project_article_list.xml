@@ -4,9 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
+    android:padding="15dp"
     android:background="@drawable/project_article_list_shape"
-    android:layout_marginTop="15dp">
+    android:layout_marginTop="5dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,7 +17,7 @@
         android:id="@+id/author"
         android:maxLines="1"
         android:ellipsize="end"
-        android:maxWidth="140dp"/>
+        android:maxWidth="200dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,8 @@
         android:layout_marginEnd="10dp"
         android:src="@drawable/temp"
         android:scaleType="centerCrop"
-        android:id="@+id/project_img"/>
+        android:id="@+id/project_img"
+        android:visibility="gone"/>
 <!--    android:background="@drawable/project_article_list_img_shape"-->
     <TextView
         android:layout_width="wrap_content"

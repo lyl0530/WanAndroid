@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <com.lyl.wanandroid.view.ProjectTitleScrollView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/titleBarH"
         android:scrollbars="none"
         android:background="@color/colorPrimary"

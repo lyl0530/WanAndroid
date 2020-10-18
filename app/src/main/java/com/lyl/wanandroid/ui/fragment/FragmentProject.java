@@ -47,6 +47,9 @@ public class FragmentProject extends BaseFragment implements ProjectView {
     private View mRootView;
     private FragmentActivity mActivity;
 
+    private ProjectPresenter mPresenter;
+    private ArrayList<ProjectResult.DataBean> mDataList = new ArrayList<>();
+
     private ProjectTitleScrollView mScrollView;
     private LinearLayout mLineLayout;
     private ViewPager mVp;
@@ -92,9 +95,6 @@ public class FragmentProject extends BaseFragment implements ProjectView {
         });
     }
 
-    private ProjectPresenter mPresenter;
-    private ArrayList<ProjectResult.DataBean> mDataList = new ArrayList<>();
-
     private void initDate() {
         mPresenter = new ProjectPresenter();
         mPresenter.attach(this);
@@ -104,6 +104,7 @@ public class FragmentProject extends BaseFragment implements ProjectView {
     @Override
     public void Success(ProjectResult res) {
         if(null != res.getData()){
+            mDataList.clear();
             ArrayList<String> textList = new ArrayList<>();
             for (ProjectResult.DataBean bean : res.getData()){
                 if (null == bean) continue;
@@ -165,16 +166,6 @@ public class FragmentProject extends BaseFragment implements ProjectView {
             }
         });
     }
-
-//    @Override
-//    public void showProgressDialog() {
-////        super.showProgressDialog();
-//    }
-//
-//    @Override
-//    public void hideProgressDialog() {
-////        super.hideProgressDialog();
-//    }
 
     @Override
     public void Failed(String msg) {

@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,10 +17,14 @@ import android.widget.Toast;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.bean.HierarchyResult;
+import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.mvp.present.HierarchyPresenter;
 import com.lyl.wanandroid.mvp.view.HierarchyView;
+import com.lyl.wanandroid.ui.activity.ArticleListActivity;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.FlowLayout;
+
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +46,7 @@ public class FrgmHierarchy extends BaseFragment implements HierarchyView {
     private HierarchyResult mRes;
     private List<HierarchyResult.DataBean> mDataList;
     public static FrgmHierarchy newInstance(){
-        FrgmHierarchy fragment = new FrgmHierarchy();
-//        new
-//        fragment.setArguments();
-        return  fragment;
+        return  new FrgmHierarchy();
     }
     @Nullable
     @Override
@@ -124,20 +126,35 @@ public class FrgmHierarchy extends BaseFragment implements HierarchyView {
 
             HierarchyResult.DataBean data = mDataList.get(position);
             List<HierarchyResult.DataBean.ChildrenBean> list = data.getChildren();
-//            if (null == list) return
-            //StringBuilder sb = new StringBuilder();
+
             ArrayList<String> itemList = new ArrayList<>();
-            ArrayList<String> cidList = new ArrayList<>();
+            ArrayList<Integer> cidList = new ArrayList<>();
 
             for (HierarchyResult.DataBean.ChildrenBean bean : list){
-                //sb.append(bean.getName()).append(" ");
-                itemList.add(bean.getName());
-                cidList.add(bean.getId()+"");
+                itemList.add(StringEscapeUtils.unescapeHtml4(bean.getName()));
+                cidList.add(bean.getId());
             }
             Log.d(TAG, "getView: " + data.getName() + ", " + itemList);
-            viewHolder.mTvTitle.setText(data.getName());
+            if (itemList.size() > 0) {
+                viewHolder.mTvTitle.setText(data.getName());
                 viewHolder.mLayoutContent.addItem(itemList/*, cidList, true*/);
-
+                viewHolder.mLayoutContent.setItemClickListener(new FlowLayout.ItemClickListener() {
+                    @Override
+                    public void clickItem(int position) {
+                        int cid = cidList.get(position);
+                        Log.d(TAG, "urlInfo: index = " + position
+                                + ", cid = https://www.wanandroid.com/article/list/0/json?cid="
+                                + cid + ", itemList = " + itemList.toString());
+                        //在新界面中展示文章列表
+                        //传入当前itemList 和 点击的position 及其对应的url
+                        Intent intent = new Intent(mActivity, ArticleListActivity.class);
+                        intent.putStringArrayListExtra(Const.ARTICLE_TITLE_LIST, itemList);
+                        intent.putIntegerArrayListExtra(Const.ARTICLE_CID_LIST, cidList);
+                        intent.putExtra(Const.ARTICLE_POSITION, position);
+                        startActivity(intent);
+                    }
+                });
+            }
             return convertView;
         }
 
