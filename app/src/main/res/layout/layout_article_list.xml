@@ -68,7 +68,8 @@
                 android:textSize="12sp"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/tv_time"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                tools:ignore="RelativeOverlap" />
 
         </RelativeLayout>
     </LinearLayout>

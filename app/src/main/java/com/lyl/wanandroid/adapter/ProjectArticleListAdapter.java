@@ -1,5 +1,6 @@
 package com.lyl.wanandroid.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -95,6 +96,7 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
         return new ViewHolder(itemView, mOnItemClickListener);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Log.d(TAG, "onBindViewHolder: i = " + i + ", " + mList.get(i));

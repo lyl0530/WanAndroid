@@ -160,6 +160,7 @@ public class WebActivity extends BaseActivity{
         mHandler.removeCallbacksAndMessages(null);
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {

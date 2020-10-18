@@ -1,5 +1,6 @@
 package com.lyl.wanandroid.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -499,6 +500,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
             //positionOffsetPixels 当前所在页面偏移量
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onPageSelected(int i) {
 //            LogUtils.d(TAG, "onPageSelected: " + i);
@@ -567,6 +569,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         }
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
