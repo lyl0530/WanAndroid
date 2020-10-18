@@ -3,23 +3,196 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.activity.LoginActivity"
-    android:background="@drawable/login_bg_shape">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.activity.SettingActivity"
+    android:background="@color/little_dark1">
 
     <!--
-        夜间模式
+        #            夜间模式
         #            显示轮播
         #            清除缓存
         #            版本信息   检查更新
         #            关于我们
-        #            退出登录-->
+        #            退出登录
+    -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titleBarH"
+        android:background="@color/colorPrimary"
+        android:id="@+id/title">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_title_back"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/titleLeftMargin"
+            android:onClick="onBack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/system_setting"
+            android:textSize="@dimen/titleTextSize"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/settingItemMargin"
+        android:paddingEnd="@dimen/settingItemMargin"
+        android:layout_marginTop="@dimen/settingItemMargin"
+        android:background="@color/white"
+        android:layout_below="@id/title"
+        android:id="@+id/rl_night_mode">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/settingItemH"
+            android:drawableStart="@drawable/ic_night_mode"
+            android:text="@string/night_mode"
+            android:textSize="@dimen/normalTextSize"
+            android:textColor="@color/dark"
+            android:gravity="center_vertical"
+            android:drawablePadding="@dimen/settingItemPadding"
+            android:id="@+id/tv_night_mode"
+            android:layout_centerVertical="true"/>
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:switchMinWidth="@dimen/switchW"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tv_night_mode"
+            android:background="@color/little_dark"
+            android:id="@+id/div_1"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/settingItemMargin"
+        android:paddingEnd="@dimen/settingItemMargin"
+        android:background="@color/white"
+        android:layout_below="@id/rl_night_mode"
+        android:id="@+id/rl_show_banner">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/settingItemH"
+            android:drawableStart="@drawable/ic_show_banner"
+            android:text="@string/carousel"
+            android:textSize="@dimen/normalTextSize"
+            android:textColor="@color/dark"
+            android:gravity="center_vertical"
+            android:drawablePadding="@dimen/settingItemPadding"
+            android:id="@+id/tv_show_banner"
+            android:layout_centerVertical="true"/>
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:switchMinWidth="@dimen/switchW"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/settingItemMargin"
+        android:paddingEnd="@dimen/settingItemMargin"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/settingItemMargin"
+        android:layout_below="@id/rl_show_banner"
+        android:id="@+id/rl_clear_cache">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/settingItemH"
+            android:drawableStart="@drawable/ic_clear_cache"
+            android:text="@string/clear_cache"
+            android:textSize="@dimen/normalTextSize"
+            android:textColor="@color/dark"
+            android:gravity="center_vertical"
+            android:drawablePadding="@dimen/settingItemPadding"
+            android:id="@+id/tv_clear_cache"
+            android:layout_centerVertical="true"/>
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:switchMinWidth="@dimen/switchW"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/settingItemMargin"
+        android:paddingEnd="@dimen/settingItemMargin"
+        android:layout_marginTop="@dimen/settingItemMargin"
+        android:background="@color/white"
+        android:layout_below="@id/rl_clear_cache"
+        android:id="@+id/rl_version_info">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/settingItemH"
+            android:drawableStart="@drawable/ic_version_info"
+            android:text="@string/version_info"
+            android:textSize="@dimen/normalTextSize"
+            android:textColor="@color/dark"
+            android:gravity="center_vertical"
+            android:drawablePadding="@dimen/settingItemPadding"
+            android:id="@+id/tv_version_info"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/check_update"
+            android:textColor="@color/dark"
+            android:drawableEnd="@drawable/ic_next"
+            android:textSize="@dimen/normalTextSize"
+            android:gravity="center_vertical"
+            android:drawablePadding="@dimen/settingItemPadding"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tv_version_info"
+            android:background="@color/little_dark"
+            android:id="@+id/div_3"/>
+    </RelativeLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settingItemH"
+        android:paddingStart="@dimen/settingItemMargin"
+        android:paddingEnd="@dimen/settingItemMargin"
+        android:background="@color/white"
+        android:drawableStart="@drawable/ic_about_us"
+        android:text="@string/about_us"
+        android:textSize="@dimen/normalTextSize"
+        android:textColor="@color/dark"
+        android:gravity="center_vertical"
+        android:drawablePadding="@dimen/settingItemPadding"
+        android:id="@+id/tv_about_us"
+        android:drawableEnd="@drawable/ic_next"
+        android:layout_below="@id/rl_version_info"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settingItemH"
+        android:background="@color/white"
         android:text="@string/logout"
+        android:textSize="@dimen/normalTextSize"
+        android:textColor="@color/color_logout"
+        android:gravity="center"
         android:onClick="onLogout"
-        android:textSize="@dimen/sp_20"
-        android:layout_centerInParent="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/settingItemMargin"
+        android:visibility="gone"
+        android:id="@+id/tv_logout"/>
 </RelativeLayout>

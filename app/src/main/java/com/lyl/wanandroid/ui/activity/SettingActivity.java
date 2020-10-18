@@ -4,8 +4,10 @@ package com.lyl.wanandroid.ui.activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseActivity;
 import com.lyl.wanandroid.bean.LogoutResult;
 import com.lyl.wanandroid.constant.Const;
@@ -20,6 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 public class SettingActivity extends BaseActivity implements LogoutView {
     private static final String TAG = SettingActivity.class.getSimpleName();
 
+    private TextView mLogout;
     private LogoutPresenter mPresenter;
 
     @Override
@@ -32,12 +35,15 @@ public class SettingActivity extends BaseActivity implements LogoutView {
     }
 
     private void initView() {
-
+        mLogout = findViewById(R.id.tv_logout);
     }
 
     private void initData() {
         mPresenter = new LogoutPresenter();
         mPresenter.attach(this);
+        if (BaseApplication.isLogin()){
+            mLogout.setVisibility(View.VISIBLE);
+        }
     }
 
     private Dialog dialog;

@@ -13,4 +13,7 @@
     <color name="white">#ffffff</color>
     <color name="little_black_bg">#33999999</color>
     <color name="black">#000000</color>
+
+    <color name="color_logout">#C8DA070D</color>
+    <color name="color_search_edit_bg">#11000000</color>
 </resources>

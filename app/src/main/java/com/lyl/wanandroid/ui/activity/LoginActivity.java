@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.base.BaseActivity;
 import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.ui.fragment.FragmentLogin;
 import com.lyl.wanandroid.ui.fragment.FragmentRegister;
@@ -26,7 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class LoginActivity extends AppCompatActivity implements /*LoginView, */View.OnClickListener {
+public class LoginActivity extends BaseActivity implements /*LoginView, */View.OnClickListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private static final int FM_CNT = 2;//fragment的数量
