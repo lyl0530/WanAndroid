@@ -2,10 +2,8 @@ package com.lyl.wanandroid.mvp.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
 import com.lyl.wanandroid.bean.HotKeyResult;
-import com.lyl.wanandroid.bean.ProjectArticleListResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.mvp.view.HotKeyView;
-import com.lyl.wanandroid.mvp.view.SearchView;
 
 /**
  * Created by lym on 2020/5/5

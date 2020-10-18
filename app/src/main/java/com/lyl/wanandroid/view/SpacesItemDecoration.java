@@ -4,7 +4,6 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Space;
 
 /**
  * Created by lym on 2020/10/10

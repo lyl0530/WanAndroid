@@ -3,7 +3,6 @@ package com.lyl.wanandroid.widget;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.util.LogUtils;

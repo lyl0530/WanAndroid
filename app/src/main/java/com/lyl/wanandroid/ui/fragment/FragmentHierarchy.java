@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.adapter.HierarchyFragmentPagerAdapter;
-import com.lyl.wanandroid.base.BaseFragment;
 
 /**
  * Created by lym on 2020/4/9

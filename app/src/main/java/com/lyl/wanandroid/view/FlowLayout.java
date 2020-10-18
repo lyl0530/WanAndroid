@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
-import com.lyl.wanandroid.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

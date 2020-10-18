@@ -2,10 +2,8 @@ package com.lyl.wanandroid.mvp.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
 import com.lyl.wanandroid.bean.ProjectResult;
-import com.lyl.wanandroid.bean.RegisterResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.mvp.view.ProjectView;
-import com.lyl.wanandroid.mvp.view.RegisterView;
 
 /**
  * Created by lym on 2020/5/5

@@ -3,7 +3,6 @@ package com.lyl.wanandroid.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.HorizontalScrollView;
-import android.widget.ScrollView;
 
 import com.lyl.wanandroid.listener.ScrollViewListener;
 

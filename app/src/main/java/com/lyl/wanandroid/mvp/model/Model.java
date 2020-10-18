@@ -26,8 +26,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 /**
  * Created by lym on 2020/5/15

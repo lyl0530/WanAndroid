@@ -3,12 +3,10 @@ package com.lyl.wanandroid.retrofit;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.lyl.wanandroid.constant.Const;
 import com.lyl.wanandroid.constant.PreferenceConst;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Set;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;

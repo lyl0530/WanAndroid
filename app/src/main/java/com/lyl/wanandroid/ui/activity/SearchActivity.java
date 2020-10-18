@@ -6,27 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseActivity;
-import com.lyl.wanandroid.bean.HotKeyResult;
-import com.lyl.wanandroid.bean.ProjectArticleListResult;
-import com.lyl.wanandroid.mvp.present.SearchPresenter;
-import com.lyl.wanandroid.mvp.view.SearchView;
 import com.lyl.wanandroid.ui.fragment.FragmentHotKey;
 import com.lyl.wanandroid.ui.fragment.FragmentSearchResult;
-import com.lyl.wanandroid.view.FlowLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SearchActivity extends BaseActivity{
     private static final String TAG = SearchActivity.class.getSimpleName();
