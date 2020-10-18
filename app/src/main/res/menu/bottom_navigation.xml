@@ -12,12 +12,13 @@
 
     <item
         android:id="@+id/tab_project"
-        android:icon="@drawable/ic_bottom_bar_project"
-        android:title="@string/project" />
+        android:icon="@drawable/ic_daohang"
+        android:title="@string/navigation" />
 
     <item
         android:id="@+id/tab_official_accounts"
         android:icon="@drawable/ic_bottom_bar_official_accounts"
-        android:title="@string/official_accounts" />
+        android:title="@string/official_accounts"
+        android:visible="false"/>
 
 </menu>

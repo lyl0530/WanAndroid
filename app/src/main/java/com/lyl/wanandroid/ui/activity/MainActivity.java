@@ -1,5 +1,6 @@
 package com.lyl.wanandroid.ui.activity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,14 +24,17 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
+import com.lyl.wanandroid.base.BaseActivity;
 import com.lyl.wanandroid.constant.PreferenceConst;
 import com.lyl.wanandroid.ui.fragment.FragmentHierarchy;
 import com.lyl.wanandroid.ui.fragment.FragmentMain;
 import com.lyl.wanandroid.ui.fragment.FragmentProject;
+import com.lyl.wanandroid.ui.fragment.FrgmHierarchy;
+import com.lyl.wanandroid.ui.fragment.FrgmNavigation;
 import com.lyl.wanandroid.util.LogUtils;
 import com.lyl.wanandroid.view.CircleView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private DrawerLayout mDrawerLayout;
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private /*ImageView*/ CircleView mSliderBarAvatar;
     private TextView mSliderBarNickName;
     private FragmentPagerAdapter mAdapter;
-    private static final int FM_CNT = 4;//fragment的数量
+    private static final int FM_CNT = 3;//fragment的数量
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,10 +94,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Fragment fm;
                 switch (position) {
                     case 1:
-                        fm = new FragmentHierarchy();
+                        fm = new FrgmHierarchy();//FragmentHierarchy();
                         break;
                     case 2:// tab 2
-                        fm = new FragmentProject();
+                        fm = new FrgmNavigation();//FragmentProject();
                         break;
                     case 3:// tab 3 temp input here
                         fm = new Fragment();
@@ -211,8 +215,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.item_my_like:
+                    if(BaseApplication.isLogin()){
+
+                    } else {
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    }
                     break;
                 case R.id.item_reading_history:
+                    if(BaseApplication.isLogin()){
+                        //阅读历史
+
+                    } else {
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    }
                     break;
                 case R.id.item_system_setting:
                     startActivity(new Intent(MainActivity.this, SettingActivity.class));

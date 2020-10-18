@@ -3,6 +3,7 @@ package com.lyl.wanandroid.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.util.LogUtils;
@@ -13,45 +14,34 @@ import com.lyl.wanandroid.util.LogUtils;
  */
 public class LoadingDialog{
     private static final String TAG =  LoadingDialog.class.getSimpleName();
-    private static Context sContext;
-    private static volatile Dialog sDialog;
 
+    private final Context mContext;
+    private Dialog mDialog;
     private LoadingDialog(Context context){
-        sContext = context;
+        mContext = context;
     }
 
     public static LoadingDialog with(Context context){
         return new LoadingDialog(context);
     }
     
-    private static Dialog newInstance(){
-        if (null == sDialog) {
-            synchronized (Dialog.class) {
-                if (null == sDialog) {
-                    sDialog = new Dialog(sContext, R.style.loadingDialog);
-                }
-            }
-        }
-        return sDialog;
-    }
-    
     public void show(){
-        LogUtils.d(TAG, "show: ");
-//        sDialog = new Dialog(sContext, R.style.loadingDialog);
-        newInstance();
-        sDialog.setContentView(R.layout.dialog_loading);
-        sDialog.show();
+        LogUtils.d(TAG, "show: mContext = " + mContext);
+        mDialog = new Dialog(mContext, R.style.loadingDialog);
+        mDialog.setContentView(R.layout.dialog_loading);
+        mDialog.show();
     }
 
-    public void dismiss(){
-        LogUtils.d(TAG, "dismiss: ");
-        if (null != sDialog && sDialog.isShowing()){
-            sDialog.dismiss();
+    public void dismiss() {
+        if (null != mDialog && mDialog.isShowing()){
+            mDialog.dismiss();
+            mDialog = null;
         }
+        LogUtils.d(TAG, "mDialog: " + mDialog + ", mContext = " + mContext);
     }
 
     public boolean isShow(){
-        boolean b = null != sDialog && sDialog.isShowing();
-        return null != sDialog && sDialog.isShowing();
+        boolean b = null != mDialog && mDialog.isShowing();
+        return null != mDialog && mDialog.isShowing();
     }
 }

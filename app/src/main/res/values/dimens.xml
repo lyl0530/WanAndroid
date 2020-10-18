@@ -207,5 +207,17 @@
 
     <dimen name="titleBarH">50dp</dimen>
     <dimen name="titleTextSize">20sp</dimen>
+    <!-- title back按钮的左边距值-->
+    <dimen name="titleLeftMargin">10dp</dimen>
+
+    <dimen name="normalTextSize">17sp</dimen>
+
+    <!--    setting -->
+    <dimen name="settingItemH">50dp</dimen>
+    <dimen name="settingItemMargin">20dp</dimen>
+    <dimen name="settingTextSize">20sp</dimen>
+    <dimen name="settingItemPadding">8dp</dimen>
+    <dimen name="switchW">55dp</dimen>
+
 
 </resources>
