@@ -23,12 +23,12 @@ import android.widget.Toast;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseActivity;
-import com.lyl.wanandroid.constant.PreferenceConst;
+import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.ui.fragment.FragmentMain;
 import com.lyl.wanandroid.ui.fragment.FrgmHierarchy;
 import com.lyl.wanandroid.ui.fragment.FrgmNavigation;
-import com.lyl.wanandroid.util.LogUtils;
-import com.lyl.wanandroid.view.CircleView;
+import com.lyl.wanandroid.utils.LogUtil;
+import com.lyl.wanandroid.ui.view.CircleView;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @NonNull
             @Override
             public Fragment getItem(int position) {
-                LogUtils.d(TAG, "getItem" + position);
+                LogUtil.d(TAG, "getItem" + position);
                 Fragment fm;
                 switch (position) {
                     case 1:
@@ -114,7 +114,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @NonNull
             @Override
             public Object instantiateItem(@NonNull ViewGroup container, int position) {
-                LogUtils.d(TAG, "instantiateItem" + position);
+                LogUtil.d(TAG, "instantiateItem" + position);
                 //super方法里会调用getItem()方法！
                 Fragment fm = (Fragment) super.instantiateItem(container, position);
                 mFragmentList.put(position, fm);
@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-                LogUtils.d(TAG, "destroyItem" + position);
+                LogUtil.d(TAG, "destroyItem" + position);
                 mFragmentList.remove(position);
                 super.destroyItem(container, position, object);
             }
@@ -182,19 +182,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onDrawerOpened(View drawerView) {
                 //super.onDrawerOpened(drawerView);
-                LogUtils.d(TAG, "onDrawerOpened");
+                LogUtil.d(TAG, "onDrawerOpened");
 
                 //使用sp change的监听！
                 //mSliderBarAvatar.setBackgroundResource(R.drawable.ic_default_avatar);
                 mSliderBarNickName.setText(BaseApplication.isLogin()
-                        ? PreferenceConst.instance().getAccount()
+                        ? PreferenceUtil.instance().getAccount()
                         : getString(R.string.pls_login));
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 //super.onDrawerClosed(drawerView);
-                LogUtils.d(TAG, "onDrawerClosed");
+                LogUtil.d(TAG, "onDrawerClosed");
             }
 
             @Override
@@ -293,7 +293,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.slider_bar_avatar:
                 if (BaseApplication.isLogin()) {
                     //edit user info
-                    LogUtils.d(TAG, "will edit user info");
+                    LogUtil.d(TAG, "will edit user info");
                     Toast.makeText(this, "will edit user info", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(new Intent(this, LoginActivity.class));

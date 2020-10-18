@@ -21,11 +21,11 @@ import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseActivity;
-import com.lyl.wanandroid.constant.Const;
+import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.listener.ScrollViewListener;
 import com.lyl.wanandroid.ui.fragment.FragmentProjectArticleList;
-import com.lyl.wanandroid.util.Utils;
-import com.lyl.wanandroid.view.TitleScrollView;
+import com.lyl.wanandroid.utils.PhoneUtil;
+import com.lyl.wanandroid.ui.view.TitleScrollView;
 
 import java.util.ArrayList;
 
@@ -55,9 +55,9 @@ public class ArticleListActivity extends BaseActivity {
 
         Intent intent = getIntent();
         if (null != intent){
-            mTitleList = intent.getStringArrayListExtra(Const.ARTICLE_TITLE_LIST);
-            mCidList = intent.getIntegerArrayListExtra(Const.ARTICLE_CID_LIST);
-            mCurPos = intent.getIntExtra(Const.ARTICLE_POSITION, -1);
+            mTitleList = intent.getStringArrayListExtra(ConstUtil.ARTICLE_TITLE_LIST);
+            mCidList = intent.getIntegerArrayListExtra(ConstUtil.ARTICLE_CID_LIST);
+            mCurPos = intent.getIntExtra(ConstUtil.ARTICLE_POSITION, -1);
         }
 
         initView();
@@ -87,10 +87,10 @@ public class ArticleListActivity extends BaseActivity {
         if (null == list || 0 == list.size()) return;
         Log.d(TAG, "showHScrollTextView: list = " + list);
 
-        scrCx = Utils.getScreenW(mContext)/2;
+        scrCx = PhoneUtil.getScreenW(mContext)/2;
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(Utils.dp2px(mContext,15),0,Utils.dp2px(mContext,15),0);//4个参数按顺序分别是左上右下
+        layoutParams.setMargins(PhoneUtil.dp2px(mContext,15),0, PhoneUtil.dp2px(mContext,15),0);//4个参数按顺序分别是左上右下
         layoutParams.gravity = Gravity.CENTER_VERTICAL;
         for (int i = 0; i < list.size(); i++){
             TextView tv = new TextView(mContext);

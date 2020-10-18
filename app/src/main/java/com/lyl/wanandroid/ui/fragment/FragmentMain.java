@@ -31,19 +31,19 @@ import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.base.BaseResult;
-import com.lyl.wanandroid.bean.ArticleBean;
-import com.lyl.wanandroid.bean.BannerResult;
-import com.lyl.wanandroid.bean.MainArticleResult;
-import com.lyl.wanandroid.bean.TopArticleResult;
-import com.lyl.wanandroid.constant.Const;
-import com.lyl.wanandroid.mvp.present.MainPresenter;
-import com.lyl.wanandroid.mvp.view.MainView;
+import com.lyl.wanandroid.service.entity.ArticleBean;
+import com.lyl.wanandroid.service.entity.BannerResult;
+import com.lyl.wanandroid.service.entity.MainArticleResult;
+import com.lyl.wanandroid.service.entity.TopArticleResult;
+import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.service.present.MainPresenter;
+import com.lyl.wanandroid.service.view.MainView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.ui.activity.SearchActivity;
-import com.lyl.wanandroid.util.LogUtils;
-import com.lyl.wanandroid.util.Utils;
-import com.lyl.wanandroid.view.CircleView;
+import com.lyl.wanandroid.utils.LogUtil;
+import com.lyl.wanandroid.utils.PhoneUtil;
+import com.lyl.wanandroid.ui.view.CircleView;
 import com.lyl.wanandroid.widget.ViewPagerScroller;
 import com.lyl.wanandroid.widget.ViewPagerTransformer;
 
@@ -151,7 +151,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Utils.openInWebView(mContext, dataList.get(position).getLink());
+                PhoneUtil.openInWebView(mContext, dataList.get(position).getLink());
             }
         });
     }
@@ -278,7 +278,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     private boolean refreshMain = false;//登录、登出成功后，首页刷新
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setRefreshMain(String str){
-        if (Const.REFRESH_MAIN.equals(str)){
+        if (ConstUtil.REFRESH_MAIN.equals(str)){
             refreshMain = true;
         }
     }
@@ -298,8 +298,8 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: 20200729 = " + requestCode + ", " + resultCode);
-        if (Const.REQUEST_CODE_LOGIN == requestCode && Const.RESULT_CODE_LOGIN == resultCode){
-            articleId = data.getIntExtra(Const.ARTICLE_ID, -1);
+        if (ConstUtil.REQUEST_CODE_LOGIN == requestCode && ConstUtil.RESULT_CODE_LOGIN == resultCode){
+            articleId = data.getIntExtra(ConstUtil.ARTICLE_ID, -1);
             Log.d(TAG, "onActivityResult: articleId = " + articleId);
         }
     }
@@ -361,7 +361,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                     .into(mImageViewList.get(i));
         }
 
-        LogUtils.d(TAG, "Success: mImgPathList \n" + mImgPathList.toString() + "\n mUrlList \n" +
+        LogUtil.d(TAG, "Success: mImgPathList \n" + mImgPathList.toString() + "\n mUrlList \n" +
                 mUrlList.toString() + "\n mTitleList \n" + mTitleList.toString() +
                 "\n mImageViewList.size = " + mImageViewList.size());
 
@@ -394,7 +394,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         if (null == res || null == res.getData()) return;
         dataList = res.getData();
         topArticleCnt = dataList.size();
-        LogUtils.d(TAG, "top_article Success, data size = topArticleCnt =" + dataList.size());
+        LogUtil.d(TAG, "top_article Success, data size = topArticleCnt =" + dataList.size());
         mArticleAdapter.notifyDataSetChanged();
     }
 
@@ -411,7 +411,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
 
         dataList.addAll(res.getData().getDatas());
-        LogUtils.d(TAG, "main_article Success, data size = " + res.getData().getDatas().size() +
+        LogUtil.d(TAG, "main_article Success, data size = " + res.getData().getDatas().size() +
                 ", dataList size = " + dataList.size());
 
         mAdapter.notifyDataSetChanged();
@@ -424,7 +424,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
 
     @Override
     public void Failed(String msg) {
-        LogUtils.e(TAG, msg);
+        LogUtil.e(TAG, msg);
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -452,13 +452,13 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     @Override
     public void collectArticleFailed(String msg) {
         Log.e(TAG, "collectArticleFailed: 20200729 " + msg);
-        if (!TextUtils.isEmpty(msg) && msg.startsWith(Const.LOGIN_MSG)){
+        if (!TextUtils.isEmpty(msg) && msg.startsWith(ConstUtil.LOGIN_MSG)){
             try {
-                int articleId = Integer.parseInt(msg.substring(Const.LOGIN_MSG.length()));
+                int articleId = Integer.parseInt(msg.substring(ConstUtil.LOGIN_MSG.length()));
                 Log.d(TAG, "collectArticleFailed: 20200729 = " + articleId);
                 Intent intent = new Intent(mContext, LoginActivity.class);
-                intent.putExtra(Const.ARTICLE_ID, articleId);
-                startActivityForResult(intent, Const.REQUEST_CODE_LOGIN);
+                intent.putExtra(ConstUtil.ARTICLE_ID, articleId);
+                startActivityForResult(intent, ConstUtil.REQUEST_CODE_LOGIN);
             } catch (NumberFormatException e){
                 Log.e(TAG, "collectArticleFailed: articleId获取失败");
                 e.printStackTrace();
@@ -639,7 +639,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                 @Override
                 public void onClick(View v) {
                     int currentItem = mViewPager.getCurrentItem();
-                    LogUtils.d(TAG, "onClick: " + (v instanceof ImageView) + ", " + currentItem);
+                    LogUtil.d(TAG, "onClick: " + (v instanceof ImageView) + ", " + currentItem);
                     //open it's url
 
                 }

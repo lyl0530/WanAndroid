@@ -12,13 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyl.wanandroid.R;
-import com.lyl.wanandroid.adapter.ProjectArticleListAdapter;
+import com.lyl.wanandroid.ui.adapter.ProjectArticleListAdapter;
 import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.bean.ProjectArticleListResult;
-import com.lyl.wanandroid.mvp.present.SearchPresenter;
-import com.lyl.wanandroid.mvp.view.SearchView;
-import com.lyl.wanandroid.util.Utils;
-import com.lyl.wanandroid.view.SpacesItemDecoration;
+import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
+import com.lyl.wanandroid.service.present.SearchPresenter;
+import com.lyl.wanandroid.service.view.SearchView;
+import com.lyl.wanandroid.utils.PhoneUtil;
+import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 
 import java.util.List;
 
@@ -91,7 +91,7 @@ public class FragmentSearchResult extends BaseFragment implements SearchView {
                 public void onItemClicked(View view, int position) {
                     ProjectArticleListResult.DataBean.DatasBean bean = dataList.get(position);
                     if (null != bean){
-                        Utils.openInWebView(mContext, bean.getLink());
+                        PhoneUtil.openInWebView(mContext, bean.getLink());
                     }
                 }
             });

@@ -15,7 +15,7 @@
         android:layout_margin="3dp"
         android:id="@+id/slider_bar_close" />
 
-    <com.lyl.wanandroid.view.CircleView
+    <com.lyl.wanandroid.ui.view.CircleView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:r="50dp"

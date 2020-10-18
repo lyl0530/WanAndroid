@@ -14,7 +14,7 @@
         android:layout_marginStart="10dp"
         android:visibility="invisible"
         android:id="@+id/tv_hot_key"/>
-    <com.lyl.wanandroid.view.FlowLayout
+    <com.lyl.wanandroid.ui.view.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fl_hot_key"
@@ -33,7 +33,7 @@
         android:visibility="invisible"
         android:id="@+id/tv_search_history"/>
 
-    <com.lyl.wanandroid.view.FlowLayout
+    <com.lyl.wanandroid.ui.view.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

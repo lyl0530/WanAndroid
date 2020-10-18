@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
 
-    <com.lyl.wanandroid.view.TitleScrollView
+    <com.lyl.wanandroid.ui.view.TitleScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/titleBarH"
         android:scrollbars="none"
@@ -21,7 +21,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"/>
-    </com.lyl.wanandroid.view.TitleScrollView>
+    </com.lyl.wanandroid.ui.view.TitleScrollView>
 
     <RelativeLayout
         android:layout_width="wrap_content"

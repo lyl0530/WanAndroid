@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.lyl.wanandroid.view.ProjectTitleScrollView
+    <com.lyl.wanandroid.ui.view.ProjectTitleScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/titleBarH"
         android:scrollbars="none"
@@ -22,7 +22,7 @@
 layout_gravity是设置自身相当于父容器的对齐方式
 -->
 <!--        android:gravity="center_vertical"-->
-    </com.lyl.wanandroid.view.ProjectTitleScrollView>
+    </com.lyl.wanandroid.ui.view.ProjectTitleScrollView>
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"

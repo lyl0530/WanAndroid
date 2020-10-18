@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
-import com.lyl.wanandroid.adapter.HierarchyFragmentPagerAdapter;
+import com.lyl.wanandroid.ui.adapter.HierarchyFragmentPagerAdapter;
 
 /**
  * Created by lym on 2020/4/9

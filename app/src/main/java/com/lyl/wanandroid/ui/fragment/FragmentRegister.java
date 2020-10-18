@@ -18,12 +18,12 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.bean.RegisterResult;
-import com.lyl.wanandroid.constant.PreferenceConst;
-import com.lyl.wanandroid.mvp.present.RegisterPresenter;
-import com.lyl.wanandroid.mvp.view.RegisterView;
+import com.lyl.wanandroid.service.entity.RegisterResult;
+import com.lyl.wanandroid.utils.PreferenceUtil;
+import com.lyl.wanandroid.service.present.RegisterPresenter;
+import com.lyl.wanandroid.service.view.RegisterView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
-import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.utils.LogUtil;
 
 import java.util.Objects;
 
@@ -124,10 +124,10 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
                 String pwd = mPwd.getText().toString();
                 String pwd2 = mPwd2.getText().toString();
                 if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(pwd2)) {
-                    LogUtils.d(TAG, "onClick: register");
+                    LogUtil.d(TAG, "onClick: register");
                     mPresenter.register(userName, pwd, pwd2);
                 } else { //for test
-                    LogUtils.d(TAG, "onClick: register1");
+                    LogUtil.d(TAG, "onClick: register1");
                     mPresenter.register("987789123", "345543", "345543");
                 }
                 break;
@@ -147,16 +147,16 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
 
     @Override
     public void Success(RegisterResult result) {
-        LogUtils.d(TAG, "success: " + result);
+        LogUtil.d(TAG, "success: " + result);
         Toast.makeText(getContext(), getString(R.string.register_success), Toast.LENGTH_SHORT).show();
         //preference
-        PreferenceConst.instance().setAccount(mUserName.getText().toString());
+        PreferenceUtil.instance().setAccount(mUserName.getText().toString());
         ((LoginActivity) Objects.requireNonNull(getActivity())).getViewPager().setCurrentItem(0);
     }
 
     @Override
     public void Failed(String msg) {
-        LogUtils.d(TAG, "failed: " + msg);
+        LogUtil.d(TAG, "failed: " + msg);
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 

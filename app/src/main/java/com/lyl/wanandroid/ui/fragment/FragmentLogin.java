@@ -19,12 +19,12 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.bean.LoginResult;
-import com.lyl.wanandroid.constant.Const;
-import com.lyl.wanandroid.constant.PreferenceConst;
-import com.lyl.wanandroid.mvp.present.LoginPresenter;
-import com.lyl.wanandroid.mvp.view.LoginView;
-import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.service.entity.LoginResult;
+import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.utils.PreferenceUtil;
+import com.lyl.wanandroid.service.present.LoginPresenter;
+import com.lyl.wanandroid.service.view.LoginView;
+import com.lyl.wanandroid.utils.LogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -77,8 +77,8 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            mAccount = PreferenceConst.instance().getAccount();
-            LogUtils.d(TAG, "setUserVisibleHint: " + mAccount);
+            mAccount = PreferenceUtil.instance().getAccount();
+            LogUtil.d(TAG, "setUserVisibleHint: " + mAccount);
             if (!isFirstShow) {
                 setUserNamePwd();
             }
@@ -90,7 +90,7 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
         super.onResume();
         if (isFirstShow) {
             isFirstShow = false;
-            LogUtils.d(TAG, "onResume: ");
+            LogUtil.d(TAG, "onResume: ");
             setUserNamePwd();
         }
     }
@@ -100,21 +100,21 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
         mUserName.setText(mAccount);
 
         //进入，显示上次的勾选状态。若勾选，则从sp中读取显示密码；否则，不显示
-        remember = PreferenceConst.instance().getCheck();
-        LogUtils.d(TAG, "setUserNamePwd: remember = " + remember);
+        remember = PreferenceUtil.instance().getCheck();
+        LogUtil.d(TAG, "setUserNamePwd: remember = " + remember);
         mRememberPwd.setChecked(remember);
         if (remember) {
-            mPwd.setText(PreferenceConst.instance().getPwd());
+            mPwd.setText(PreferenceUtil.instance().getPwd());
         }
     }
 
     //退出login界面时，往sp中写
     private void saveUserNamePwd() {
-        PreferenceConst.instance().setAccount(mUserName.getText().toString());
+        PreferenceUtil.instance().setAccount(mUserName.getText().toString());
 
         //记住密码：若勾选，则写入pwd；否则，清空
-        PreferenceConst.instance().setPwd(
-                PreferenceConst.instance().getCheck()
+        PreferenceUtil.instance().setPwd(
+                PreferenceUtil.instance().getCheck()
                         ? mPwd.getText().toString()
                         : "");
     }
@@ -160,9 +160,9 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
             case R.id.remember_pwd:
                 remember = !remember;//从 sp中获取初始值
                 mRememberPwd.setSelected(remember);
-                PreferenceConst.instance().setCheck(remember);
+                PreferenceUtil.instance().setCheck(remember);
                 if (!remember) {
-                    PreferenceConst.instance().setPwd("");
+                    PreferenceUtil.instance().setPwd("");
                 }
 //                Drawable drawable= getResources().getDrawable(R.drawable.login_check_checked);
 //                /// 这一步必须要做,否则不会显示.
@@ -194,19 +194,19 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
 
     @Override
     public void Success(LoginResult result) {
-        LogUtils.d(TAG, "loginSuccess: " + result);
+        LogUtil.d(TAG, "loginSuccess: " + result);
         if (null != result && null != result.getData()) {
-            PreferenceConst.instance().setUserId(result.getData().getId());
+            PreferenceUtil.instance().setUserId(result.getData().getId());
         }
         saveUserNamePwd();
-        EventBus.getDefault().post(Const.REFRESH_MAIN);
+        EventBus.getDefault().post(ConstUtil.REFRESH_MAIN);
         Toast.makeText(getContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show();
         Objects.requireNonNull(getActivity()).finish();
     }
 
     @Override
     public void Failed(String msg) {
-        LogUtils.e(TAG, "loginFailed: " + msg);
+        LogUtil.e(TAG, "loginFailed: " + msg);
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 

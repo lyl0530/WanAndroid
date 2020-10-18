@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseActivity;
-import com.lyl.wanandroid.constant.Const;
+import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.ui.fragment.FragmentLogin;
 import com.lyl.wanandroid.ui.fragment.FragmentRegister;
-import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.utils.LogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity implements /*LoginView, */View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        articleId = getIntent().getIntExtra(Const.ARTICLE_ID, -1);
+        articleId = getIntent().getIntExtra(ConstUtil.ARTICLE_ID, -1);
         initView();
         initData();
 
@@ -131,7 +131,7 @@ public class LoginActivity extends BaseActivity implements /*LoginView, */View.O
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        LogUtils.d(TAG, "onKeyDown: " + keyCode);
+        LogUtil.d(TAG, "onKeyDown: " + keyCode);
         if (KeyEvent.KEYCODE_BACK == keyCode){
             finish();
         }
@@ -162,10 +162,10 @@ public class LoginActivity extends BaseActivity implements /*LoginView, */View.O
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setRefreshMain(String str){
         Log.d(TAG, "setRefreshMain: 20200729  " + str + ", " + articleId);
-        if (Const.REFRESH_MAIN.equals(str) && articleId > 0){
+        if (ConstUtil.REFRESH_MAIN.equals(str) && articleId > 0){
             Intent intent = new Intent();
-            intent.putExtra(Const.ARTICLE_ID, articleId);
-            setResult(Const.RESULT_CODE_LOGIN, intent);
+            intent.putExtra(ConstUtil.ARTICLE_ID, articleId);
+            setResult(ConstUtil.RESULT_CODE_LOGIN, intent);
         }
     }
 

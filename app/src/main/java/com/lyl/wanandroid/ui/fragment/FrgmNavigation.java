@@ -15,12 +15,12 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.bean.NavigationResult;
-import com.lyl.wanandroid.mvp.present.NavigationPresenter;
-import com.lyl.wanandroid.mvp.view.NavigationView;
-import com.lyl.wanandroid.util.LogUtils;
-import com.lyl.wanandroid.util.Utils;
-import com.lyl.wanandroid.view.FlowLayout;
+import com.lyl.wanandroid.service.entity.NavigationResult;
+import com.lyl.wanandroid.service.present.NavigationPresenter;
+import com.lyl.wanandroid.service.view.NavigationView;
+import com.lyl.wanandroid.utils.LogUtil;
+import com.lyl.wanandroid.utils.PhoneUtil;
+import com.lyl.wanandroid.ui.view.FlowLayout;
 
 import org.apache.commons.text.StringEscapeUtils;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
 
     @Override
     public void Failed(String msg) {
-        LogUtils.e(TAG, "loginFailed: " + msg);
+        LogUtil.e(TAG, "loginFailed: " + msg);
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -140,7 +140,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
                     public void clickItem(int index) {
                         Log.d(TAG, "clickItem: index = " + index);
                         //在webView中打开url
-                        Utils.openInWebView(mContext, urlList.get(index));
+                        PhoneUtil.openInWebView(mContext, urlList.get(index));
                     }
                 });
             }

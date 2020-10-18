@@ -1,8 +1,8 @@
 package com.lyl.wanandroid.base;
 
 
-import com.lyl.wanandroid.mvp.model.Model;
-import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.service.manager.DataManager;
+import com.lyl.wanandroid.utils.LogUtil;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationHandler;
@@ -18,14 +18,14 @@ public abstract class BasePresenter<V extends BaseView> {
     private static final String TAG = BasePresenter.class.getSimpleName();
     private WeakReference<V> mWeakReference; //弱引用, 防止内存泄漏
     private V mProxyView;
-    private final Model mModel;
+    private final DataManager mDataManager;
 
     protected BasePresenter() {
-        mModel = new Model();
+        mDataManager = new DataManager();
     }
 
-    protected Model getModel() {
-        return mModel;
+    protected DataManager getModel() {
+        return mDataManager;
     }
     /**
      * 关联V层和P层
@@ -93,7 +93,7 @@ public abstract class BasePresenter<V extends BaseView> {
         }
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            LogUtils.d(TAG, "invoke: method = " + method.getName() + ", args = " + Arrays.toString(args));
+            LogUtil.d(TAG, "invoke: method = " + method.getName() + ", args = " + Arrays.toString(args));
             // mView.hideProgressDialog()方法时，就调用了$Proxy0类中的hideProgressDialog()方法，
             // 进而调用父类Proxy中的h的invoke()方法.即InvocationHandler.invoke()。
             if (isViewAttached()){ //如果V层没被销毁, 执行V层的方法.

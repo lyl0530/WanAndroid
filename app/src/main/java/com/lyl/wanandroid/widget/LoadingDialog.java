@@ -5,7 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 
 import com.lyl.wanandroid.R;
-import com.lyl.wanandroid.util.LogUtils;
+import com.lyl.wanandroid.utils.LogUtil;
 
 /**
  * Created by lym on 2020/4/3
@@ -25,7 +25,7 @@ public class LoadingDialog{
     }
     
     public void show(){
-        LogUtils.d(TAG, "show: mContext = " + mContext);
+        LogUtil.d(TAG, "show: mContext = " + mContext);
         mDialog = new Dialog(mContext, R.style.loadingDialog);
         mDialog.setContentView(R.layout.dialog_loading);
         mDialog.show();
@@ -36,7 +36,7 @@ public class LoadingDialog{
             mDialog.dismiss();
             mDialog = null;
         }
-        LogUtils.d(TAG, "mDialog: " + mDialog + ", mContext = " + mContext);
+        LogUtil.d(TAG, "mDialog: " + mDialog + ", mContext = " + mContext);
     }
 
     public boolean isShow(){

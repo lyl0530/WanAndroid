@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseActivity;
-import com.lyl.wanandroid.constant.Const;
+import com.lyl.wanandroid.utils.ConstUtil;
 
 public class WebActivity extends BaseActivity{
     private static final String TAG = WebActivity.class.getSimpleName();
@@ -40,7 +40,7 @@ public class WebActivity extends BaseActivity{
 
         Intent intent = getIntent();
         if (null != intent){
-            mUrl = intent.getStringExtra(Const.WEB_VIEW_URL);
+            mUrl = intent.getStringExtra(ConstUtil.WEB_VIEW_URL);
         }
         Log.d(TAG, "onCreate: url = " + mUrl);
         initView();

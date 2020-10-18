@@ -22,12 +22,12 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.bean.ProjectResult;
+import com.lyl.wanandroid.service.entity.ProjectResult;
 import com.lyl.wanandroid.listener.ScrollViewListener;
-import com.lyl.wanandroid.mvp.present.ProjectPresenter;
-import com.lyl.wanandroid.mvp.view.ProjectView;
-import com.lyl.wanandroid.util.Utils;
-import com.lyl.wanandroid.view.ProjectTitleScrollView;
+import com.lyl.wanandroid.service.present.ProjectPresenter;
+import com.lyl.wanandroid.service.view.ProjectView;
+import com.lyl.wanandroid.utils.PhoneUtil;
+import com.lyl.wanandroid.ui.view.ProjectTitleScrollView;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -172,7 +172,7 @@ public class FragmentProject extends BaseFragment implements ProjectView {
         if (null == list || 0 == list.size()) return;
         Log.d(TAG, "showHScrollTextView: list = " + list);
 
-        scrCx = Utils.getScreenW(mContext)/2;
+        scrCx = PhoneUtil.getScreenW(mContext)/2;
 //        Log.d(TAG, "initDate: scrCx = " + scrCx);
 //
 //        ArrayList<String> list = new ArrayList<>();
@@ -190,7 +190,7 @@ public class FragmentProject extends BaseFragment implements ProjectView {
 //        list.add("项目1");
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(Utils.dp2px(mContext,15),0,Utils.dp2px(mContext,15),0);//4个参数按顺序分别是左上右下
+        layoutParams.setMargins(PhoneUtil.dp2px(mContext,15),0, PhoneUtil.dp2px(mContext,15),0);//4个参数按顺序分别是左上右下
 
         for (int i = 0; i < list.size(); i++){
             TextView tv = new TextView(mContext);

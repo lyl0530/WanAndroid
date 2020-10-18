@@ -14,12 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
-import com.lyl.wanandroid.adapter.HierarchyFragmentPagerAdapter;
+import com.lyl.wanandroid.ui.adapter.HierarchyFragmentPagerAdapter;
 import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.bean.HotKeyResult;
-import com.lyl.wanandroid.mvp.present.HotKeyPresenter;
-import com.lyl.wanandroid.mvp.view.HotKeyView;
-import com.lyl.wanandroid.view.FlowLayout;
+import com.lyl.wanandroid.service.entity.HotKeyResult;
+import com.lyl.wanandroid.service.present.HotKeyPresenter;
+import com.lyl.wanandroid.service.view.HotKeyView;
+import com.lyl.wanandroid.ui.view.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;

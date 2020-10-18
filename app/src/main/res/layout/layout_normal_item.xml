@@ -14,7 +14,7 @@
         android:id="@+id/tv_item_title"
         tools:text="title"
         android:textSize="@dimen/normalTextSize"/>
-    <com.lyl.wanandroid.view.FlowLayout
+    <com.lyl.wanandroid.ui.view.FlowLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_below="@id/tv_item_title"

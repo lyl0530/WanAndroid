@@ -16,13 +16,13 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.bean.HierarchyResult;
-import com.lyl.wanandroid.constant.Const;
-import com.lyl.wanandroid.mvp.present.HierarchyPresenter;
-import com.lyl.wanandroid.mvp.view.HierarchyView;
+import com.lyl.wanandroid.service.entity.HierarchyResult;
+import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.service.present.HierarchyPresenter;
+import com.lyl.wanandroid.service.view.HierarchyView;
 import com.lyl.wanandroid.ui.activity.ArticleListActivity;
-import com.lyl.wanandroid.util.LogUtils;
-import com.lyl.wanandroid.view.FlowLayout;
+import com.lyl.wanandroid.utils.LogUtil;
+import com.lyl.wanandroid.ui.view.FlowLayout;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -76,7 +76,7 @@ public class FrgmHierarchy extends BaseFragment implements HierarchyView {
 
     @Override
     public void Failed(String msg) {
-        LogUtils.e(TAG, "loginFailed: " + msg);
+        LogUtil.e(TAG, "loginFailed: " + msg);
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -148,9 +148,9 @@ public class FrgmHierarchy extends BaseFragment implements HierarchyView {
                         //在新界面中展示文章列表
                         //传入当前itemList 和 点击的position 及其对应的url
                         Intent intent = new Intent(mActivity, ArticleListActivity.class);
-                        intent.putStringArrayListExtra(Const.ARTICLE_TITLE_LIST, itemList);
-                        intent.putIntegerArrayListExtra(Const.ARTICLE_CID_LIST, cidList);
-                        intent.putExtra(Const.ARTICLE_POSITION, position);
+                        intent.putStringArrayListExtra(ConstUtil.ARTICLE_TITLE_LIST, itemList);
+                        intent.putIntegerArrayListExtra(ConstUtil.ARTICLE_CID_LIST, cidList);
+                        intent.putExtra(ConstUtil.ARTICLE_POSITION, position);
                         startActivity(intent);
                     }
                 });
