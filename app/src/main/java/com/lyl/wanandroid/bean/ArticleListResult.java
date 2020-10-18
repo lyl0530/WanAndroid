@@ -2,6 +2,8 @@ package com.lyl.wanandroid.bean;
 
 import com.lyl.wanandroid.base.BaseResult;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -424,6 +426,7 @@ public class ArticleListResult extends BaseResult {
                 this.tags = tags;
             }
 
+            @NotNull
             @Override
             public String toString() {
                 return "DatasBean{" +
@@ -463,6 +466,7 @@ public class ArticleListResult extends BaseResult {
             }
         }
 
+        @NotNull
         @Override
         public String toString() {
             return "DataBean{" +
@@ -477,6 +481,7 @@ public class ArticleListResult extends BaseResult {
         }
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "ArticleListResult{" +

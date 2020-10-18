@@ -1,5 +1,7 @@
 package com.lyl.wanandroid.bean;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -331,6 +333,7 @@ public class ArticleBean {
             this.tags = tags;
         }
 
+        @NotNull
         @Override
         public String toString() {
             return "ArticleBean{" +

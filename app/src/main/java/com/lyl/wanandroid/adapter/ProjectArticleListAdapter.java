@@ -50,9 +50,9 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
-            mTvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
-            mTvTime = (TextView) itemView.findViewById(R.id.tv_time);
-            mTvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            mTvAuthor = itemView.findViewById(R.id.tv_author);
+            mTvTime = itemView.findViewById(R.id.tv_time);
+            mTvTitle = itemView.findViewById(R.id.tv_title);
 //            mTvSubTitle = (TextView) itemView.findViewById(R.id.sub_title);
 //            mImg = (ImageView) itemView.findViewById(R.id.project_img);
             ibtnCollect = itemView.findViewById(R.id.ibtn_collect);

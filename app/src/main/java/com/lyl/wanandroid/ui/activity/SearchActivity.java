@@ -1,7 +1,6 @@
 package com.lyl.wanandroid.ui.activity;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,9 +15,6 @@ import com.lyl.wanandroid.ui.fragment.FragmentHotKey;
 import com.lyl.wanandroid.ui.fragment.FragmentSearchResult;
 
 public class SearchActivity extends BaseActivity{
-    private static final String TAG = SearchActivity.class.getSimpleName();
-
-    private Context mContext;
 
     private FragmentManager mFragmentManager;
     private FragmentHotKey mFragmentHotKey;
@@ -28,7 +24,6 @@ public class SearchActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        mContext = this;
         initView();
 
         initData();
@@ -96,8 +91,4 @@ public class SearchActivity extends BaseActivity{
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

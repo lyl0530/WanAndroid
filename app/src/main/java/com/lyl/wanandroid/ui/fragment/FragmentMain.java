@@ -483,16 +483,6 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showProgressDialog() {
-        super.showProgressDialog();
-    }
-
-    @Override
-    public void hideProgressDialog() {
-        super.hideProgressDialog();
-    }
-
     private static class ViewHolder {
         ImageButton ibtnCollect;
         TextView tvTitle, tvAuthor, tvTime;
@@ -580,21 +570,17 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_BANNER:
-                    mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-                    mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
-                    break;
+            if (msg.what == MSG_BANNER) {
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+                mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
             }
         }
     };
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.avatar:
-                ((MainActivity) Objects.requireNonNull(getActivity())).clickMainAvatar();
-                break;
+        if (v.getId() == R.id.avatar) {
+            ((MainActivity) Objects.requireNonNull(getActivity())).clickMainAvatar();
         }
     }
 

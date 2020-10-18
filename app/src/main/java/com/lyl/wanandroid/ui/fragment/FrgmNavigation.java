@@ -108,7 +108,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder=null;
+            ViewHolder viewHolder;
 
             if (null == convertView){
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_normal_item, parent, false);

@@ -25,10 +25,6 @@ public class ProjectTitleScrollView extends HorizontalScrollView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public ScrollViewListener getListener() {
-        return mListener;
-    }
-
     public void setListener(ScrollViewListener l) {
         this.mListener = l;
     }

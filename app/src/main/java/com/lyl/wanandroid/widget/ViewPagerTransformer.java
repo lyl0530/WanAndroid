@@ -26,7 +26,6 @@ public class ViewPagerTransformer implements ViewPager.PageTransformer {
     public void transformPage(@NonNull View page, float position) {
         onPreTransform(page, position);
         onTransform(page, position);
-        onPostTransform(page, position);
     }
 
     private void onPreTransform(View page, float position) {
@@ -72,9 +71,6 @@ public class ViewPagerTransformer implements ViewPager.PageTransformer {
             view.setScaleX(scaleFactor);
             view.setScaleY(scaleFactor);
         }
-    }
-
-    private void onPostTransform(View page, float position) {
     }
 
 

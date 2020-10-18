@@ -49,7 +49,6 @@ public class FragmentSearchResult extends BaseFragment implements SearchView {
         mContext = getContext();
 
         initView();
-        initDate();
     }
 
     private void initView() {
@@ -61,10 +60,6 @@ public class FragmentSearchResult extends BaseFragment implements SearchView {
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(lm);
         mRv.addItemDecoration(new SpacesItemDecoration(20));
-    }
-
-    private void initDate() {
-
     }
 
     public void search(String key){

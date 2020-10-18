@@ -20,7 +20,7 @@ import com.lyl.wanandroid.R;
  * Describe :
  */
 public class CircleView extends View implements Runnable{
-    private Context mContext;
+    private final Context mContext;
 
     private int mResId;
     //最终显示的圆的半径
@@ -90,14 +90,14 @@ public class CircleView extends View implements Runnable{
         //matrix.postTranslate(x - w/2, y - h/2);
         matrix.postTranslate(x - oriW*scale/2f, y - oriH*scale/2f);//20200627
 
-        /**
-         平铺模式有三种：
-         Shader.TileMode.CLAMP：如果着色器超出原始边界范围，会复制边缘颜色。
-         Shader.TileMode.MIRROR：图像不停翻转来平铺，直到平铺完毕。
-         Shader.TileMode.REPEAT：横向和纵向的重复着色器的图像。
-         一般来说，当Canvas的宽度（高度）小于等于BitmapShader中Bitmap的宽度（高度），我们会使用Shader.TileMode.CLAMP模式，
-         否则我们会使用Shader.TileMode.MIRROR或者Shader.TileMode.REPEAT模式。
-         **/
+//        /**
+//         平铺模式有三种：
+//         Shader.TileMode.CLAMP：如果着色器超出原始边界范围，会复制边缘颜色。
+//         Shader.TileMode.MIRROR：图像不停翻转来平铺，直到平铺完毕。
+//         Shader.TileMode.REPEAT：横向和纵向的重复着色器的图像。
+//         一般来说，当Canvas的宽度（高度）小于等于BitmapShader中Bitmap的宽度（高度），我们会使用Shader.TileMode.CLAMP模式，
+//         否则我们会使用Shader.TileMode.MIRROR或者Shader.TileMode.REPEAT模式。
+//         **/
         BitmapShader shader = new BitmapShader(bp, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
         shader.setLocalMatrix(matrix);
         paint.setAntiAlias(true);

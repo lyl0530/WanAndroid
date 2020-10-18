@@ -25,11 +25,11 @@ public class RxPreference {
                 mContext.getSharedPreferences(Const.PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
 
-    /**
-     * @return 返回RxJava Observable，用于订阅SharedPreferences数据发生变化。
-     * 如果数据发生变化，订阅者将会收到变化的值。
-     * 如果SharedPreferences中没有<code>key<code/>，则返回<code>defaultValue<code/>
-     */
+//    /**
+//     * @return 返回RxJava Observable，用于订阅SharedPreferences数据发生变化。
+//     * 如果数据发生变化，订阅者将会收到变化的值。
+//     * 如果SharedPreferences中没有<code>key<code/>，则返回<code>defaultValue<code/>
+//     */
 //    public <T> Observable<T> observe(@NonNull final String key, @NonNull final TypeToken<T> typeTokenOfT,
 //                                     @NonNull final T defaultValue) {
 //

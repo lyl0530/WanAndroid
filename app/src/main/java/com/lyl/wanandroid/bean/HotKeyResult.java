@@ -2,6 +2,8 @@ package com.lyl.wanandroid.bean;
 
 import com.lyl.wanandroid.base.BaseResult;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -76,6 +78,7 @@ public class HotKeyResult extends BaseResult {
             this.visible = visible;
         }
 
+        @NotNull
         @Override
         public String toString() {
             return "DataBean{" +
@@ -88,6 +91,7 @@ public class HotKeyResult extends BaseResult {
         }
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "HotKeyResult{" +

@@ -105,7 +105,7 @@ public class ArticleListActivity extends BaseActivity {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int index = (int)((TextView)view).getTag();
+                    int index = (int) view.getTag();
                     mVp.setCurrentItem(index);
                     onItemClick(index);
                 }

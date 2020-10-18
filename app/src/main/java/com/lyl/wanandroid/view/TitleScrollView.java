@@ -11,10 +11,9 @@ import com.lyl.wanandroid.listener.ScrollViewListener;
  * Describe :
  */
 public class TitleScrollView extends HorizontalScrollView {
-    private static final String TAG = "TitleScrollView";
 
     private ScrollViewListener mListener;
-    private Context mContext;
+
     public TitleScrollView(Context context){
         this(context, null);
     }
@@ -24,7 +23,6 @@ public class TitleScrollView extends HorizontalScrollView {
 
     public TitleScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mContext = context;
     }
 
 

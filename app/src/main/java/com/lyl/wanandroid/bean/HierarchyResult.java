@@ -3,6 +3,8 @@ package com.lyl.wanandroid.bean;
 
 import com.lyl.wanandroid.base.BaseResult;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -194,6 +196,7 @@ public class HierarchyResult extends BaseResult implements Serializable {
                 this.children = children;
             }
 
+            @NotNull
             @Override
             public String toString() {
                 return "ChildrenBean{" +
@@ -209,6 +212,7 @@ public class HierarchyResult extends BaseResult implements Serializable {
             }
         }
 
+        @NotNull
         @Override
         public String toString() {
             return "DataBean{" +

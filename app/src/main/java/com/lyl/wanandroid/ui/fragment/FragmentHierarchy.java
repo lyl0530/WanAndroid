@@ -84,13 +84,10 @@ public class FragmentHierarchy extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.tv_hierarchy :
-                setPage(0);
-                break;
-            default:
-                setPage(1);
-                break;
+        if (v.getId() == R.id.tv_hierarchy) {
+            setPage(0);
+        } else {
+            setPage(1);
         }
     }
 }

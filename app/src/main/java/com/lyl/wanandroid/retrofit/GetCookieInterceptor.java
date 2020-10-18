@@ -56,8 +56,7 @@ public class GetCookieInterceptor implements Interceptor {
 //
 //            PreferenceConst.instance().setDomainName(cookie);
 
-            HashSet<String> newCookies = new HashSet<>();
-            newCookies.addAll(cookies);
+            HashSet<String> newCookies = new HashSet<>(cookies);
             Log.d("lyl123", "newCookies: " + newCookies);
             PreferenceConst.instance().setCookieSet(newCookies);
         }

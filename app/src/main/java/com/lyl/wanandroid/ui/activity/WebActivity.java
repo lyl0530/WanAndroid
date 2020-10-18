@@ -102,13 +102,13 @@ public class WebActivity extends BaseActivity{
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
 
-            /**
-             * 若没有设置 WebViewClient 则由系统（Activity Manager）处理该 url，通常是使用浏览器打开或弹出浏览器选择对话框。
-             * 若设置 WebViewClient 且该方法返回 true ，则说明由应用的代码处理该 url，WebView 不处理，也就是程序员自己做处理。
-             * 若设置 WebViewClient 且该方法返回 false，则说明由 WebView 处理该 url，即用 WebView 加载该 url。
-             *
-             * 链接：https://www.jianshu.com/p/3474cb8096da
-             */
+//            /**
+//             * 若没有设置 WebViewClient 则由系统（Activity Manager）处理该 url，通常是使用浏览器打开或弹出浏览器选择对话框。
+//             * 若设置 WebViewClient 且该方法返回 true ，则说明由应用的代码处理该 url，WebView 不处理，也就是程序员自己做处理。
+//             * 若设置 WebViewClient 且该方法返回 false，则说明由 WebView 处理该 url，即用 WebView 加载该 url。
+//             *
+//             * 链接：https://www.jianshu.com/p/3474cb8096da
+//             */
             if (null != request && null != request.getUrl()){
                 Log.d(TAG, "shouldOverrideUrlLoading: "+ request.getUrl());
                 String url = request.getUrl().toString();

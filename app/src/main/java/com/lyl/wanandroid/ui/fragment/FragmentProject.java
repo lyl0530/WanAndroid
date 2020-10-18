@@ -205,7 +205,7 @@ public class FragmentProject extends BaseFragment implements ProjectView {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int index = (int)((TextView)view).getTag();
+                    int index = (int) view.getTag();
                     mVp.setCurrentItem(index);
                     onItemClick(index);
                 }

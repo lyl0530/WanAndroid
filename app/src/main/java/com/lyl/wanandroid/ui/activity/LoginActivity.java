@@ -170,12 +170,6 @@ public class LoginActivity extends BaseActivity implements /*LoginView, */View.O
     }
 
     @Override
-    protected void onPause() {
-//        Log.d(TAG, "onPause: 32121 ");
-        super.onPause();
-    }
-
-    @Override
     protected void onDestroy() {
 //        Log.d(TAG, "onDestroy: 32121 ");
         //setResult(Const.RESULT_CODE_LOGIN);

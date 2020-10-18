@@ -2,6 +2,8 @@ package com.lyl.wanandroid.bean;
 
 import com.lyl.wanandroid.base.BaseResult;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -98,6 +100,7 @@ public class MainArticleResult extends BaseResult {
             this.datas = datas;
         }
 
+        @NotNull
         @Override
         public String toString() {
             return "DataBean{" +
@@ -106,6 +109,7 @@ public class MainArticleResult extends BaseResult {
         }
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "MainArticleResult{" +

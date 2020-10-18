@@ -3,6 +3,8 @@ package com.lyl.wanandroid.bean;
 
 import com.lyl.wanandroid.base.BaseResult;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class BannerResult extends BaseResult implements Serializable {
         this.data = data;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "BannerInfoResult{" +
@@ -114,6 +117,7 @@ public class BannerResult extends BaseResult implements Serializable {
             this.url = url;
         }
 
+        @NotNull
         @Override
         public String toString() {
             return "DataBean{" +
