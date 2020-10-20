@@ -93,7 +93,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     private RequestOptions requestOptions;
 
     private final int MSG_BANNER = 1;
-    private final int DELAY = 2 * 1000;
+    private final int DELAY = 4 * 1000;
 
     private ListView mListView;
     private static boolean sExecute = false;
@@ -346,7 +346,9 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         curImgCnt = oriImgCnt + 2;
         //2 获取Banner图片
         for (int i = 0; i < curImgCnt; i++) {
-            mImageViewList.add(new ImageView(mContext));
+            ImageView imageView = new ImageView(mContext);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mImageViewList.add(imageView);
             String imgPath;
             if (0 == i) {
                 imgPath = mImgPathList.get(oriImgCnt - 1);
