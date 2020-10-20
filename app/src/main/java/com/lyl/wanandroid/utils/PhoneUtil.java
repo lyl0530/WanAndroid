@@ -18,6 +18,13 @@ public class PhoneUtil {
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
+
+    public static int getScreenH(Context context){
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
+    }
     /**
     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
     */
