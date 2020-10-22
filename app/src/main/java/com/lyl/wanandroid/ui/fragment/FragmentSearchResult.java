@@ -19,8 +19,11 @@ import com.lyl.wanandroid.service.present.SearchPresenter;
 import com.lyl.wanandroid.service.view.SearchView;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
+import com.lyl.wanandroid.utils.PreferenceUtil;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lym on 2020/4/9
@@ -65,6 +68,17 @@ public class FragmentSearchResult extends BaseFragment implements SearchView {
     public void search(String key){
         if (isAdded() && null != mPresenter) {
             mPresenter.search(mCurPageIndex, key);
+
+            //https://blog.csdn.net/crazyman2010/article/details/51187817
+            //https://blog.csdn.net/x635981012/article/details/50373173
+            //存储搜索历史
+            Set<String> historySet = new HashSet<>(PreferenceUtil.instance().getSearchHistory());
+                //PreferenceUtil.instance().getSearchHistory()
+            if (!historySet.contains(key)){
+                historySet.add(key);
+                Log.d(TAG, "will write in :" + historySet.toString());
+                PreferenceUtil.instance().setSearchHistory(historySet);
+            }
         }
     }
 

@@ -90,4 +90,12 @@ public class PreferenceUtil {
         return mPreference.getStringSet(COOKIES, new HashSet<>());
     }
 
+    private static final String SEARCH_HISTORY = "SEARCH_HISTORY";
+    public void setSearchHistory(Set<String> set) {
+        mPreference.edit().putStringSet(SEARCH_HISTORY, set).apply();
+    }
+    public Set<String> getSearchHistory() {
+        return mPreference.getStringSet(SEARCH_HISTORY, new HashSet<>());
+    }
+
 }

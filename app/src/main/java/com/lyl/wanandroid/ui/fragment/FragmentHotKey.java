@@ -20,9 +20,11 @@ import com.lyl.wanandroid.service.entity.HotKeyResult;
 import com.lyl.wanandroid.service.present.HotKeyPresenter;
 import com.lyl.wanandroid.service.view.HotKeyView;
 import com.lyl.wanandroid.ui.view.FlowLayout;
+import com.lyl.wanandroid.utils.PreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lym on 2020/4/9
@@ -39,7 +41,7 @@ public class FragmentHotKey extends BaseFragment implements HotKeyView{
     private HotKeyPresenter mPresenter;
     private List<String> mHotKeyList = new ArrayList<>();
 
-    private FlowLayout mHotKeyLayout;
+    private FlowLayout mHotKeyLayout, mHistoryLayout;
     private TextView mTvHotKey, mTvHistory;
     private Context mContext;
     @Nullable
@@ -67,7 +69,7 @@ public class FragmentHotKey extends BaseFragment implements HotKeyView{
         mTvHotKey = mRootView.findViewById(R.id.tv_hot_key);
         mHotKeyLayout = mRootView.findViewById(R.id.fl_hot_key);
         mTvHistory = mRootView.findViewById(R.id.tv_search_history);
-
+        mHistoryLayout = mRootView.findViewById(R.id.fl_search_history);
     }
     private void initData() {
         mPresenter = new HotKeyPresenter();
@@ -78,6 +80,18 @@ public class FragmentHotKey extends BaseFragment implements HotKeyView{
             @Override
             public void clickItem(int position) {
                 String content = mHotKeyList.get(position);
+                if (null != mListener){
+                    mListener.onItemClick(content);
+                }
+            }
+        });
+
+        mHistoryLayout.setItemClickListener(new FlowLayout.ItemClickListener() {
+            @Override
+            public void clickItem(int position) {
+                Set<String> historySet = PreferenceUtil.instance().getSearchHistory();
+                List<String> historyList = new ArrayList<>(historySet);
+                String content = historyList.get(position);
                 if (null != mListener){
                     mListener.onItemClick(content);
                 }
@@ -114,7 +128,38 @@ public class FragmentHotKey extends BaseFragment implements HotKeyView{
         for (int i = 0; i <beanList .size(); i++){
             mHotKeyList.add(beanList.get(i).getName());
         }
-        mTvHotKey.setVisibility(View.VISIBLE);
-        mHotKeyLayout.addItem(mHotKeyList);
+        if (mHotKeyList.isEmpty()) {
+            mTvHotKey.setVisibility(View.INVISIBLE);
+        } else {
+            mTvHotKey.setVisibility(View.VISIBLE);
+            mHotKeyLayout.addItem(mHotKeyList);
+        }
+        showHistory();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showHistory();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            showHistory();
+        }
+    }
+
+    private void showHistory(){
+        //显示搜索历史
+        Set<String> historySet = PreferenceUtil.instance().getSearchHistory();
+        if (!historySet.isEmpty() && View.VISIBLE == mTvHotKey.getVisibility()){
+            List<String> historyList = new ArrayList<>(historySet);
+            mHistoryLayout.addItem(historyList);
+            mTvHistory.setVisibility(View.VISIBLE);
+        } else {
+            mTvHistory.setVisibility(View.INVISIBLE);
+        }
     }
 }
