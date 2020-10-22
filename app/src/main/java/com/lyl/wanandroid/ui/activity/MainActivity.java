@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseActivity;
+import com.lyl.wanandroid.ui.fragment.FragmentHome;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.ui.fragment.FragmentMain;
 import com.lyl.wanandroid.ui.fragment.FrgmHierarchy;
@@ -99,7 +100,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         fm = new Fragment();
                         break;
                     default:
-                        fm = new FragmentMain();
+                        fm = new FragmentHome();//FragmentMain();
                         break;
                 }
                 return fm;

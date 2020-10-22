@@ -35,7 +35,8 @@ public abstract class BasePresenter<V extends BaseView> {
         MvpViewHandler h = new MvpViewHandler(view);
         //使用代理模式，防止控制指针异常
         //Proxy（库类）中的newProxyInstance方法被调用，该方法返回一个被代理对象的实例:代理view，然后向上转型为其对应的接口
-        mProxyView = (V) Proxy.newProxyInstance(view.getClass().getClassLoader(), view.getClass().getInterfaces(), h);
+        mProxyView = (V) Proxy.newProxyInstance(view.getClass().getClassLoader(),
+                view.getClass().getInterfaces(), h);
 
 //        //这里可以通过运行结果证明mProxyView是Proxy的一个实例，这个实例实现了V的接口
 //        Log.d(TAG, "mProxyView instanceof Proxy: " + (mProxyView instanceof Proxy));

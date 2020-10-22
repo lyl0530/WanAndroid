@@ -35,4 +35,8 @@ public class ConstUtil {
     public static final String ARTICLE_TITLE_LIST = "article_title_list";
     public static final String ARTICLE_CID_LIST= "article_cid_list";
     public static final String ARTICLE_POSITION = "article_position";
+
+
+    public static final int TYPE_BANNER = 1003;
+    public static final int TYPE_ARTICLE = 1004;
 }
