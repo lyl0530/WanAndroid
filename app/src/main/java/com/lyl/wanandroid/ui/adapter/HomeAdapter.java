@@ -143,6 +143,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if (viewHolder instanceof  BannerHolder){
             bindBannerHolder((BannerHolder)viewHolder, position);
+            Log.d(TAG, "onBindViewHolder: 111");
         } else if (viewHolder instanceof ArticleHolder){
             bindArticleHolder((ArticleHolder)viewHolder, position);
         }
@@ -158,7 +159,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return position == 0 ? ConstUtil.TYPE_BANNER : ConstUtil.TYPE_ARTICLE;
     }
 
+    private ViewPager mViewPager;
     private void bindBannerHolder(BannerHolder holder, int position){
+        mViewPager = holder.vpBanner;
         mPagerAdapter = new MyPagerAdapter(holder.vpBanner);
         holder.vpBanner.setAdapter(mPagerAdapter);
         holder.vpBanner.setCurrentItem(1);
@@ -169,7 +172,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.tvTitle.setText(mTitleList.get(position));
         holder.tvNumber.setText((position + 1) + "/" + oriImgCnt);
 
-        mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
+
         holder.vpBanner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -214,8 +217,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         break;
                     case ViewPager.SCROLL_STATE_DRAGGING:
 //                    LogUtils.i(TAG, "---->onPageScrollStateChanged 点击、滑屏");
-//                    mHandler.removeCallbacksAndMessages(null);
-//                    mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
+                        mHandler.removeCallbacksAndMessages(null);
+                        mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
                         //https://blog.csdn.net/oweixiao123/article/details/23459041
                         //图     D A B C D A
                         //index  0 1 2 3 4 5
@@ -431,13 +434,22 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mListener = l;
     }
 
+    public void restartHandler(boolean reset){
+        mHandler.removeCallbacksAndMessages(null);
+        if (null != mViewPager){
+            mViewPager.setCurrentItem(1);
+        }
+        if (reset) {
+            mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
+        }
+    }
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == MSG_BANNER) {
-                //mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+            if (msg.what == MSG_BANNER && null != mViewPager) {
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
                 mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
             }
         }

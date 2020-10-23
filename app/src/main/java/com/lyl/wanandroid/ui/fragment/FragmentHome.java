@@ -77,22 +77,10 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
     private AppBarLayout mTitleBar;
     private /*ImageView*/ CircleView mAvatar;
 
-//    private ViewPager mViewPager;
-//    private MyAdapter mAdapter;
-//    private BannerFragmentPagerAdapter mAdapter;
-
-    private List<Integer> mImages = new ArrayList<>();//图片对应的id
-    private List<ImageView> mImageViewList = new ArrayList<>();//图片视图
-    private List<String> mImgPathList = new ArrayList<>();//真正的path
-    private List<String> mUrlList = new ArrayList<>();//点击之后的跳转地址
-    private List<String> mTitleList = new ArrayList<>();//对应的标题
-
-    private TextView mBannerTitle, mBannerNumber;
-
     private MainPresenter mPresenter;
 
-
-
+    private RecyclerView mRv;
+    private HomeAdapter mHomeAdapter;
 
 
     private ListView mListView;
@@ -108,8 +96,6 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         mContext = getContext();
 
         initView();
-//        initData();
-
         EventBus.getDefault().register(this);//这句话要放在初始化组件(findViewById)之后，不然页面接收不到参数
 
         mPresenter = new MainPresenter();
@@ -124,18 +110,11 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         getMainInfo();
     }
 
-//    private ArticleAdapter mArticleAdapter;
-
-
-    private RecyclerView mRv;
-    private HomeAdapter mHomeAdapter;
-
     private void initView() {
         //titleBar
         mTitleBar = mView.findViewById(R.id.title_bar);
         mAvatar = mTitleBar.findViewById(R.id.avatar);
         mAvatar.setOnClickListener(this);
-        //new Thread(mAvatar).start();
 
         mTitleBar.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,28 +128,7 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(manager);
         mRv.addItemDecoration(new SpacesItemDecoration(20));
-
-//
-//        mViewPager = mView.findViewById(R.id.vp_banner);
-//        mBannerTitle = mView.findViewById(R.id.tv_banner_title);
-//        mBannerNumber = mView.findViewById(R.id.tv_banner_number);
-//
-//        mListView = mView.findViewById(R.id.lv_top_article);
-//        mListView.setVerticalScrollBarEnabled(false);
-//        mListView.getLayoutParams().height =
-//                PhoneUtil.getScreenH(mContext);// -  PhoneUtil.dp2px(mContext, 450);
-//        mArticleAdapter = new ArticleAdapter();
-//        mListView.setAdapter(mArticleAdapter);
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                PhoneUtil.openInWebView(mContext, dataList.get(position).getLink());
-//            }
-//        });
     }
-
-
-
 
     private void getMainInfo(){
         if (null == mPresenter) return;
@@ -188,10 +146,8 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         Log.d(TAG, "111234 setUserVisibleHint: " + isVisibleToUser);
-        if (!isVisibleToUser){//main fragment 不可见时，停止轮播图
-//            mHandler.removeCallbacksAndMessages(null);
-        } else {
-//            mHandler.sendEmptyMessageDelayed(MSG_BANNER, DELAY);
+        if (null != mHomeAdapter){
+            mHomeAdapter.restartHandler(isVisibleToUser);//main fragment 不可见时，停止轮播图
         }
     }
 
@@ -207,10 +163,22 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: loginRefresh = " + refreshMain);
+        if (null != mHomeAdapter){
+            mHomeAdapter.restartHandler(true);
+        }
+
         if (refreshMain) {
             getMainInfo();
 //            mArticleAdapter.notifyDataSetChanged();
             refreshMain = false;
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (null != mHomeAdapter){
+            mHomeAdapter.restartHandler(false);
         }
     }
 
@@ -247,11 +215,12 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
     public void getBannerSuccess(BannerResult res) {
 //        LogUtils.d(TAG, "banner Success: " + res);
         if (null == res || null == res.getData()) return;
-//        mHandler.removeCallbacksAndMessages(null);
+
         mResList.clear();
         mResList.add(new HomeBean(ConstUtil.TYPE_BANNER, res.getData()));
 
         mHomeAdapter = new HomeAdapter(mContext, mResList, topArticleCnt);
+        mHomeAdapter.restartHandler(true);
         mHomeAdapter.setOnItemCollectListener(new HomeAdapter.OnItemCollectListener() {
             @Override
             public void onItemCollect(int articleId, int position, boolean isCollect) {
@@ -264,8 +233,6 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
             }
         });
         mRv.setAdapter(mHomeAdapter);
-
-
     }
 
     @Override
@@ -284,9 +251,6 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         }
         topArticleCnt = dataList.size();
         mHomeAdapter.notifyDataSetChanged();
-//
-//        LogUtil.d(TAG, "top_article Success, data size = topArticleCnt =" + dataList.size());
-//        mArticleAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -299,21 +263,13 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
 //        LogUtils.d(TAG, "main article Success: " + res);
         if (null == res || null == res.getData()) return;
 
-//        dataList.addAll(res.getData().getDatas());
         dataList = res.getData().getDatas();
         for (int i = 0; i < dataList.size(); i++) {
             mResList.add(new HomeBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
         }
         mHomeAdapter.notifyDataSetChanged();
 
-//        curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
-//
-//
-//        LogUtil.d(TAG, "main_article Success, data size = " + res.getData().getDatas().size() +
-//                ", dataList size = " + dataList.size());
-
-//        mAdapter.notifyDataSetChanged();
-
+        curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
     }
 
     @Override
@@ -382,26 +338,12 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
     }
 
-    private static class ViewHolder {
-        ImageButton ibtnCollect;
-        TextView tvTitle, tvAuthor, tvTime;
-        ImageView imgNew, imgTop;
-    }
-
-
-
-
-
-
-
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.avatar) {
             ((MainActivity) Objects.requireNonNull(getActivity())).clickMainAvatar();
         }
     }
-
 
     @Override
     public void onDestroyView() {
@@ -411,11 +353,12 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
 
     @Override
     public void onDestroy() {
+        if (null != mHomeAdapter){
+            mHomeAdapter.restartHandler(false);
+        }
         if (null != mPresenter) {
             mPresenter.detach();
         }
-//        mHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
-
 }
