@@ -2,10 +2,13 @@ package com.lyl.wanandroid.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.ui.activity.WebActivity;
 
 
@@ -44,9 +47,17 @@ public class PhoneUtil {
     /**
      * WebView打开url
      */
+    public static void openInWebView(Context context, ArticleBean bean){
+        if (null == bean) return;
+        openInWebView(context, bean.getLink());
+    }
 
     public static void openInWebView(Context context, String url){
         Log.d(TAG, "onItemClicked: url = " + url);
+        if (TextUtils.isEmpty(url)) {
+            Toast.makeText(context, "url is empty!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra(ConstUtil.WEB_VIEW_URL, url);
         context.startActivity(intent);

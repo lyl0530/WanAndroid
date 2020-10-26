@@ -195,7 +195,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                     public void onItemClicked(View view, int position) {
                         ArticleBean bean = dataList.get(position);
                         if (null != bean){
-                            PhoneUtil.openInWebView(mContext, bean.getLink());
+                            PhoneUtil.openInWebView(mContext, bean);
                         }
                     }
                 });

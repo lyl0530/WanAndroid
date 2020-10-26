@@ -250,8 +250,8 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         });
         mHomeAdapter.setOnArticleItemListener(new HomeAdapter.OnArticleItemListener() {
             @Override
-            public void onItemClick(String url) {
-                PhoneUtil.openInWebView(mContext, url);
+            public void onItemClick(ArticleBean bean) {
+                PhoneUtil.openInWebView(mContext, bean);
             }
         });
         mRv.setAdapter(mHomeAdapter);

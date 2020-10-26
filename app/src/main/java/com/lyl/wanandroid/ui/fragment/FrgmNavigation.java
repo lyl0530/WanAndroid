@@ -140,7 +140,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
                     public void clickItem(int index) {
                         Log.d(TAG, "clickItem: index = " + index);
                         //在webView中打开url
-                        PhoneUtil.openInWebView(mContext, urlList.get(index));
+                        PhoneUtil.openInWebView(mContext, list.get(index));
                     }
                 });
             }

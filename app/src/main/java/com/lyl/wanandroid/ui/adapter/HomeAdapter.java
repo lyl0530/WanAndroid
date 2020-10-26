@@ -158,6 +158,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private ViewPager mViewPager;
+    @SuppressLint("SetTextI18n")
     private void bindBannerHolder(BannerHolder holder, int position){
         mViewPager = holder.vpBanner;
         mPagerAdapter = new MyPagerAdapter(holder.vpBanner);
@@ -284,7 +285,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 if (null != mArticleItemListener) {
-                    mArticleItemListener.onItemClick(bean.getLink());
+                    mArticleItemListener.onItemClick(bean);
                 }
             }
         });
@@ -410,7 +411,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      * 文章 点击item的对外接口
      */
     public interface OnArticleItemListener{
-        void onItemClick(String url);
+        void onItemClick(ArticleBean bean);
     }
     private OnArticleItemListener mArticleItemListener;
     public void setOnArticleItemListener(OnArticleItemListener l){

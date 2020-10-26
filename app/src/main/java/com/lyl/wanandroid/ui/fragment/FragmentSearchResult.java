@@ -106,7 +106,7 @@ public class FragmentSearchResult extends BaseFragment implements SearchView {
                 public void onItemClicked(View view, int position) {
                     ArticleBean bean = dataList.get(position);
                     if (null != bean){
-                        PhoneUtil.openInWebView(mContext, bean.getLink());
+                        PhoneUtil.openInWebView(mContext, bean);
                     }
                 }
             });
