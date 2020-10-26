@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.ui.adapter.ProjectArticleListAdapter;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
@@ -93,7 +94,7 @@ public class FragmentSearchResult extends BaseFragment implements SearchView {
     public void Success(ProjectArticleListResult res) {
 //        Log.e(TAG, "Success: res = " + res);
         if (null != res && null != res.getData() && null != res.getData().getDatas()){
-            List<ProjectArticleListResult.DataBean.DatasBean> dataList = res.getData().getDatas();
+            List<ArticleBean> dataList = res.getData().getDatas();
             Log.d(TAG, "dataList = " + dataList);
             if (null == dataList){
                 //没有符合的内容
@@ -103,7 +104,7 @@ public class FragmentSearchResult extends BaseFragment implements SearchView {
             mAdapter.setOnItemClickListener(new ProjectArticleListAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClicked(View view, int position) {
-                    ProjectArticleListResult.DataBean.DatasBean bean = dataList.get(position);
+                    ArticleBean bean = dataList.get(position);
                     if (null != bean){
                         PhoneUtil.openInWebView(mContext, bean.getLink());
                     }

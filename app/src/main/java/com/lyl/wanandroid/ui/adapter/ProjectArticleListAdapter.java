@@ -13,12 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
-import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
+import com.lyl.wanandroid.service.entity.ArticleBean;
 
 import org.apache.commons.text.StringEscapeUtils;
 
@@ -33,7 +32,7 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
     private static final String TAG = "pal adapter";
 
     private Context mContext;
-    private ArrayList<ProjectArticleListResult.DataBean.DatasBean> mList;
+    private ArrayList<ArticleBean> mList;
     private RequestOptions requestOptions;
 
     private OnItemClickListener mOnItemClickListener;
@@ -75,10 +74,10 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
         }
     }
 
-    public ProjectArticleListAdapter(Context context, List<ProjectArticleListResult.DataBean.DatasBean> list) {
+    public ProjectArticleListAdapter(Context context, List<ArticleBean> list) {
         mContext = context;
         Log.d(TAG, "ProjectArticleListAdapter: list = "+ list.size());
-        this.mList = (ArrayList<ProjectArticleListResult.DataBean.DatasBean>)list;
+        this.mList = (ArrayList<ArticleBean>)list;
         Log.d(TAG, "ProjectArticleListAdapter: mList = " + mList.size());
 
         //https://blog.csdn.net/qq_19269585/article/details/80968147

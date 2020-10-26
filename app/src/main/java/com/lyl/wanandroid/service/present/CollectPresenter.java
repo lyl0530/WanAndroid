@@ -3,12 +3,7 @@ package com.lyl.wanandroid.service.present;
 import com.lyl.wanandroid.base.BasePresenter;
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.listener.RequestListener;
-import com.lyl.wanandroid.service.entity.BannerResult;
-import com.lyl.wanandroid.service.entity.MainArticleResult;
-import com.lyl.wanandroid.service.entity.TopArticleResult;
 import com.lyl.wanandroid.service.view.CollectView;
-import com.lyl.wanandroid.service.view.MainView;
-import com.lyl.wanandroid.utils.LogUtil;
 
 /**
  * Created by lym on 2020/5/6

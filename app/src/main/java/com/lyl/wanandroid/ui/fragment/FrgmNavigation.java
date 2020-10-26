@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
+import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.entity.NavigationResult;
 import com.lyl.wanandroid.service.present.NavigationPresenter;
 import com.lyl.wanandroid.service.view.NavigationView;
@@ -89,7 +90,6 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
         mListView.setDivider(null);
     }
 
-
     private class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
@@ -122,12 +122,12 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
             viewHolder.mLayoutContent = convertView.findViewById(R.id.layout_item_content);
 
             NavigationResult.DataBean data = mDataList.get(position);
-            List<NavigationResult.DataBean.ArticlesBean> list = data.getArticles();
+            List<ArticleBean> list = data.getArticles();
 
             ArrayList<String> itemList = new ArrayList<>();
             ArrayList<String> urlList = new ArrayList<>();
 
-            for (NavigationResult.DataBean.ArticlesBean bean : list){
+            for (ArticleBean bean : list){
                 itemList.add(StringEscapeUtils.unescapeHtml4(bean.getTitle()));
                 urlList.add(bean.getLink());
             }

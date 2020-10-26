@@ -1,6 +1,5 @@
 package com.lyl.wanandroid.service.view;
 
-import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.base.BaseView;
 import com.lyl.wanandroid.service.entity.BannerResult;
 import com.lyl.wanandroid.service.entity.MainArticleResult;

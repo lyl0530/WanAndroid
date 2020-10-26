@@ -18,7 +18,6 @@ import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.ArticleBean;
-import com.lyl.wanandroid.service.entity.HomeBean;
 import com.lyl.wanandroid.service.present.CollectPresenter;
 import com.lyl.wanandroid.service.view.CollectView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
@@ -61,7 +60,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     private CollectPresenter mCollectPresenter;
     private RecyclerView mRv;
     private ProjectArticleListAdapter mAdapter;
-    private List<ProjectArticleListResult.DataBean.DatasBean> dataList = new ArrayList<>();
+    private List<ArticleBean> dataList = new ArrayList<>();
 
     private SmartRefreshLayout mRefreshLayout;
 
@@ -170,7 +169,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 mRefreshLayout.finishLoadMoreWithNoMoreData();
             }
 
-            List<ProjectArticleListResult.DataBean.DatasBean> tempList =
+            List<ArticleBean> tempList =
                 res.getData().getDatas();
             if (loadMore){
                 loadMore = false;
@@ -194,7 +193,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 mAdapter.setOnItemClickListener(new ProjectArticleListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClicked(View view, int position) {
-                        ProjectArticleListResult.DataBean.DatasBean bean = dataList.get(position);
+                        ArticleBean bean = dataList.get(position);
                         if (null != bean){
                             PhoneUtil.openInWebView(mContext, bean.getLink());
                         }
@@ -212,7 +211,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
         if (articleId > 0 ){
             //从list中获取当前是否为true，不为true的时候再调用collect方法
             for(int i = 0; i < dataList.size(); i++){//从第0个开始
-                ProjectArticleListResult.DataBean.DatasBean d = dataList.get(i);
+                ArticleBean d = dataList.get(i);
                 if(null !=  d && articleId == d.getId()){
                     Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
                     if(!d.isCollect()) {
@@ -229,7 +228,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     @Override
     public void collectArticleSuccess(BaseResult res, int position) {
         Log.d(TAG, "collectArticleSuccess: " + res);
-        ProjectArticleListResult.DataBean.DatasBean bean = dataList.get(position);
+        ArticleBean bean = dataList.get(position);
         bean.setCollect(true);
         dataList.set(position, bean);
         mAdapter.notifyDataSetChanged();
@@ -258,7 +257,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     @Override
     public void unCollectArticleSuccess(BaseResult res, int position) {
         Log.d(TAG, "unCollectArticleSuccess: " + res);
-        ProjectArticleListResult.DataBean.DatasBean bean = dataList.get(position);
+        ArticleBean bean = dataList.get(position);
         bean.setCollect(false);
         dataList.set(position, bean);
         mAdapter.notifyDataSetChanged();

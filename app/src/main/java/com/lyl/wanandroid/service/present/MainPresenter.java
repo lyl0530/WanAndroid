@@ -1,7 +1,6 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
-import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.BannerResult;
 import com.lyl.wanandroid.service.entity.MainArticleResult;
 import com.lyl.wanandroid.service.entity.TopArticleResult;

@@ -25,7 +25,6 @@ import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseActivity;
 import com.lyl.wanandroid.ui.fragment.FragmentHome;
 import com.lyl.wanandroid.utils.PreferenceUtil;
-import com.lyl.wanandroid.ui.fragment.FragmentMain;
 import com.lyl.wanandroid.ui.fragment.FrgmHierarchy;
 import com.lyl.wanandroid.ui.fragment.FrgmNavigation;
 import com.lyl.wanandroid.utils.LogUtil;
