@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.entity.HomeBean;
@@ -204,7 +205,26 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 mRefreshLayout.finishRefresh();
             }
         }
+
     }
+    private int articleId;//用于收藏和取消收藏
+    private void collectArticleAfterLogin(){
+        if (articleId > 0 ){
+            //从list中获取当前是否为true，不为true的时候再调用collect方法
+            for(int i = 0; i < dataList.size(); i++){//从第0个开始
+                ProjectArticleListResult.DataBean.DatasBean d = dataList.get(i);
+                if(null !=  d && articleId == d.getId()){
+                    Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
+                    if(!d.isCollect()) {
+                        Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
+                        mCollectPresenter.collectArticle(articleId, i);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
 
     @Override
     public void collectArticleSuccess(BaseResult res, int position) {
@@ -250,6 +270,21 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
         Log.e(TAG, "collectArticleFailed: " + msg);
         Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: 20200729 = " + requestCode + ", " + resultCode);
+        if (ConstUtil.REQUEST_CODE_LOGIN == requestCode && ConstUtil.RESULT_CODE_LOGIN == resultCode){
+            articleId = data.getIntExtra(ConstUtil.ARTICLE_ID, -1);
+            Log.d(TAG, "onActivityResult: articleId = " + articleId);
+            //退出登录也会刷新首页
+            if (BaseApplication.isLogin()) {
+                collectArticleAfterLogin();
+            }
+        }
+    }
+
     @Override
     public void onDestroy() {
         if (null != mPresenter){
