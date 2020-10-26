@@ -120,24 +120,30 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: 20200729: " + pos);
-                Toast.makeText(mContext, "点击了"+pos, Toast.LENGTH_SHORT).show();
-//                if (bean.isCollect()){//取消收藏
-//                    if (null != mPresenter){
-//                        mPresenter.unCollectArticle(bean.getId(), position);
-//                    }
-//                } else { //收藏
-//                    mPresenter.collectArticle(bean.getId(), position);
-//                }
+//                Toast.makeText(mContext, "点击了"+pos, Toast.LENGTH_SHORT).show();
+                if (null != mListener){
+                    mListener.onItemCollect(mList.get(pos).getId(), pos, mList.get(pos).isCollect());
+                }
             }
         });
         viewHolder.imgNew.setVisibility(View.GONE);
         viewHolder.imgTop.setVisibility(View.GONE);
-
     }
 
     @Override
     public int getItemCount() {
         Log.d(TAG, "getItemCount: mList.size() = " + mList.size());
         return mList.size();
+    }
+
+    /**
+     * 收藏和取消收藏 点击item的对外接口
+     */
+    public interface OnItemCollectListener{
+        void onItemCollect(int articleId, int position, boolean isCollect);
+    }
+    private HomeAdapter.OnItemCollectListener mListener;
+    public void setOnItemCollectListener(HomeAdapter.OnItemCollectListener l){
+        mListener = l;
     }
 }

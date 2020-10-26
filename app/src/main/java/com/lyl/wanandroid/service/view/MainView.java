@@ -24,8 +24,8 @@ public interface MainView extends BaseView {
     //三个接口 调用完毕
     void Finish();
 
-    void collectArticleSuccess(BaseResult res, int position);
-    void collectArticleFailed(String msg);
-    void unCollectArticleSuccess(BaseResult res, int position);
-    void unCollectArticleFailed(String msg);
+//    void collectArticleSuccess(BaseResult res, int position);
+//    void collectArticleFailed(String msg);
+//    void unCollectArticleSuccess(BaseResult res, int position);
+//    void unCollectArticleFailed(String msg);
 }

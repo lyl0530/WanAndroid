@@ -25,7 +25,9 @@ import com.lyl.wanandroid.service.entity.BannerResult;
 import com.lyl.wanandroid.service.entity.HomeBean;
 import com.lyl.wanandroid.service.entity.MainArticleResult;
 import com.lyl.wanandroid.service.entity.TopArticleResult;
+import com.lyl.wanandroid.service.present.CollectPresenter;
 import com.lyl.wanandroid.service.present.MainPresenter;
+import com.lyl.wanandroid.service.view.CollectView;
 import com.lyl.wanandroid.service.view.MainView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.ui.activity.MainActivity;
@@ -57,7 +59,7 @@ import java.util.Objects;
  * Describe : 主页
  *
  */
-public class FragmentHome extends BaseFragment implements MainView, View.OnClickListener {
+public class FragmentHome extends BaseFragment implements MainView, CollectView, View.OnClickListener {
     private static final String TAG = FragmentHome.class.getSimpleName();
 
     private View mView;
@@ -70,6 +72,7 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
     private SmartRefreshLayout mRefreshLayout;
 
     private MainPresenter mPresenter;
+    private CollectPresenter mCollectPresenter;
     private RecyclerView mRv;
     private HomeAdapter mHomeAdapter;
     private List<HomeBean> mResList = new ArrayList<>();
@@ -91,7 +94,8 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
 
         mPresenter = new MainPresenter();
         mPresenter.attach(this);
-
+        mCollectPresenter = new CollectPresenter();
+        mCollectPresenter.attach(this);
         return mView;
     }
 
@@ -238,9 +242,9 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
             public void onItemCollect(int articleId, int position, boolean isCollect) {
                 if (null == mPresenter) return;
                 if (isCollect){//取消收藏
-                    mPresenter.unCollectArticle(articleId, position);
+                    mCollectPresenter.unCollectArticle(articleId, position);
                 } else { //收藏
-                    mPresenter.collectArticle(articleId, position);
+                    mCollectPresenter.collectArticle(articleId, position);
                 }
             }
         });
@@ -343,7 +347,7 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
                     Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
                     if(!d.isCollect()) {
                         Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
-                        mPresenter.collectArticle(articleId, i);
+                        mCollectPresenter.collectArticle(articleId, i);
                     }
                     break;
                 }
@@ -416,6 +420,11 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         }
         if (null != mPresenter) {
             mPresenter.detach();
+            mPresenter = null;
+        }
+        if (null != mCollectPresenter){
+            mCollectPresenter.detach();
+            mCollectPresenter = null;
         }
         super.onDestroy();
     }

@@ -1,11 +1,13 @@
 package com.lyl.wanandroid.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +15,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
+import com.lyl.wanandroid.base.BaseResult;
+import com.lyl.wanandroid.service.entity.ArticleBean;
+import com.lyl.wanandroid.service.entity.HomeBean;
+import com.lyl.wanandroid.service.present.CollectPresenter;
+import com.lyl.wanandroid.service.view.CollectView;
+import com.lyl.wanandroid.ui.activity.LoginActivity;
+import com.lyl.wanandroid.ui.adapter.HomeAdapter;
 import com.lyl.wanandroid.ui.adapter.ProjectArticleListAdapter;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
 import com.lyl.wanandroid.service.present.ProjectArticleListPresenter;
 import com.lyl.wanandroid.service.view.ProjectArticleListView;
+import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -34,7 +44,7 @@ import java.util.List;
  * Created by lym on 2020/4/9
  * Describe :
  */
-public class FragmentProjectArticleList extends BaseFragment implements ProjectArticleListView {
+public class FragmentProjectArticleList extends BaseFragment implements ProjectArticleListView, CollectView {
     private static final String TAG = "fpal lyl12345";
     private Context mContext;
     private View mRootView;
@@ -47,6 +57,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     private boolean loadMore = false;//是否可以加载更多
 
     private ProjectArticleListPresenter mPresenter;
+    private CollectPresenter mCollectPresenter;
     private RecyclerView mRv;
     private ProjectArticleListAdapter mAdapter;
     private List<ProjectArticleListResult.DataBean.DatasBean> dataList = new ArrayList<>();
@@ -129,6 +140,9 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
         mPresenter.attach(this);
         Log.d(TAG, "initDate: curPageId = " + curPageId + ", cId =" + cId);
         mPresenter.getProjectArticleList(curPageId, cId);
+
+        mCollectPresenter = new CollectPresenter();
+        mCollectPresenter.attach(this);
     }
 
     @Override
@@ -164,6 +178,18 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
             } else {
                 dataList = tempList;
                 mAdapter = new ProjectArticleListAdapter(mContext, dataList);
+                mAdapter.setOnItemCollectListener(new HomeAdapter.OnItemCollectListener() {
+                    @Override
+                    public void onItemCollect(int articleId, int position, boolean isCollect) {
+                        if (isCollect){//取消收藏
+                            if (null != mPresenter){
+                                mCollectPresenter.unCollectArticle(articleId, position);
+                            }
+                        } else { //收藏
+                            mCollectPresenter.collectArticle(articleId, position);
+                        }
+                    }
+                });
                 mAdapter.setOnItemClickListener(new ProjectArticleListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClicked(View view, int position) {
@@ -178,5 +204,62 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 mRefreshLayout.finishRefresh();
             }
         }
+    }
+
+    @Override
+    public void collectArticleSuccess(BaseResult res, int position) {
+        Log.d(TAG, "collectArticleSuccess: " + res);
+        ProjectArticleListResult.DataBean.DatasBean bean = dataList.get(position);
+        bean.setCollect(true);
+        dataList.set(position, bean);
+        mAdapter.notifyDataSetChanged();
+        Toast.makeText(mContext, "收藏成功！", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void collectArticleFailed(String msg) {
+        Log.e(TAG, "collectArticleFailed: 20200729 " + msg);
+        if (!TextUtils.isEmpty(msg) && msg.startsWith(ConstUtil.LOGIN_MSG)){
+            try {
+                int articleId = Integer.parseInt(msg.substring(ConstUtil.LOGIN_MSG.length()));
+                Log.d(TAG, "collectArticleFailed: 20200729 = " + articleId);
+                Intent intent = new Intent(mContext, LoginActivity.class);
+                intent.putExtra(ConstUtil.ARTICLE_ID, articleId);
+                startActivityForResult(intent, ConstUtil.REQUEST_CODE_LOGIN);
+            } catch (NumberFormatException e){
+                Log.e(TAG, "collectArticleFailed: articleId获取失败");
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(mContext, "收藏失败：" + msg, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void unCollectArticleSuccess(BaseResult res, int position) {
+        Log.d(TAG, "unCollectArticleSuccess: " + res);
+        ProjectArticleListResult.DataBean.DatasBean bean = dataList.get(position);
+        bean.setCollect(false);
+        dataList.set(position, bean);
+        mAdapter.notifyDataSetChanged();
+        Toast.makeText(mContext, "取消收藏成功！", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void unCollectArticleFailed(String msg) {
+        Log.e(TAG, "collectArticleFailed: " + msg);
+        Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void onDestroy() {
+        if (null != mPresenter){
+            mPresenter.detach();
+            mPresenter = null;
+        }
+        if (null != mCollectPresenter){
+            mCollectPresenter.detach();
+            mCollectPresenter = null;
+        }
+        super.onDestroy();
     }
 }

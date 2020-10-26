@@ -212,10 +212,10 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                     Log.d(TAG, "onClick: 20200729: " + bean.getId());
                     if (bean.isCollect()){//取消收藏
                         if (null != mPresenter){
-                            mPresenter.unCollectArticle(bean.getId(), position);
+//                            mPresenter.unCollectArticle(bean.getId(), position);
                         }
                     } else { //收藏
-                        mPresenter.collectArticle(bean.getId(), position);
+//                        mPresenter.collectArticle(bean.getId(), position);
                     }
                 }
             });
@@ -314,7 +314,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                     Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
                     if(!d.isCollect()) {
                         Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
-                        mPresenter.collectArticle(articleId, i);
+//                        mPresenter.collectArticle(articleId, i);
                     }
                     break;
                 }
@@ -440,51 +440,51 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
         }
     }
 
-    @Override
-    public void collectArticleSuccess(BaseResult res, int position) {
-        Log.d(TAG, "collectArticleSuccess: " + res);
-        ArticleBean bean = dataList.get(position);
-        bean.setCollect(true);
-        dataList.set(position, bean);
-        mArticleAdapter.notifyDataSetChanged();
-        Toast.makeText(mContext, "收藏成功！", Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void collectArticleFailed(String msg) {
-        Log.e(TAG, "collectArticleFailed: 20200729 " + msg);
-        if (!TextUtils.isEmpty(msg) && msg.startsWith(ConstUtil.LOGIN_MSG)){
-            try {
-                int articleId = Integer.parseInt(msg.substring(ConstUtil.LOGIN_MSG.length()));
-                Log.d(TAG, "collectArticleFailed: 20200729 = " + articleId);
-                Intent intent = new Intent(mContext, LoginActivity.class);
-                intent.putExtra(ConstUtil.ARTICLE_ID, articleId);
-                startActivityForResult(intent, ConstUtil.REQUEST_CODE_LOGIN);
-            } catch (NumberFormatException e){
-                Log.e(TAG, "collectArticleFailed: articleId获取失败");
-                e.printStackTrace();
-            }
-        } else {
-            Toast.makeText(mContext, "收藏失败：" + msg, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void unCollectArticleSuccess(BaseResult res, int position) {
-        Log.d(TAG, "unCollectArticleSuccess: " + res);
-        ArticleBean bean = dataList.get(position);
-        bean.setCollect(false);
-        dataList.set(position, bean);
-        mArticleAdapter.notifyDataSetChanged();
-        Toast.makeText(mContext, "取消收藏成功！", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void unCollectArticleFailed(String msg) {
-        Log.e(TAG, "collectArticleFailed: " + msg);
-        Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
-    }
+//    @Override
+//    public void collectArticleSuccess(BaseResult res, int position) {
+//        Log.d(TAG, "collectArticleSuccess: " + res);
+//        ArticleBean bean = dataList.get(position);
+//        bean.setCollect(true);
+//        dataList.set(position, bean);
+//        mArticleAdapter.notifyDataSetChanged();
+//        Toast.makeText(mContext, "收藏成功！", Toast.LENGTH_SHORT).show();
+//
+//    }
+//
+//    @Override
+//    public void collectArticleFailed(String msg) {
+//        Log.e(TAG, "collectArticleFailed: 20200729 " + msg);
+//        if (!TextUtils.isEmpty(msg) && msg.startsWith(ConstUtil.LOGIN_MSG)){
+//            try {
+//                int articleId = Integer.parseInt(msg.substring(ConstUtil.LOGIN_MSG.length()));
+//                Log.d(TAG, "collectArticleFailed: 20200729 = " + articleId);
+//                Intent intent = new Intent(mContext, LoginActivity.class);
+//                intent.putExtra(ConstUtil.ARTICLE_ID, articleId);
+//                startActivityForResult(intent, ConstUtil.REQUEST_CODE_LOGIN);
+//            } catch (NumberFormatException e){
+//                Log.e(TAG, "collectArticleFailed: articleId获取失败");
+//                e.printStackTrace();
+//            }
+//        } else {
+//            Toast.makeText(mContext, "收藏失败：" + msg, Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    @Override
+//    public void unCollectArticleSuccess(BaseResult res, int position) {
+//        Log.d(TAG, "unCollectArticleSuccess: " + res);
+//        ArticleBean bean = dataList.get(position);
+//        bean.setCollect(false);
+//        dataList.set(position, bean);
+//        mArticleAdapter.notifyDataSetChanged();
+//        Toast.makeText(mContext, "取消收藏成功！", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void unCollectArticleFailed(String msg) {
+//        Log.e(TAG, "collectArticleFailed: " + msg);
+//        Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
+//    }
 
     private static class ViewHolder {
         ImageButton ibtnCollect;
