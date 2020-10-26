@@ -1,34 +1,21 @@
 package com.lyl.wanandroid.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseFragment;
@@ -49,15 +36,17 @@ import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.LogUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
-import com.lyl.wanandroid.widget.ViewPagerScroller;
-import com.lyl.wanandroid.widget.ViewPagerTransformer;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,17 +66,19 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
     private AppBarLayout mTitleBar;
     private /*ImageView*/ CircleView mAvatar;
 
-    private MainPresenter mPresenter;
+//    private SwipeRefreshLayout mRefreshLayout;
+    private SmartRefreshLayout mRefreshLayout;
 
+    private MainPresenter mPresenter;
     private RecyclerView mRv;
     private HomeAdapter mHomeAdapter;
-
-
-    private ListView mListView;
-    private static boolean sExecute = false;
+    private List<HomeBean> mResList = new ArrayList<>();
+    private int articleId;//用于收藏和取消收藏
     private List<ArticleBean> dataList = new ArrayList<>();
     private int topArticleCnt = 0;
     private int curPage = 0;
+    private int allPage = 0;
+    private boolean loadMore = false;//加载更多：调用getMainArticle接口
 
     @Nullable
     @Override
@@ -123,18 +114,60 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
             }
         });
 
+        mRefreshLayout = mView.findViewById(R.id.srl);
+//        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                getMainInfo();
+//            }
+//        });
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                getMainInfo();
+            }
+        });
+        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+//                mRefreshLayout.finishLoadMore();
+//                mRefreshLayout.finishLoadMoreWithNoMoreData();  //全部加载完成,没有数据了调用此方法
+                if (null != mPresenter && curPage < allPage) {
+                    loadMore = true;
+                    mPresenter.getMainArticle(curPage);
+                } else {
+                    mRefreshLayout.finishLoadMoreWithNoMoreData();  //全部加载完成,没有数据了调用此方法
+                }
+            }
+        });
+        //设置 Header 为 经典风格
+        mRefreshLayout.setRefreshHeader(new ClassicsHeader(mContext).setEnableLastTime(true));
+        //设置 Header 为 Material风格
+//        mRefreshLayout.setRefreshHeader(new MaterialHeader(mContext).setShowBezierWave(true));
+        //设置 Footer 为 球脉冲
+//        mRefreshLayout.setRefreshFooter(new BallPulseFooter(mContext).setSpinnerStyle(SpinnerStyle.Scale));
+        //设置 Footer 为 经典风格
+        mRefreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
+
         mRv = mView.findViewById(R.id.rv);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(manager);
         mRv.addItemDecoration(new SpacesItemDecoration(20));
+
+        mRv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
     }
 
     private void getMainInfo(){
         if (null == mPresenter) return;
         Log.d(TAG, "getMainInfo");
-
-        showProgressDialog();
+        curPage = 0;
+//        showProgressDialog();
         //获取Banner信息，得到Banner图张数
         mPresenter.getBanner();
         //获取置顶文章列表
@@ -166,10 +199,8 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         if (null != mHomeAdapter){
             mHomeAdapter.restartHandler(true);
         }
-
         if (refreshMain) {
             getMainInfo();
-//            mArticleAdapter.notifyDataSetChanged();
             refreshMain = false;
         }
     }
@@ -192,25 +223,6 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         }
     }
 
-    private List<HomeBean> mResList = new ArrayList<>();
-
-    private int articleId;
-    private void collectArticleAfterLogin(){
-        if (articleId > 0 ){
-            //从list中获取当前是否为true，不为true的时候再调用collect方法
-            for(int i = 1; i < mResList.size(); i++){//第0个是banner
-                ArticleBean d = (ArticleBean)(mResList.get(i).getContent());
-                if(null !=  d && articleId == d.getId()){
-                    Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
-                    if(!d.isCollect()) {
-                        Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
-                        mPresenter.collectArticle(articleId, i);
-                    }
-                    break;
-                }
-            }
-        }
-    }
     @Override
     public void getBannerSuccess(BannerResult res) {
 //        LogUtils.d(TAG, "banner Success: " + res);
@@ -230,6 +242,12 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
                 } else { //收藏
                     mPresenter.collectArticle(articleId, position);
                 }
+            }
+        });
+        mHomeAdapter.setOnArticleItemListener(new HomeAdapter.OnArticleItemListener() {
+            @Override
+            public void onItemClick(String url) {
+                PhoneUtil.openInWebView(mContext, url);
             }
         });
         mRv.setAdapter(mHomeAdapter);
@@ -270,26 +288,66 @@ public class FragmentHome extends BaseFragment implements MainView, View.OnClick
         mHomeAdapter.notifyDataSetChanged();
 
         curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
+        allPage = res.getData().getPageCount();
+        Log.d(TAG, "getMainArticleSuccess: curPage = " + curPage + ", pageCount = " + allPage);
+        if (loadMore){
+            loadMore = false;
+            if (curPage >= allPage){
+                mRefreshLayout.finishLoadMoreWithNoMoreData();  //全部加载完成,没有数据了调用此方法
+            } else {
+                mRefreshLayout.finishLoadMore();
+            }
+        }
     }
 
     @Override
     public void getMainArticleFailed(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        if (loadMore){
+            loadMore = false;
+            mRefreshLayout.finishLoadMore();
+        }
     }
 
     @Override
     public void Failed(String msg) {
+//        hideProgressDialog();
+        mRefreshLayout.finishRefresh();
+
         LogUtil.e(TAG, msg);
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void Finish() {
-        hideProgressDialog();
+//        hideProgressDialog();
+        //关闭刷新
+//        if (mRefreshLayout.isRefreshing()) {
+//            mRefreshLayout.setRefreshing(false);
+//        }
+        mRefreshLayout.finishRefresh();
+
         Log.d(TAG, "Finish: 20200729 will enter collectArticleAfterLogin");
         //退出登录也会刷新首页
         if (BaseApplication.isLogin()) {
             collectArticleAfterLogin();
+        }
+    }
+
+    private void collectArticleAfterLogin(){
+        if (articleId > 0 ){
+            //从list中获取当前是否为true，不为true的时候再调用collect方法
+            for(int i = 1; i < mResList.size(); i++){//第0个是banner
+                ArticleBean d = (ArticleBean)(mResList.get(i).getContent());
+                if(null !=  d && articleId == d.getId()){
+                    Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
+                    if(!d.isCollect()) {
+                        Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
+                        mPresenter.collectArticle(articleId, i);
+                    }
+                    break;
+                }
+            }
         }
     }
 

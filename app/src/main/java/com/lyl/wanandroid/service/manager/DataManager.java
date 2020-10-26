@@ -32,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
  * Describe :
  */
 public class DataManager {
-    private static final String TAG = "Model";
+    private static final String TAG = "DataManager";
 
     public void register(String userName, String pwd, String rePwd, RequestListener<RegisterResult> l) {
         l.onStart();

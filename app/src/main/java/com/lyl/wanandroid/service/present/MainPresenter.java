@@ -54,6 +54,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
             @Override
             public void onFailed(String msg) {
+                getBannerSuccess = false;
                 getView().getBannerFailed(msg);
             }
 
@@ -81,6 +82,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
             @Override
             public void onFailed(String msg) {
+                getTopArticleSuccess = false;
                 getView().getTopArticleFailed(msg);
             }
 
@@ -113,6 +115,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
             @Override
             public void onFailed(String msg) {
+                getMainArticleSuccess = false;
                 getView().getMainArticleFailed(msg);
             }
 

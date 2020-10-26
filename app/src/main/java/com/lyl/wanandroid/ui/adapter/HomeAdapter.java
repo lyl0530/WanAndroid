@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,7 +25,6 @@ import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.entity.BannerResult;
 import com.lyl.wanandroid.service.entity.HomeBean;
-import com.lyl.wanandroid.ui.fragment.FragmentHome;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.LogUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
@@ -280,6 +278,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             holder.imgTop.setVisibility(View.GONE);
         }
+
+        //RecycleView item的点击事件
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mArticleItemListener) {
+                    mArticleItemListener.onItemClick(bean.getLink());
+                }
+            }
+        });
     }
 
     static class BannerHolder extends RecyclerView.ViewHolder{
@@ -375,45 +383,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-//    private class ArticleAdapter extends BaseAdapter {
-//        @Override
-//        public int getCount() {
-//            return dataList.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return dataList.get(position);
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            FragmentHome.ViewHolder holder;
-//            if (null == convertView){
-//                convertView = View.inflate(mContext, R.layout.layout_article_list, null);
-//                holder = new FragmentHome.ViewHolder();
-//                convertView.setTag(holder);
-//            } else {
-//                holder = (FragmentHome.ViewHolder)convertView.getTag();
-//            }
-//            holder.ibtnCollect = convertView.findViewById(R.id.ibtn_collect);
-//            holder.tvTitle = convertView.findViewById(R.id.tv_title);
-//            holder.tvAuthor = convertView.findViewById(R.id.tv_author);
-//            holder.tvTime = convertView.findViewById(R.id.tv_time);
-//            holder.imgNew = convertView.findViewById(R.id.img_new);
-//            holder.imgTop = convertView.findViewById(R.id.img_top);
-//
-//
-//
-//            return convertView;
-//        }
-//    }
-
     //设置ViewPager滑动的速度
     private void setViewPagerScroller(ViewPager vp) {
         try {
@@ -426,12 +395,26 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    /**
+     * 收藏和取消收藏 点击item的对外接口
+     */
     public interface OnItemCollectListener{
         void onItemCollect(int articleId, int position, boolean isCollect);
     }
     private OnItemCollectListener mListener;
     public void setOnItemCollectListener(OnItemCollectListener l){
         mListener = l;
+    }
+
+    /**
+     * 文章 点击item的对外接口
+     */
+    public interface OnArticleItemListener{
+        void onItemClick(String url);
+    }
+    private OnArticleItemListener mArticleItemListener;
+    public void setOnArticleItemListener(OnArticleItemListener l){
+        mArticleItemListener = l;
     }
 
     public void restartHandler(boolean reset){

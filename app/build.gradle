@@ -69,6 +69,9 @@ dependencies {
 
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
 }
 repositories {
     mavenCentral()

@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * Created by lym on 2020/4/9
- * Describe :
+ * Describe : 体系tab页
  */
 public class FrgmHierarchy extends BaseFragment implements HierarchyView {
     private static final String TAG = "FrgmHierarchy";

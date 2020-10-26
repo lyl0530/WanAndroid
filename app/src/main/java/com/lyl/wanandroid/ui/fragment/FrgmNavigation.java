@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  * Created by lym on 2020/7/5
- * Describe :体系Tab中的第二个子tab ： 导航
+ * Describe :导航tab ：
  */
 public class FrgmNavigation extends BaseFragment implements NavigationView {
     private static final String TAG = "FrgmNavigation";
