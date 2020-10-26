@@ -4,19 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/project_article_rv"
-        />
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/fr_content"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        tools:text="abc"-->
-<!--        android:textSize="50sp"-->
-<!--        android:textColor="#077"-->
-<!--        android:visibility="gone"/>-->
+        android:id="@+id/article_list_refresh">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/project_article_rv" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </RelativeLayout>

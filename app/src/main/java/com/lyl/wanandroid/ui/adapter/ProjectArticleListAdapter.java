@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +101,10 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Log.d(TAG, "onBindViewHolder: i = " + i + ", " + mList.get(i));
-        viewHolder.mTvAuthor.setText(mList.get(i).getChapterName() + "/" + mList.get(i).getAuthor());
+        String author = TextUtils.isEmpty(mList.get(i).getAuthor()) ?
+                mList.get(i).getChapterName() :
+                mList.get(i).getChapterName() + " / " + mList.get(i).getAuthor();
+        viewHolder.mTvAuthor.setText(author);
         viewHolder.mTvTime.setText(mList.get(i).getNiceDate());
         viewHolder.mTvTitle.setText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(mList.get(i).getTitle())));
 //        viewHolder.mTvSubTitle.setText(mList.get(i).getDesc());
