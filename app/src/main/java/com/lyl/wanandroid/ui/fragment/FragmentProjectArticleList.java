@@ -17,12 +17,13 @@ import android.widget.Toast;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseResult;
+import com.lyl.wanandroid.listener.OnArticleItemListener;
+import com.lyl.wanandroid.listener.OnItemCollectListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.present.CollectPresenter;
 import com.lyl.wanandroid.service.view.CollectView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
-import com.lyl.wanandroid.ui.adapter.HomeAdapter;
-import com.lyl.wanandroid.ui.adapter.ProjectArticleListAdapter;
+import com.lyl.wanandroid.ui.adapter.ArticleListAdapter;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
 import com.lyl.wanandroid.service.present.ProjectArticleListPresenter;
@@ -59,7 +60,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     private ProjectArticleListPresenter mPresenter;
     private CollectPresenter mCollectPresenter;
     private RecyclerView mRv;
-    private ProjectArticleListAdapter mAdapter;
+    private ArticleListAdapter mAdapter;
     private List<ArticleBean> dataList = new ArrayList<>();
 
     private SmartRefreshLayout mRefreshLayout;
@@ -177,26 +178,22 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 mAdapter.notifyDataSetChanged();
             } else {
                 dataList = tempList;
-                mAdapter = new ProjectArticleListAdapter(mContext, dataList);
-                mAdapter.setOnItemCollectListener(new HomeAdapter.OnItemCollectListener() {
+                mAdapter = new ArticleListAdapter(mContext, dataList);
+                mAdapter.setOnItemCollectListener(new OnItemCollectListener(){
                     @Override
                     public void onItemCollect(int articleId, int position, boolean isCollect) {
+                        if (null == mCollectPresenter) return;
                         if (isCollect){//取消收藏
-                            if (null != mPresenter){
-                                mCollectPresenter.unCollectArticle(articleId, position);
-                            }
+                            mCollectPresenter.unCollectArticle(articleId, position);
                         } else { //收藏
                             mCollectPresenter.collectArticle(articleId, position);
                         }
                     }
                 });
-                mAdapter.setOnItemClickListener(new ProjectArticleListAdapter.OnItemClickListener() {
+                mAdapter.setOnArticleItemListener(new OnArticleItemListener() {
                     @Override
-                    public void onItemClicked(View view, int position) {
-                        ArticleBean bean = dataList.get(position);
-                        if (null != bean){
-                            PhoneUtil.openInWebView(mContext, bean);
-                        }
+                    public void onItemClick(ArticleBean bean) {
+                        PhoneUtil.openInWebView(mContext, bean);
                     }
                 });
                 mRv.setAdapter(mAdapter);
@@ -222,7 +219,6 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
             }
         }
     }
-
 
     @Override
     public void collectArticleSuccess(BaseResult res, int position) {

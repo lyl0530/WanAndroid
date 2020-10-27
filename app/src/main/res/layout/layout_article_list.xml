@@ -60,7 +60,10 @@
                 tools:text="扔物线"
                 android:layout_toEndOf="@id/img_top"
                 android:id="@+id/tv_author"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:lines="1"
+                android:maxWidth="220dp"
+                android:ellipsize="end"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

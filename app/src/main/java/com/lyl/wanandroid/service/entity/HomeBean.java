@@ -1,5 +1,7 @@
 package com.lyl.wanandroid.service.entity;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by lym on 2020/10/21
  * Describe :
@@ -29,6 +31,7 @@ public class HomeBean {
         this.res = res;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "HomeBean{" +

@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
+import com.lyl.wanandroid.listener.OnArticleItemListener;
+import com.lyl.wanandroid.listener.OnItemCollectListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -28,19 +30,24 @@ import java.util.List;
  * Created by lym on 2020/9/27
  * Describe :项目中文章列表适配器
  */
-public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArticleListAdapter.ViewHolder> {
+public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHolder> {
     private static final String TAG = "pal adapter";
 
     private Context mContext;
     private ArrayList<ArticleBean> mList;
-    private RequestOptions requestOptions;
+//    private RequestOptions requestOptions;
 
-    private OnItemClickListener mOnItemClickListener;
-    public interface OnItemClickListener {
-        void onItemClicked(View view, int position);
+    private OnArticleItemListener mOnItemClickListener;
+    public void setOnArticleItemListener(OnArticleItemListener l) {
+        mOnItemClickListener = l;
     }
-    public void setOnItemClickListener(OnItemClickListener clickListener) {
-        this.mOnItemClickListener = clickListener;
+
+    /**
+     * 收藏和取消收藏
+     */
+    private OnItemCollectListener mCollectListener;
+    public void setOnItemCollectListener(OnItemCollectListener l){
+        mCollectListener = l;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,7 +56,7 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
         ImageButton ibtnCollect;
         ImageView imgNew, imgTop;
 
-        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView, final OnArticleItemListener listener) {
             super(itemView);
             mTvAuthor = itemView.findViewById(R.id.tv_author);
             mTvTime = itemView.findViewById(R.id.tv_time);
@@ -59,22 +66,10 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
             ibtnCollect = itemView.findViewById(R.id.ibtn_collect);
             imgNew= itemView.findViewById(R.id.img_new);
             imgTop= itemView.findViewById(R.id.img_top);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (null != listener){
-                        int position = getAdapterPosition();
-                        if (RecyclerView.NO_POSITION != position) {//确保position值有效
-                            listener.onItemClicked(itemView, position);
-                        }
-                    }
-                }
-            });
         }
     }
 
-    public ProjectArticleListAdapter(Context context, List<ArticleBean> list) {
+    public ArticleListAdapter(Context context, List<ArticleBean> list) {
         mContext = context;
         Log.d(TAG, "ProjectArticleListAdapter: list = "+ list.size());
         this.mList = (ArrayList<ArticleBean>)list;
@@ -102,7 +97,7 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
         Log.d(TAG, "onBindViewHolder: i = " + i + ", " + mList.get(i));
         String author = TextUtils.isEmpty(mList.get(i).getAuthor()) ?
                 mList.get(i).getChapterName() :
-                mList.get(i).getChapterName() + " / " + mList.get(i).getAuthor();
+                /*mList.get(i).getChapterName() + "/" + */mList.get(i).getAuthor();
         viewHolder.mTvAuthor.setText(author);
         viewHolder.mTvTime.setText(mList.get(i).getNiceDate());
         viewHolder.mTvTitle.setText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(mList.get(i).getTitle())));
@@ -115,13 +110,23 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
                 R.drawable.icon_collecte;
         viewHolder.ibtnCollect.setBackground(mContext.getResources().getDrawable(drawableResId));
         final int pos = i;
+        //收藏
         viewHolder.ibtnCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: 20200729: " + pos);
 //                Toast.makeText(mContext, "点击了"+pos, Toast.LENGTH_SHORT).show();
-                if (null != mListener){
-                    mListener.onItemCollect(mList.get(pos).getId(), pos, mList.get(pos).isCollect());
+                if (null != mCollectListener){
+                    mCollectListener.onItemCollect(mList.get(pos).getId(), pos, mList.get(pos).isCollect());
+                }
+            }
+        });
+        //item点击
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mOnItemClickListener){
+                    mOnItemClickListener.onItemClick(mList.get(pos));
                 }
             }
         });
@@ -133,16 +138,5 @@ public class ProjectArticleListAdapter extends RecyclerView.Adapter<ProjectArtic
     public int getItemCount() {
         Log.d(TAG, "getItemCount: mList.size() = " + mList.size());
         return mList.size();
-    }
-
-    /**
-     * 收藏和取消收藏 点击item的对外接口
-     */
-    public interface OnItemCollectListener{
-        void onItemCollect(int articleId, int position, boolean isCollect);
-    }
-    private HomeAdapter.OnItemCollectListener mListener;
-    public void setOnItemCollectListener(HomeAdapter.OnItemCollectListener l){
-        mListener = l;
     }
 }

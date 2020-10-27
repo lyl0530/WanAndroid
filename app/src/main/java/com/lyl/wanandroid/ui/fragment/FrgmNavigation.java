@@ -125,11 +125,11 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
             List<ArticleBean> list = data.getArticles();
 
             ArrayList<String> itemList = new ArrayList<>();
-            ArrayList<String> urlList = new ArrayList<>();
+//            ArrayList<String> urlList = new ArrayList<>();
 
             for (ArticleBean bean : list){
                 itemList.add(StringEscapeUtils.unescapeHtml4(bean.getTitle()));
-                urlList.add(bean.getLink());
+//                urlList.add(bean.getLink());
             }
             Log.d(TAG, "getView: " + data.getName() + ", " + itemList);
             if (itemList.size() > 0) {

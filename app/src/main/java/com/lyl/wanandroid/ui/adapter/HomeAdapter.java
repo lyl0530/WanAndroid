@@ -22,6 +22,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
+import com.lyl.wanandroid.listener.OnArticleItemListener;
+import com.lyl.wanandroid.listener.OnItemCollectListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.entity.BannerResult;
 import com.lyl.wanandroid.service.entity.HomeBean;
@@ -399,9 +401,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /**
      * 收藏和取消收藏 点击item的对外接口
      */
-    public interface OnItemCollectListener{
-        void onItemCollect(int articleId, int position, boolean isCollect);
-    }
     private OnItemCollectListener mListener;
     public void setOnItemCollectListener(OnItemCollectListener l){
         mListener = l;
@@ -410,9 +409,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /**
      * 文章 点击item的对外接口
      */
-    public interface OnArticleItemListener{
-        void onItemClick(ArticleBean bean);
-    }
     private OnArticleItemListener mArticleItemListener;
     public void setOnArticleItemListener(OnArticleItemListener l){
         mArticleItemListener = l;
