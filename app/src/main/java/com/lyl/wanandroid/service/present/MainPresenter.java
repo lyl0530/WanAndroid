@@ -76,7 +76,11 @@ public class MainPresenter extends BasePresenter<MainView> {
             @Override
             public void onSuccess(TopArticleResult res) {
                 getTopArticleSuccess = true;
-                getView().getTopArticleSuccess(res);
+                try {
+                    getView().getTopArticleSuccess(res);
+                } catch (Exception e){
+                    LogUtil.e(TAG, e.getMessage());
+                }
             }
 
             @Override

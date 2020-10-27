@@ -162,6 +162,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ViewPager mViewPager;
     @SuppressLint("SetTextI18n")
     private void bindBannerHolder(BannerHolder holder, int position){
+        LogUtil.e(TAG, "bindBannerHolder begin : position = " + position);
         mViewPager = holder.vpBanner;
         mPagerAdapter = new MyPagerAdapter(holder.vpBanner);
         holder.vpBanner.setAdapter(mPagerAdapter);
@@ -172,7 +173,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         holder.tvTitle.setText(mTitleList.get(position));
         holder.tvNumber.setText((position + 1) + "/" + oriImgCnt);
-
 
         holder.vpBanner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -236,9 +236,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
+
+        LogUtil.e(TAG, "bindBannerHolder end");
     }
 
     private void bindArticleHolder(ArticleHolder holder, int position){
+        LogUtil.e(TAG, "bindArticleHolder begin, position = " + position);
         Object content = mResList.get(position).getContent();
         if (!(content instanceof ArticleBean)) return;
         ArticleBean bean = (ArticleBean)content;
@@ -291,6 +294,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
+
+        LogUtil.e(TAG, "bindArticleHolder end");
     }
 
     static class BannerHolder extends RecyclerView.ViewHolder{
