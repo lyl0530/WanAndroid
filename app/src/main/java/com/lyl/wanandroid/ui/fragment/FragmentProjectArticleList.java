@@ -200,12 +200,11 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                     }
                 });
                 mRv.setAdapter(mAdapter);
-
                 mRefreshLayout.finishRefresh();
             }
         }
-
     }
+
     private int articleId;//用于收藏和取消收藏
     private void collectArticleAfterLogin(){
         if (articleId > 0 ){
