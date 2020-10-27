@@ -45,4 +45,9 @@
     <string name="search_text">搜索</string>
     <string name="search_hot_key">热门搜索</string>
     <string name="search_history">历史搜索</string>
+
+    <string name="collect_success">收藏成功</string>
+    <string name="collect_failed">收藏失败:</string>
+    <string name="un_collect_success">取消收藏成功</string>
+    <string name="un_collect_failed">取消收藏失败:</string>
 </resources>

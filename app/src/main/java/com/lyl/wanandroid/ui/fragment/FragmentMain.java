@@ -311,7 +311,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
                 if(null !=  d && articleId == d.getId()){
                     Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
                     if(!d.isCollect()) {
-                        Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
 //                        mPresenter.collectArticle(articleId, i);
                     }
                     break;

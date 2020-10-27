@@ -130,10 +130,8 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
                 if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(pwd) && !TextUtils.isEmpty(pwd2)) {
                     LogUtil.d(TAG, "onClick: register");
                     mPresenter.register(userName, pwd, pwd2);
-                } else { //for test
-//                    LogUtil.d(TAG, "onClick: register1");
-//                    mPresenter.register("987789123", "345543", "345543");
-                    Toast.makeText(mContext, getString(R.string.register_content_not_null), Toast.LENGTH_SHORT).show();
+                } else {
+                    showToast(R.string.register_content_not_null);
                 }
                 break;
         }
@@ -142,7 +140,7 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
     @Override
     public void Success(RegisterResult result) {
         LogUtil.d(TAG, "success: " + result);
-        Toast.makeText(getContext(), getString(R.string.register_success), Toast.LENGTH_SHORT).show();
+        showToast(R.string.register_success);
 
         //preference
         PreferenceUtil.instance().setAccount(mUserName.getText().toString());
@@ -158,7 +156,7 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
     @Override
     public void Failed(String msg) {
         LogUtil.d(TAG, "failed: " + msg);
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
     @Override

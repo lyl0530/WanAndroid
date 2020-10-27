@@ -261,7 +261,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
 
     @Override
     public void getBannerFailed(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
     @Override
@@ -279,7 +279,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
 
     @Override
     public void getTopArticleFailed(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
     @Override
@@ -308,7 +308,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
 
     @Override
     public void getMainArticleFailed(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
         if (loadMore){
             loadMore = false;
             mRefreshLayout.finishLoadMore();
@@ -321,7 +321,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         mRefreshLayout.finishRefresh();
 
         LogUtil.e(TAG, msg);
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
     @Override
@@ -348,7 +348,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
                 if(null !=  d && articleId == d.getId()){
                     Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
                     if(!d.isCollect()) {
-                        Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
+//                        showToast("将要收藏文章！");
                         mCollectPresenter.collectArticle(articleId, i);
                     }
                     break;
@@ -364,7 +364,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         ((ArticleBean)bean.getContent()).setCollect(true);
         mResList.set(position, bean);
         mHomeAdapter.notifyDataSetChanged();
-        Toast.makeText(mContext, "收藏成功！", Toast.LENGTH_SHORT).show();
+        showToast(R.string.collect_success);
     }
 
     @Override
@@ -382,7 +382,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(mContext, "收藏失败：" + msg, Toast.LENGTH_SHORT).show();
+            showToast(getString(R.string.collect_failed) + msg);
         }
     }
 
@@ -393,13 +393,13 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         ((ArticleBean)bean.getContent()).setCollect(false);
         mResList.set(position, bean);
         mHomeAdapter.notifyDataSetChanged();
-        Toast.makeText(mContext, "取消收藏成功！", Toast.LENGTH_SHORT).show();
+        showToast(R.string.un_collect_success);
     }
 
     @Override
     public void unCollectArticleFailed(String msg) {
         Log.e(TAG, "collectArticleFailed: " + msg);
-        Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
+        showToast(getString(R.string.un_collect_failed)+msg);
     }
 
     @Override

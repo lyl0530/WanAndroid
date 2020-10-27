@@ -148,7 +148,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
 
     @Override
     public void Failed(String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
         if (loadMore){
             loadMore = false;
             mRefreshLayout.finishLoadMore();
@@ -211,7 +211,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 if(null !=  d && articleId == d.getId()){
                     Log.d(TAG, "collectArticleAfterLogin: i = " + i +", collect = " + d.isCollect());
                     if(!d.isCollect()) {
-                        Toast.makeText(mContext, "将要收藏文章！", Toast.LENGTH_SHORT).show();
+//                        showToast("将要收藏文章！");
                         mCollectPresenter.collectArticle(articleId, i);
                     }
                     break;
@@ -227,7 +227,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
         bean.setCollect(true);
         dataList.set(position, bean);
         mAdapter.notifyDataSetChanged();
-        Toast.makeText(mContext, "收藏成功！", Toast.LENGTH_SHORT).show();
+        showToast(R.string.collect_success);
     }
 
     @Override
@@ -245,7 +245,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(mContext, "收藏失败：" + msg, Toast.LENGTH_SHORT).show();
+            showToast(getString(R.string.collect_failed) + msg);
         }
     }
 
@@ -256,13 +256,13 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
         bean.setCollect(false);
         dataList.set(position, bean);
         mAdapter.notifyDataSetChanged();
-        Toast.makeText(mContext, "取消收藏成功！", Toast.LENGTH_SHORT).show();
+        showToast(R.string.un_collect_success);
     }
 
     @Override
     public void unCollectArticleFailed(String msg) {
         Log.e(TAG, "collectArticleFailed: " + msg);
-        Toast.makeText(mContext, "取消收藏失败："+msg, Toast.LENGTH_SHORT).show();
+        showToast(getString(R.string.un_collect_failed)+msg);
     }
 
     @Override

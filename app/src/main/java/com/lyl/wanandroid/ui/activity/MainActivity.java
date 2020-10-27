@@ -294,7 +294,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (BaseApplication.isLogin()) {
                     //edit user info
                     LogUtil.d(TAG, "will edit user info");
-                    Toast.makeText(this, "will edit user info", Toast.LENGTH_SHORT).show();
+                    showToast("will edit user info");
                 } else {
                     startActivity(new Intent(this, LoginActivity.class));
                 }

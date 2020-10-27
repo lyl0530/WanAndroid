@@ -190,14 +190,14 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
             PreferenceUtil.instance().setUserId(result.getData().getId());
         }
         EventBus.getDefault().post(ConstUtil.REFRESH_MAIN);
-        Toast.makeText(getContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+        showToast(R.string.login_success);
         Objects.requireNonNull(getActivity()).finish();
     }
 
     @Override
     public void Failed(String msg) {
         LogUtil.e(TAG, "loginFailed: " + msg);
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
     @Override

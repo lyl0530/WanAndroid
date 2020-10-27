@@ -117,7 +117,7 @@ public class FragmentHotKey extends BaseFragment implements HotKeyView{
 
     @Override
     public void Failed(String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
     @Override

@@ -75,7 +75,7 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
     @Override
     public void Failed(String msg) {
         LogUtil.e(TAG, "loginFailed: " + msg);
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
     private void initData() {

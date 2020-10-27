@@ -165,7 +165,7 @@ public class FragmentProject extends BaseFragment implements ProjectView {
 
     @Override
     public void Failed(String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 
     private void showHScrollTextView(ArrayList<String> list){

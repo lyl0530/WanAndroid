@@ -136,6 +136,7 @@ public class WebActivity extends BaseActivity{
             stopTimer();
             super.onReceivedError(view, request, error);
             Log.e(TAG, "onReceivedError: " + request.getUrl() + ", " + error.getDescription());
+            showToast(request.getUrl() + ", " + error.getDescription());
 //            view.loadUrl(mErrorUrl);
         }
 
@@ -167,8 +168,8 @@ public class WebActivity extends BaseActivity{
             if (TIMEOUT_TIMER_ID == msg.what){
                 stopTimer();
                 if (mProgress.getProgress() < 100 && null != mWebView){
-                    Toast.makeText(WebActivity.this, "响应超时", Toast.LENGTH_SHORT).show();
-                    mWebView.loadUrl(mErrorUrl);
+//                    showToast("响应超时");
+//                    mWebView.loadUrl(mErrorUrl);
                 }
             }
         }

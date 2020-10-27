@@ -1,6 +1,11 @@
 package com.lyl.wanandroid.base;
 
+import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lyl.wanandroid.widget.LoadingDialog;
 
@@ -25,4 +30,38 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected Toast mToast;
+    /**
+     * 显示Toast
+     *
+     * @param messageId 提示信息资源ID
+     */
+    public void showToast(int messageId) {
+        showToast(getString(messageId));
+    }
+
+    /**
+     * 只显示一个toast的实现。
+     * http://stackoverflow.com/questions/6925156/
+     * @param message 提示信息
+     */
+    @SuppressLint("ShowToast")
+    public void showToast(String message) {
+        // 如果app不在前台，则不显示toast
+//        if (!AirDeviceApplication.isRunningForeground()) {
+//            return;
+//        }
+        try {
+            mToast.getView().isShown();
+        } catch (Exception e) {
+            mToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        } finally {
+            mToast.setText(message);
+            mToast.setGravity(Gravity.CENTER, 0, 0);
+            //toast 多行内容居中显示 https://blog.csdn.net/ityangjun/article/details/68946273
+            int textViewId = Resources.getSystem().getIdentifier("message", "id", "android");
+            ((TextView) mToast.getView().findViewById(textViewId)).setGravity(Gravity.CENTER);
+            mToast.show();
+        }
+    }
 }
