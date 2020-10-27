@@ -76,25 +76,14 @@ public class SettingActivity extends BaseActivity implements LogoutView {
         finish();
     }
 
-
-//    @Override
-//    public void showProgressDialog() {
-//        super.showProgressDialog();
-//    }
-//
-//    @Override
-//    public void hideProgressDialog() {
-//        super.hideProgressDialog();
-//    }
-
     @Override
     public void Success(LogoutResult result) {
         LogUtil.d(TAG, "loginSuccess: " + result);
         EventBus.getDefault().post(ConstUtil.REFRESH_MAIN);//刷新首页
         //退出登录成功 - 清除缓存
         PreferenceUtil.instance().setUserId(0);
-        PreferenceUtil.instance().setAccount("");
-        PreferenceUtil.instance().setPwd("");
+//        PreferenceUtil.instance().setAccount("");
+//        PreferenceUtil.instance().setPwd("");
         PreferenceUtil.instance().setCookieSet(null);//清除本地cookie
         finish();
     }

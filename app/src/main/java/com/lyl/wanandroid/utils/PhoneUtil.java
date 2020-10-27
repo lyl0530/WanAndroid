@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.lyl.wanandroid.service.entity.ArticleBean;
@@ -61,5 +62,18 @@ public class PhoneUtil {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra(ConstUtil.WEB_VIEW_URL, url);
         context.startActivity(intent);
+    }
+
+    //https://www.cnblogs.com/jenson138/p/4342699.html
+    //点击了可见不可见，EditText要重写获取焦点，设置内容 - 光标定位到内容最后
+    public static void cursor2End(EditText et, String content){
+        if (TextUtils.isEmpty(content)) {
+            return;
+        }
+        et.setFocusable(true);
+        et.setFocusableInTouchMode(true);
+        et.requestFocus();
+        et.setText(content);
+        et.setSelection(content.length());
     }
 }

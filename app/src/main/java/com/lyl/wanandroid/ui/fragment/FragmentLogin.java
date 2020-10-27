@@ -21,6 +21,7 @@ import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.service.entity.LoginResult;
 import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.service.present.LoginPresenter;
 import com.lyl.wanandroid.service.view.LoginView;
@@ -77,9 +78,8 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            mAccount = PreferenceUtil.instance().getAccount();
-            LogUtil.d(TAG, "setUserVisibleHint: " + mAccount);
             if (!isFirstShow) {
+                LogUtil.d(TAG, "setUserVisibleHint: ");
                 setUserNamePwd();
             }
         }
@@ -97,15 +97,15 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
 
     //进入login界面时，从sp中读
     private void setUserNamePwd() {
+        mAccount = PreferenceUtil.instance().getAccount();
+        LogUtil.d(TAG, "setUserNamePwd: mAccount = " + mAccount);
         mUserName.setText(mAccount);
 
         //进入，显示上次的勾选状态。若勾选，则从sp中读取显示密码；否则，不显示
         remember = PreferenceUtil.instance().getCheck();
         LogUtil.d(TAG, "setUserNamePwd: remember = " + remember);
         mRememberPwd.setChecked(remember);
-        if (remember) {
-            mPwd.setText(PreferenceUtil.instance().getPwd());
-        }
+        mPwd.setText(remember ? PreferenceUtil.instance().getPwd() : "");
     }
 
     //退出login界面时，往sp中写
@@ -156,6 +156,7 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
 //                        : R.drawable.login_not_see_pwd);
                 mPwd.setTransformationMethod(seePwd ? HideReturnsTransformationMethod.getInstance()
                         : PasswordTransformationMethod.getInstance()); //密码可见 : 密码不可见
+                PhoneUtil.cursor2End(mPwd, mPwd.getText().toString());
                 break;
             case R.id.remember_pwd:
                 remember = !remember;//从 sp中获取初始值
@@ -173,6 +174,7 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
                 String userName = mUserName.getText().toString();
                 String pwd = mPwd.getText().toString();
                 if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(pwd)) {
+                    saveUserNamePwd();
                     mPresenter.login(userName, pwd);
                 }/* else { //for test
                     mPresenter.login("123147258", "123456");
@@ -181,24 +183,12 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
         }
     }
 
-//    @Override
-//    public void showProgressDialog() {
-//        super.showProgressDialog();
-//    }
-
-
-//    @Override
-//    public void hideProgressDialog() {
-//        super.hideProgressDialog();
-//    }
-
     @Override
     public void Success(LoginResult result) {
         LogUtil.d(TAG, "loginSuccess: " + result);
         if (null != result && null != result.getData()) {
             PreferenceUtil.instance().setUserId(result.getData().getId());
         }
-        saveUserNamePwd();
         EventBus.getDefault().post(ConstUtil.REFRESH_MAIN);
         Toast.makeText(getContext(), getString(R.string.login_success), Toast.LENGTH_SHORT).show();
         Objects.requireNonNull(getActivity()).finish();
@@ -217,5 +207,4 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
         }
         super.onDestroy();
     }
-
 }

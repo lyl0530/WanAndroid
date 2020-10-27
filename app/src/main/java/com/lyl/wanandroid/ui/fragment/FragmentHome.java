@@ -270,10 +270,10 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         if (null == res || null == res.getData()) return;
 
         dataList = res.getData();
-        for (int i = 0; i < dataList.size(); i++) {
+        topArticleCnt = dataList.size();
+        for (int i = 0; i < topArticleCnt; i++) {
             mResList.add(new HomeBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
         }
-        topArticleCnt = dataList.size();
         mHomeAdapter.notifyDataSetChanged();
     }
 

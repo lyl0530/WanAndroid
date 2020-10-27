@@ -1,5 +1,6 @@
 package com.lyl.wanandroid.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.service.entity.RegisterResult;
+import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.service.present.RegisterPresenter;
 import com.lyl.wanandroid.service.view.RegisterView;
@@ -35,7 +37,7 @@ import java.util.Objects;
 public class FragmentRegister extends BaseFragment implements View.OnClickListener, RegisterView {
     private static final String TAG = FragmentRegister.class.getSimpleName();
 
-    //private Context mContext;
+    private Context mContext;
     private View mView;
     private RegisterPresenter mPresenter;
     private EditText mUserName, mPwd, mPwd2;
@@ -51,7 +53,7 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_register, container, false);
 
-        //mContext = getActivity();
+        mContext = getActivity();
         mPresenter = new RegisterPresenter();
         mPresenter.attach(this);
 
@@ -112,12 +114,14 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
                 mSeePwd.setSelected(seePwd);
                 mPwd.setTransformationMethod(seePwd ? HideReturnsTransformationMethod.getInstance()
                         : PasswordTransformationMethod.getInstance()); //密码可见 : 密码不可见
+                PhoneUtil.cursor2End(mPwd, mPwd.getText().toString());
                 break;
             case R.id.see_pwd2:
                 seePwd2 = !seePwd2;
                 mSeePwd2.setSelected(seePwd2);
                 mPwd2.setTransformationMethod(seePwd2 ? HideReturnsTransformationMethod.getInstance()
                         : PasswordTransformationMethod.getInstance()); //密码可见 : 密码不可见
+                PhoneUtil.cursor2End(mPwd2, mPwd2.getText().toString());
                 break;
             case R.id.btn_register:
                 String userName = mUserName.getText().toString();
@@ -127,31 +131,28 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
                     LogUtil.d(TAG, "onClick: register");
                     mPresenter.register(userName, pwd, pwd2);
                 } else { //for test
-                    LogUtil.d(TAG, "onClick: register1");
-                    mPresenter.register("987789123", "345543", "345543");
+//                    LogUtil.d(TAG, "onClick: register1");
+//                    mPresenter.register("987789123", "345543", "345543");
+                    Toast.makeText(mContext, getString(R.string.register_content_not_null), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
 
-//    @Override
-//    public void showProgressDialog() {
-//        super.showProgressDialog();
-//    }
-//
-//
-//    @Override
-//    public void hideProgressDialog() {
-//        super.hideProgressDialog();
-//    }
-
     @Override
     public void Success(RegisterResult result) {
         LogUtil.d(TAG, "success: " + result);
         Toast.makeText(getContext(), getString(R.string.register_success), Toast.LENGTH_SHORT).show();
+
         //preference
         PreferenceUtil.instance().setAccount(mUserName.getText().toString());
+        PreferenceUtil.instance().setPwd("");
+        PreferenceUtil.instance().setCheck(false);
         ((LoginActivity) Objects.requireNonNull(getActivity())).getViewPager().setCurrentItem(0);
+
+        mUserName.setText("");
+        mPwd.setText("");
+        mPwd2.setText("");
     }
 
     @Override
