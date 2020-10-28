@@ -1,7 +1,6 @@
 package com.lyl.wanandroid.ui.activity;
 
 
-import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -9,14 +8,15 @@ import android.widget.TextView;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseActivity;
+import com.lyl.wanandroid.listener.DialogListener;
 import com.lyl.wanandroid.service.entity.LogoutResult;
-import com.lyl.wanandroid.utils.ConstUtil;
-import com.lyl.wanandroid.utils.ErrorUtil;
-import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.service.present.LogoutPresenter;
 import com.lyl.wanandroid.service.view.LogoutView;
+import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.LogUtil;
-import com.lyl.wanandroid.widget.DialogHelper;
+import com.lyl.wanandroid.utils.PreferenceUtil;
+import com.lyl.wanandroid.widget.ConfirmDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,12 +25,18 @@ public class SettingActivity extends BaseActivity implements LogoutView {
 
     private TextView mLogout;
     private LogoutPresenter mPresenter;
-
+    private ConfirmDialog dialog;
+    private static final String DIALOG_TAG = "dialog_tag";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-
+        if (null != savedInstanceState && null != getSupportFragmentManager()){
+            dialog = (ConfirmDialog)getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
+            if (null != dialog) {
+                dialog.setOnDialogClickListener(mListener);
+            }
+        }
         initView();
         initData();
     }
@@ -47,31 +53,25 @@ public class SettingActivity extends BaseActivity implements LogoutView {
         }
     }
 
-    private Dialog dialog;
-
     public void onLogout(View v) {
-        dialog = new DialogHelper(this)
-                .bindHintDialog("", getString(R.string.are_you_sure_to_logout),
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (null != dialog) dialog.dismiss();
-                                //logout
-                                mPresenter.logout();
-                            }
-                        },
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (null != dialog) {
-                                    dialog.dismiss();
-                                    dialog = null;
-                                }
-                            }
-                        });
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+        dialog = ConfirmDialog.getInstance(getString(R.string.are_you_sure_to_logout));
+        dialog.setOnDialogClickListener(mListener);
+        dialog.show(getSupportFragmentManager(), DIALOG_TAG);
     }
+
+    private DialogListener mListener = new DialogListener() {
+        @Override
+        public void leftClick() {
+            //do nothing
+        }
+
+        @Override
+        public void rightClick() {
+            if (null != mPresenter){
+                mPresenter.logout();
+            }
+        }
+    };
 
     public void onBack(View v) {
         finish();

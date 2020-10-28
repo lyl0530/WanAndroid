@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@drawable/dialog_shape"
     android:layout_margin="20dp"
     android:minWidth="300dp"
     android:padding="15dp">
 
     <TextView
         android:id="@+id/title"
-        android:text="@string/dialog_title"
+        tools:text="@string/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
@@ -19,7 +20,7 @@
         android:visibility="gone" />
 
     <TextView
-        android:text="@string/dialog_content"
+        tools:text="@string/dialog_content"
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

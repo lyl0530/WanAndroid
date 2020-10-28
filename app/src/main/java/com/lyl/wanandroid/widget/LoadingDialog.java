@@ -40,7 +40,7 @@ public class LoadingDialog{
     }
 
     public boolean isShow(){
-        boolean b = null != mDialog && mDialog.isShowing();
+//        boolean b = null != mDialog && mDialog.isShowing();
         return null != mDialog && mDialog.isShowing();
     }
 }
