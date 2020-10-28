@@ -212,7 +212,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             switch (item.getItemId()) {
                 case R.id.item_my_like:
                     if(BaseApplication.isLogin()){
-
+                        startActivity(new Intent(MainActivity.this, CollectListActivity.class));
                     } else {
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }

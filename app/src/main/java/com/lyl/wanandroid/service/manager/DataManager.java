@@ -2,6 +2,7 @@ package com.lyl.wanandroid.service.manager;
 
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.BannerResult;
+import com.lyl.wanandroid.service.entity.CollectListResult;
 import com.lyl.wanandroid.service.entity.HierarchyResult;
 import com.lyl.wanandroid.service.entity.HotKeyResult;
 import com.lyl.wanandroid.service.entity.LoginResult;
@@ -561,6 +562,83 @@ public class DataManager {
                     }
                 });
     }
+
+    public void collectList(int pageIndex,RequestListener<BaseResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .collectList(pageIndex)
+                .compose(getTransformer())
+                .subscribe(new Observer<CollectListResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(CollectListResult result) {
+                        handlerBaseResult(result, l);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG, "onError: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
+    public void unCollectArticle(int pageIndex, int originId, RequestListener<BaseResult> l) {
+        l.onStart();
+        RetrofitHelper.getWanApi()
+                .unCollectArticle(pageIndex, originId)
+                .compose(getTransformer())
+                .subscribe(new Observer<BaseResult>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onNext(BaseResult result) {
+                        if (null == result) {
+                            l.onFailed("结果为空");
+                            return;
+                        }
+                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
+                            l.onSuccess(result);
+                        } else {
+                            l.onFailed(result.getErrorMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e(TAG, "onError: " + e.getMessage());
+                        l.onFailed(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        l.onFinish();
+                    }
+                });
+    }
+
+    private void handlerBaseResult(BaseResult result, RequestListener<BaseResult> l){
+        if (null == result) {
+            l.onFailed("");
+            return;
+        }
+        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
+            l.onSuccess(result);
+        } else {
+            l.onFailed(/*result.getErrorCode(), */result.getErrorMsg());
+        }
+    }
+
     protected <T> ObservableTransformer getTransformer() {
         return /*(ObservableTransformer<T, T>) */RESULT_TRANSFORMER;
     }

@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.lyl.wanandroid.service.entity.Article1Bean;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.ui.activity.WebActivity;
 
@@ -49,6 +50,11 @@ public class PhoneUtil {
      * WebView打开url
      */
     public static void openInWebView(Context context, ArticleBean bean){
+        if (null == bean) return;
+        openInWebView(context, bean.getLink());
+    }
+
+    public static void openInWebView(Context context, Article1Bean bean){
         if (null == bean) return;
         openInWebView(context, bean.getLink());
     }

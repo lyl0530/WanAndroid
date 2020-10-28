@@ -1,6 +1,8 @@
 package com.lyl.wanandroid.service;
 
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.BannerResult;
+import com.lyl.wanandroid.service.entity.CollectListResult;
 import com.lyl.wanandroid.service.entity.HierarchyResult;
 import com.lyl.wanandroid.service.entity.HotKeyResult;
 import com.lyl.wanandroid.service.entity.LoginResult;
@@ -147,4 +149,29 @@ public interface RetrofitService {
     @POST("article/query/{page}/json")
     Observable<ProjectArticleListResult> search(@Path("page") int page,
                                          @Field("k") String k);
+
+    /**
+     * https://www.wanandroid.com/lg/collect/list/0/json
+     * 收藏文章列表
+     * 方法：GET
+     * 参数：
+     * page ：页码，拼接在链接上，从0开始。
+     */
+    @GET("lg/collect/list/{page}/json")
+    Observable<CollectListResult> collectList(@Path("page") int page);
+
+    /**
+     * https://www.wanandroid.com/lg/uncollect/2805/json
+     * 我的收藏页面 - 取消收藏
+     * 方法：GET
+     * 参数：
+     * id:拼接在链接上
+     * originId:列表页下发，无则为-1
+     * originId 代表的是你收藏之前的那篇文章本身的id； 但是收藏支持主动添加，这种情况下，没有originId则为-1
+     */
+    @FormUrlEncoded
+    @POST("lg/uncollect/{page}/json")
+    Observable<BaseResult> unCollectArticle(@Path("page") int page,
+                                         @Field("originId")int originId);
+
 }

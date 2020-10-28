@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <!--        <include-->
-        <!--            layout="@layout/title_bar_layout"-->
+        <!--            layout="@layout/layout_main_title_bar"-->
         <!--            android:id="@+id/title_bar"-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="wrap_content"-->
