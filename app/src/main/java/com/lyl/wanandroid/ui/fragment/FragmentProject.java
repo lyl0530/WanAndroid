@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
@@ -26,6 +25,7 @@ import com.lyl.wanandroid.service.entity.ProjectResult;
 import com.lyl.wanandroid.listener.ScrollViewListener;
 import com.lyl.wanandroid.service.present.ProjectPresenter;
 import com.lyl.wanandroid.service.view.ProjectView;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.ui.view.ProjectTitleScrollView;
 
@@ -164,8 +164,9 @@ public class FragmentProject extends BaseFragment implements ProjectView {
     }
 
     @Override
-    public void Failed(String msg) {
-        showToast(msg);
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+        showToast(str);
     }
 
     private void showHScrollTextView(ArrayList<String> list){

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
@@ -21,7 +20,7 @@ import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.service.present.HierarchyPresenter;
 import com.lyl.wanandroid.service.view.HierarchyView;
 import com.lyl.wanandroid.ui.activity.ArticleListActivity;
-import com.lyl.wanandroid.utils.LogUtil;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.ui.view.FlowLayout;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -75,9 +74,9 @@ public class FrgmHierarchy extends BaseFragment implements HierarchyView {
     }
 
     @Override
-    public void Failed(String msg) {
-        LogUtil.e(TAG, "loginFailed: " + msg);
-        showToast(msg);
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(getContext(), code, msg);
+        showToast(str);
     }
 
     private void initData() {

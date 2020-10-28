@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.NavigationResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.view.NavigationView;
@@ -15,20 +16,22 @@ import com.lyl.wanandroid.service.view.NavigationView;
  */
 public class NavigationPresenter extends BasePresenter<NavigationView> {
     public void getNavigation(){
-        getModel().getNavigation(new RequestListener<NavigationResult>() {
+        getModel().getNavigation(new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(NavigationResult res) {
-                getView().Success(res);
+            public void onSuccess(BaseResult res) {
+                if (res instanceof NavigationResult) {
+                    getView().Success((NavigationResult)res);
+                }
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().Failed(msg);
+            public void onFailed(int code, String msg) {
+                getView().Failed(code, msg);
             }
 
             @Override

@@ -14,7 +14,7 @@ public class CollectPresenter extends BasePresenter<CollectView> {
 
     //收藏站内文章
     public void collectArticle(int id, int position) {
-        getModel().collectArticle(id, new RequestListener<BaseResult>() {
+        getModel().collectArticle(id, new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
@@ -26,8 +26,8 @@ public class CollectPresenter extends BasePresenter<CollectView> {
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().collectArticleFailed(msg);
+            public void onFailed(int code, String msg) {
+                getView().collectArticleFailed(code, msg);
             }
 
             @Override
@@ -39,7 +39,7 @@ public class CollectPresenter extends BasePresenter<CollectView> {
 
     //文章列表处取消收藏
     public void unCollectArticle(int id, int position) {
-        getModel().unCollectArticle(id, new RequestListener<BaseResult>() {
+        getModel().unCollectArticle(id, new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
@@ -51,8 +51,8 @@ public class CollectPresenter extends BasePresenter<CollectView> {
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().unCollectArticleFailed(msg);
+            public void onFailed(int code, String msg) {
+                getView().unCollectArticleFailed(code, msg);
             }
 
             @Override

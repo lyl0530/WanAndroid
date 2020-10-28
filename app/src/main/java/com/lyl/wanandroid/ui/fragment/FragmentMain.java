@@ -384,7 +384,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     }
 
     @Override
-    public void getBannerFailed(String msg) {
+    public void getBannerFailed(int code, String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -399,7 +399,7 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     }
 
     @Override
-    public void getTopArticleFailed(String msg) {
+    public void getTopArticleFailed(int code, String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -418,12 +418,12 @@ public class FragmentMain extends BaseFragment implements MainView, View.OnClick
     }
 
     @Override
-    public void getMainArticleFailed(String msg) {
+    public void getMainArticleFailed(int code, String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void Failed(String msg) {
+    public void Failed(int code, String msg) {
         LogUtil.e(TAG, msg);
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }

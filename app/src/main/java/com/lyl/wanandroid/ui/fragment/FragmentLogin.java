@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.service.entity.LoginResult;
 import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.service.present.LoginPresenter;
@@ -195,9 +195,9 @@ public class FragmentLogin extends BaseFragment implements LoginView, View.OnCli
     }
 
     @Override
-    public void Failed(String msg) {
-        LogUtil.e(TAG, "loginFailed: " + msg);
-        showToast(msg);
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+        showToast(str);
     }
 
     @Override

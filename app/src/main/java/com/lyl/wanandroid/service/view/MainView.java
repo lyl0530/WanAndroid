@@ -12,13 +12,13 @@ import com.lyl.wanandroid.service.entity.TopArticleResult;
 public interface MainView extends BaseView {
     //首页 - banner
     void getBannerSuccess(BannerResult res);
-    void getBannerFailed(String msg);
+    void getBannerFailed(int code, String msg);
     //置顶文章
     void getTopArticleSuccess(TopArticleResult res);
-    void getTopArticleFailed(String msg);
+    void getTopArticleFailed(int code, String msg);
     //首页文章
     void getMainArticleSuccess(MainArticleResult res);
-    void getMainArticleFailed(String msg);
+    void getMainArticleFailed(int code, String msg);
 
     //三个接口 调用完毕
     void Finish();

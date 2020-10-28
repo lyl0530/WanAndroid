@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.HierarchyResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.view.HierarchyView;
@@ -15,20 +16,22 @@ import com.lyl.wanandroid.service.view.HierarchyView;
  */
 public class HierarchyPresenter extends BasePresenter<HierarchyView> {
     public void getHierarchy(){
-        getModel().getHierarchy(new RequestListener<HierarchyResult>() {
+        getModel().getHierarchy(new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(HierarchyResult res) {
-                getView().Success(res);
+            public void onSuccess(BaseResult res) {
+                if (res instanceof HierarchyResult) {
+                    getView().Success((HierarchyResult)res);
+                }
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().Failed(msg);
+            public void onFailed(int code, String msg) {
+                getView().Failed(code, msg);
             }
 
             @Override

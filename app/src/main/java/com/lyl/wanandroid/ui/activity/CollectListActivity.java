@@ -11,14 +11,12 @@ import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseActivity;
 import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.listener.OnCollectListListener;
-import com.lyl.wanandroid.listener.OnItemCollectListener;
 import com.lyl.wanandroid.service.entity.Article1Bean;
 import com.lyl.wanandroid.service.entity.CollectListResult;
 import com.lyl.wanandroid.service.present.CollectListPresenter;
 import com.lyl.wanandroid.service.view.CollectListView;
 import com.lyl.wanandroid.ui.adapter.CollectListAdapter;
 import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
-import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.LogUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
@@ -141,17 +139,12 @@ public class CollectListActivity extends BaseActivity implements CollectListView
     }
 
     @Override
-    public void Failed(String msg) {
-//        showToast(getString(R.string.un_collect_failed)+msg);
-//        showToast(getString(R.string.collect_list_failed)+msg);
-//        if (ConstUtil.GO_TO_LOGIN.equalsIgnoreCase(msg)){
-//            showToast(R.string.login_first);
-//            return;
-//        }
-//        String msg = ErrorUtil.getErrorInfo(this, );
-        showToast(msg);
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+        showToast(str);
 
         if (loadMore){
+            loadMore = false;
             mRefreshLayout.finishLoadMoreWithNoMoreData();
         } else {
             mRefreshLayout.finishRefresh();

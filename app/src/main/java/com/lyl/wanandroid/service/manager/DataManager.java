@@ -16,6 +16,7 @@ import com.lyl.wanandroid.service.entity.TopArticleResult;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.RetrofitHelper;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.LogUtil;
 
 import io.reactivex.Observable;
@@ -35,7 +36,7 @@ import io.reactivex.schedulers.Schedulers;
 public class DataManager {
     private static final String TAG = "DataManager";
 
-    public void register(String userName, String pwd, String rePwd, RequestListener<RegisterResult> l) {
+    public void register(String userName, String pwd, String rePwd, RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .register(userName, pwd, rePwd)
@@ -47,22 +48,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(RegisterResult result) {
-                        //LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -72,7 +64,7 @@ public class DataManager {
                 });
     }
 
-    public void login(String userName, String pwd, RequestListener<LoginResult> l) {
+    public void login(String userName, String pwd, RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .login(userName, pwd)
@@ -84,22 +76,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(LoginResult result) {
-                        LogUtil.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -109,7 +92,7 @@ public class DataManager {
                 });
     }
 
-    public void logout(RequestListener<LogoutResult> l) {
+    public void logout(RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .logout()
@@ -122,22 +105,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(LogoutResult result) {
-                        LogUtil.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -147,7 +121,7 @@ public class DataManager {
                 });
     }
 
-    public void getBanner(RequestListener<BannerResult> l) {
+    public void getBanner(RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .getBanner()
@@ -159,22 +133,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(BannerResult result) {
-//                        LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -185,7 +150,7 @@ public class DataManager {
     }
 
     //获取置顶文章
-    public void getTopArticle(RequestListener<TopArticleResult> l) {
+    public void getTopArticle(RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .getTopArticle()
@@ -197,22 +162,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(TopArticleResult result) {
-//                        LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -223,7 +179,7 @@ public class DataManager {
     }
 
     //获取置顶文章
-    public void getMainArticle(int pageIndex, RequestListener<MainArticleResult> l) {
+    public void getMainArticle(int pageIndex, RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .getMainArticle(pageIndex)
@@ -235,22 +191,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(MainArticleResult result) {
-//                        LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -260,7 +207,7 @@ public class DataManager {
                 });
     }
 
-    public void getHierarchy(RequestListener<HierarchyResult> l) {
+    public void getHierarchy(RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .getHierarchy()
@@ -272,22 +219,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(HierarchyResult result) {
-//                        LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -297,7 +235,7 @@ public class DataManager {
                 });
     }
 
-    public void getNavigation(RequestListener<NavigationResult> l) {
+    public void getNavigation(RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .getNavigation()
@@ -309,22 +247,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(NavigationResult result) {
-//                        LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -335,7 +264,7 @@ public class DataManager {
     }
 
     //收藏站内文章
-    public void collectArticle(int id, RequestListener<BaseResult> l) {
+    public void collectArticle(int id, RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .collectArticle(id)
@@ -348,23 +277,28 @@ public class DataManager {
                     @Override
                     public void onNext(BaseResult result) {
 //                        LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
+//                        if (null == result) {
+//                            l.onFailed("结果为空");
+//                            return;
+//                        }
+//                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
+//                            l.onSuccess(result);
+//                        } else if (ConstUtil.LOGIN_CODE == result.getErrorCode()) {
+//                            l.onFailed(ConstUtil.LOGIN_MSG+id);
+//                        } else {
+//                            l.onFailed(result.getErrorMsg());
+//                        }
+
+                        if (ErrorUtil.CODE_NOT_LOGIN == result.getErrorCode()){
+                            result.setErrorMsg(ConstUtil.LOGIN_MSG+id);
                         }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else if (ConstUtil.LOGIN_CODE == result.getErrorCode()) {
-                            l.onFailed(ConstUtil.LOGIN_MSG+id);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -375,7 +309,7 @@ public class DataManager {
     }
 
     //文章列表处取消收藏
-    public void unCollectArticle(int id, RequestListener<BaseResult> l) {
+    public void unCollectArticle(int id, RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .unCollectArticle(id)
@@ -387,22 +321,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(BaseResult result) {
-//                        LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -413,7 +338,7 @@ public class DataManager {
     }
 
     //获取项目的整个分类
-    public void getProject(RequestListener<ProjectResult> l) {
+    public void getProject(RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .getProject()
@@ -425,22 +350,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(ProjectResult result) {
-//                        LogUtils.d(TAG, "onNext: " + result);
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -453,7 +369,7 @@ public class DataManager {
     //获取单个项目的文章列表
     public void getProjectArticleList(int curPageId,
                                       int cid,
-                                      RequestListener<ProjectArticleListResult> l) {
+                                      RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .getProjectArticleList(curPageId, cid)
@@ -465,21 +381,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(ProjectArticleListResult result) {
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -490,7 +398,7 @@ public class DataManager {
     }
 
     //热词搜索
-    public void getHotKey(RequestListener<HotKeyResult> l) {
+    public void getHotKey(RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .getHotKey()
@@ -502,21 +410,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(HotKeyResult result) {
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -527,7 +427,7 @@ public class DataManager {
     }
 
     //搜索
-    public void search(int pageIndex, String key, RequestListener<ProjectArticleListResult> l) {
+    public void search(int pageIndex, String key, RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .search(pageIndex, key)
@@ -539,21 +439,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(ProjectArticleListResult result) {
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -563,7 +455,7 @@ public class DataManager {
                 });
     }
 
-    public void collectList(int pageIndex,RequestListener<BaseResult> l) {
+    public void collectList(int pageIndex,RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .collectList(pageIndex)
@@ -581,7 +473,7 @@ public class DataManager {
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -591,7 +483,7 @@ public class DataManager {
                 });
     }
 
-    public void unCollectArticle(int pageIndex, int originId, RequestListener<BaseResult> l) {
+    public void unCollectArticle(int pageIndex, int originId, RequestListener l) {
         l.onStart();
         RetrofitHelper.getWanApi()
                 .unCollectArticle(pageIndex, originId)
@@ -603,21 +495,13 @@ public class DataManager {
 
                     @Override
                     public void onNext(BaseResult result) {
-                        if (null == result) {
-                            l.onFailed("结果为空");
-                            return;
-                        }
-                        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
-                            l.onSuccess(result);
-                        } else {
-                            l.onFailed(result.getErrorMsg());
-                        }
+                        handlerBaseResult(result, l);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "onError: " + e.getMessage());
-                        l.onFailed(e.getMessage());
+                        l.onFailed(ErrorUtil.CODE_OTHERS, e.getMessage());
                     }
 
                     @Override
@@ -627,15 +511,23 @@ public class DataManager {
                 });
     }
 
-    private void handlerBaseResult(BaseResult result, RequestListener<BaseResult> l){
+    /**
+     * result为空 -1002
+     * 修改未登录的错误码为 -1001
+     * 其他错误码为 -1
+     * 成功为 0
+     * 建议对errorCode 判断当不为0的时候，均为错误。
+     */
+    private void handlerBaseResult(BaseResult result, RequestListener l){
+        LogUtil.d(TAG, "handlerBaseResult: " + result);
         if (null == result) {
-            l.onFailed("");
+            l.onFailed(ErrorUtil.CODE_RES_NULL, "");
             return;
         }
-        if (ConstUtil.SUCCESS_CODE == result.getErrorCode()) {
+        if (ErrorUtil.CODE_SUCCESS == result.getErrorCode()) {
             l.onSuccess(result);
         } else {
-            l.onFailed(/*result.getErrorCode(), */result.getErrorMsg());
+            l.onFailed(result.getErrorCode(), result.getErrorMsg());
         }
     }
 

@@ -9,7 +9,7 @@ import com.lyl.wanandroid.base.BaseView;
  */
 public interface CollectView extends BaseView {
     void collectArticleSuccess(BaseResult res, int position);
-    void collectArticleFailed(String msg);
+    void collectArticleFailed(int code, String msg);
     void unCollectArticleSuccess(BaseResult res, int position);
-    void unCollectArticleFailed(String msg);
+    void unCollectArticleFailed(int code, String msg);
 }

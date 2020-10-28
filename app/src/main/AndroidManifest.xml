@@ -28,7 +28,6 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.activity.CollectListActivity"></activity>
     <!--
         https://blog.csdn.net/qq_33721320/article/details/84400825
         ERR_CLEARTEXT_NOT_PERMITTED
@@ -43,11 +42,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.SettingActivity"/>
-        <activity android:name=".ui.activity.LoginActivity"/>
+        <activity android:name=".ui.activity.LoginActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="com.lyl.wanandroid.ACTION.login"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.activity.WebActivity"/>
         <activity android:name=".ui.activity.ArticleListActivity"/>
         <activity android:name=".ui.activity.SearchActivity"/>
+        <activity android:name=".ui.activity.CollectListActivity"/>
     </application>
-
 
 </manifest>

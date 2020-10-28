@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.LoginResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.view.LoginView;
@@ -16,20 +17,22 @@ import com.lyl.wanandroid.service.view.LoginView;
  */
 public class LoginPresenter extends BasePresenter<LoginView> {
     public void login(String userName, String pwd){
-        getModel().login(userName, pwd, new RequestListener<LoginResult>() {
+        getModel().login(userName, pwd, new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(LoginResult res) {
-                getView().Success(res);
+            public void onSuccess(BaseResult res) {
+                if (res instanceof LoginResult) {
+                    getView().Success((LoginResult)res);
+                }
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().Failed(msg);
+            public void onFailed(int code, String msg) {
+                getView().Failed(code, msg);
             }
 
             @Override

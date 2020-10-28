@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.ui.adapter.HierarchyFragmentPagerAdapter;
@@ -20,6 +19,7 @@ import com.lyl.wanandroid.service.entity.HotKeyResult;
 import com.lyl.wanandroid.service.present.HotKeyPresenter;
 import com.lyl.wanandroid.service.view.HotKeyView;
 import com.lyl.wanandroid.ui.view.FlowLayout;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 
 import java.util.ArrayList;
@@ -116,8 +116,9 @@ public class FragmentHotKey extends BaseFragment implements HotKeyView{
     }
 
     @Override
-    public void Failed(String msg) {
-        showToast(msg);
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+        showToast(str);
     }
 
     @Override

@@ -10,5 +10,5 @@ public interface BaseView/*<T>*/ {
 
     void hideProgressDialog();
 
-    void Failed(String msg);
+    void Failed(int code, String msg);
 }

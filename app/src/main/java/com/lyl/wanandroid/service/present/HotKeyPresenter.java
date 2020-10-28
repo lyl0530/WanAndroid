@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.HotKeyResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.view.HotKeyView;
@@ -11,20 +12,22 @@ import com.lyl.wanandroid.service.view.HotKeyView;
  */
 public class HotKeyPresenter extends BasePresenter<HotKeyView> {
     public void getHotKey() {
-        getModel().getHotKey(new RequestListener<HotKeyResult>() {
+        getModel().getHotKey(new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(HotKeyResult data) {
-                getView().Success(data);
+            public void onSuccess(BaseResult data) {
+                if (data instanceof HotKeyResult) {
+                    getView().Success((HotKeyResult)data);
+                }
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().Failed(msg);
+            public void onFailed(int code, String msg) {
+                getView().Failed(code, msg);
             }
 
             @Override

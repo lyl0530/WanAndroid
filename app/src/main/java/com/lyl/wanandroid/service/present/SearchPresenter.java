@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.view.SearchView;
@@ -11,20 +12,22 @@ import com.lyl.wanandroid.service.view.SearchView;
  */
 public class SearchPresenter extends BasePresenter<SearchView> {
     public void search(int pageIndex, String key) {
-        getModel().search(pageIndex, key, new RequestListener<ProjectArticleListResult>() {
+        getModel().search(pageIndex, key, new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(ProjectArticleListResult data) {
-                getView().Success(data);
+            public void onSuccess(BaseResult data) {
+                if (data instanceof ProjectArticleListResult) {
+                    getView().Success((ProjectArticleListResult)data);
+                }
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().Failed(msg);
+            public void onFailed(int code, String msg) {
+                getView().Failed(code, msg);
             }
 
             @Override

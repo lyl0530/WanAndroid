@@ -15,11 +15,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.service.entity.RegisterResult;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.service.present.RegisterPresenter;
@@ -154,9 +154,9 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void Failed(String msg) {
-        LogUtil.d(TAG, "failed: " + msg);
-        showToast(msg);
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+        showToast(str);
     }
 
     @Override
@@ -166,5 +166,4 @@ public class FragmentRegister extends BaseFragment implements View.OnClickListen
         }
         super.onDestroy();
     }
-
 }

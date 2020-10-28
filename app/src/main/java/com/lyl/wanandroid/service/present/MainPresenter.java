@@ -1,11 +1,13 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.BannerResult;
 import com.lyl.wanandroid.service.entity.MainArticleResult;
 import com.lyl.wanandroid.service.entity.TopArticleResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.view.MainView;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.LogUtil;
 
 /**
@@ -24,7 +26,7 @@ public class MainPresenter extends BasePresenter<MainView> {
 
     private void isAllFinish(){
         if (!getBannerSuccess && !getTopArticleSuccess && !getMainArticleSuccess){
-            getView().Failed("all_fail");
+            getView().Failed(ErrorUtil.CODE_OTHERS, "all request failed!");
         }
 
         if (getBannerFinish && getTopArticleFinish && getMainArticleFinish) {
@@ -39,22 +41,24 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void getBanner() {
-        getModel().getBanner(new RequestListener<BannerResult>() {
+        getModel().getBanner(new RequestListener() {
             @Override
             public void onStart() {
                 //getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(BannerResult res) {
-                getBannerSuccess = true;
-                getView().getBannerSuccess(res);
+            public void onSuccess(BaseResult res) {
+                if (res instanceof BannerResult) {
+                    getBannerSuccess = true;
+                    getView().getBannerSuccess((BannerResult)res);
+                }
             }
 
             @Override
-            public void onFailed(String msg) {
+            public void onFailed(int code, String msg) {
                 getBannerSuccess = false;
-                getView().getBannerFailed(msg);
+                getView().getBannerFailed(code, msg);
             }
 
             @Override
@@ -67,26 +71,28 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void getTopArticle() {
-        getModel().getTopArticle(new RequestListener<TopArticleResult>() {
+        getModel().getTopArticle(new RequestListener() {
             @Override
             public void onStart() {
                 //getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(TopArticleResult res) {
-                getTopArticleSuccess = true;
+            public void onSuccess(BaseResult res) {
                 try {
-                    getView().getTopArticleSuccess(res);
+                    if (res instanceof TopArticleResult) {
+                        getTopArticleSuccess = true;
+                        getView().getTopArticleSuccess((TopArticleResult)res);
+                    }
                 } catch (Exception e){
                     LogUtil.e(TAG, e.toString());
                 }
             }
 
             @Override
-            public void onFailed(String msg) {
+            public void onFailed(int code, String msg) {
                 getTopArticleSuccess = false;
-                getView().getTopArticleFailed(msg);
+                getView().getTopArticleFailed(code, msg);
             }
 
             @Override
@@ -99,26 +105,28 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void getMainArticle(int pageIndex) {
-        getModel().getMainArticle(pageIndex, new RequestListener<MainArticleResult>() {
+        getModel().getMainArticle(pageIndex, new RequestListener() {
             @Override
             public void onStart() {
                 //getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(MainArticleResult res) {
-                getMainArticleSuccess = true;
+            public void onSuccess(BaseResult res) {
                 try {
-                    getView().getMainArticleSuccess(res);
+                    if (res instanceof MainArticleResult) {
+                        getMainArticleSuccess = true;
+                        getView().getMainArticleSuccess((MainArticleResult)res);
+                    }
                 } catch (Exception e){
                     LogUtil.e(TAG, e.toString());
                 }
             }
 
             @Override
-            public void onFailed(String msg) {
+            public void onFailed(int code, String msg) {
                 getMainArticleSuccess = false;
-                getView().getMainArticleFailed(msg);
+                getView().getMainArticleFailed(code, msg);
             }
 
             @Override

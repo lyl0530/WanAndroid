@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.listener.OnCollectListListener;
-import com.lyl.wanandroid.listener.OnItemCollectListener;
 import com.lyl.wanandroid.service.entity.Article1Bean;
 
 import org.apache.commons.text.StringEscapeUtils;

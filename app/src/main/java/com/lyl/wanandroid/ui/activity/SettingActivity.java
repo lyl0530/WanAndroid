@@ -11,6 +11,7 @@ import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseActivity;
 import com.lyl.wanandroid.service.entity.LogoutResult;
 import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.service.present.LogoutPresenter;
 import com.lyl.wanandroid.service.view.LogoutView;
@@ -89,8 +90,9 @@ public class SettingActivity extends BaseActivity implements LogoutView {
     }
 
     @Override
-    public void Failed(String msg) {
-
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(SettingActivity.this, code, msg);
+        showToast(str);
     }
 
     @Override

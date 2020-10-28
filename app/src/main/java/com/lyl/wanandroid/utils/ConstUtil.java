@@ -14,10 +14,9 @@ public class ConstUtil {
     //preference
     public static final String PREFERENCE_NAME = "FOR_MY_LOVE_LYM";
 
-    //result code
-    public static final int SUCCESS_CODE = 0;
-    public static final int LOGIN_CODE = -1001;
+    //login
     public static final String LOGIN_MSG = "LOGIN";
+    public static final String GO_TO_LOGIN = "com.lyl.wanandroid.ACTION.login";
 
     public static final String REFRESH_MAIN = "REFRESH_MAIN";
 

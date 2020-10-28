@@ -2,8 +2,6 @@ package com.lyl.wanandroid.service.entity;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 /**
  * Created by lym on 2020/7/14
  * Describe :

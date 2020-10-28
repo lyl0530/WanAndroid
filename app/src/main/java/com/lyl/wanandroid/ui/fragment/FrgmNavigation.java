@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseFragment;
@@ -19,7 +18,7 @@ import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.entity.NavigationResult;
 import com.lyl.wanandroid.service.present.NavigationPresenter;
 import com.lyl.wanandroid.service.view.NavigationView;
-import com.lyl.wanandroid.utils.LogUtil;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.ui.view.FlowLayout;
 
@@ -73,9 +72,9 @@ public class FrgmNavigation extends BaseFragment implements NavigationView {
     }
 
     @Override
-    public void Failed(String msg) {
-        LogUtil.e(TAG, "loginFailed: " + msg);
-        showToast(msg);
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+        showToast(str);
     }
 
     private void initData() {

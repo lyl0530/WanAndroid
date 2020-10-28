@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
@@ -29,6 +28,7 @@ import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
 import com.lyl.wanandroid.service.present.ProjectArticleListPresenter;
 import com.lyl.wanandroid.service.view.ProjectArticleListView;
 import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -147,8 +147,9 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     }
 
     @Override
-    public void Failed(String msg) {
-        showToast(msg);
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+        showToast(str);
         if (loadMore){
             loadMore = false;
             mRefreshLayout.finishLoadMore();
@@ -231,8 +232,7 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     }
 
     @Override
-    public void collectArticleFailed(String msg) {
-        Log.e(TAG, "collectArticleFailed: 20200729 " + msg);
+    public void collectArticleFailed(int code, String msg) {
         if (!TextUtils.isEmpty(msg) && msg.startsWith(ConstUtil.LOGIN_MSG)){
             try {
                 int articleId = Integer.parseInt(msg.substring(ConstUtil.LOGIN_MSG.length()));
@@ -245,7 +245,8 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 e.printStackTrace();
             }
         } else {
-            showToast(getString(R.string.collect_failed) + msg);
+            String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+            showToast(str);
         }
     }
 
@@ -260,9 +261,9 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
     }
 
     @Override
-    public void unCollectArticleFailed(String msg) {
-        Log.e(TAG, "collectArticleFailed: " + msg);
-        showToast(getString(R.string.un_collect_failed)+msg);
+    public void unCollectArticleFailed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(mContext, code, msg);
+        showToast(str);
     }
 
     @Override

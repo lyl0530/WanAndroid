@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.ProjectResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.view.ProjectView;
@@ -11,20 +12,22 @@ import com.lyl.wanandroid.service.view.ProjectView;
  */
 public class ProjectPresenter extends BasePresenter<ProjectView> {
     public void getProject() {
-        getModel().getProject(new RequestListener<ProjectResult>() {
+        getModel().getProject(new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(ProjectResult data) {
-                getView().Success(data);
+            public void onSuccess(BaseResult data) {
+                if (data instanceof ProjectResult) {
+                    getView().Success((ProjectResult)data);
+                }
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().Failed(msg);
+            public void onFailed(int code, String msg) {
+                getView().Failed(code, msg);
             }
 
             @Override

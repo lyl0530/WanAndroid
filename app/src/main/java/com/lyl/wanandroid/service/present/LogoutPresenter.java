@@ -1,6 +1,7 @@
 package com.lyl.wanandroid.service.present;
 
 import com.lyl.wanandroid.base.BasePresenter;
+import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.service.entity.LogoutResult;
 import com.lyl.wanandroid.listener.RequestListener;
 import com.lyl.wanandroid.service.view.LogoutView;
@@ -15,20 +16,22 @@ import com.lyl.wanandroid.service.view.LogoutView;
  */
 public class LogoutPresenter extends BasePresenter<LogoutView> {
     public void logout() {
-        getModel().logout(new RequestListener<LogoutResult>() {
+        getModel().logout(new RequestListener() {
             @Override
             public void onStart() {
                 getView().showProgressDialog();
             }
 
             @Override
-            public void onSuccess(LogoutResult res) {
-                getView().Success(res);
+            public void onSuccess(BaseResult res) {
+                if (res instanceof LogoutResult) {
+                    getView().Success((LogoutResult)res);
+                }
             }
 
             @Override
-            public void onFailed(String msg) {
-                getView().Failed(msg);
+            public void onFailed(int code, String msg) {
+                getView().Failed(code, msg);
             }
 
             @Override
