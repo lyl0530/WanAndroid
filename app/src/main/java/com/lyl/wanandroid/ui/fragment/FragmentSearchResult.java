@@ -15,22 +15,21 @@ import android.view.ViewGroup;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
+import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.base.BaseResult;
-import com.lyl.wanandroid.listener.OnArticleItemListener;
-import com.lyl.wanandroid.listener.OnItemCollectListener;
+import com.lyl.wanandroid.listener.OnArticleListListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
+import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
 import com.lyl.wanandroid.service.present.CollectPresenter;
+import com.lyl.wanandroid.service.present.SearchPresenter;
 import com.lyl.wanandroid.service.view.CollectView;
+import com.lyl.wanandroid.service.view.SearchView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.ui.adapter.ArticleListAdapter;
-import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
-import com.lyl.wanandroid.service.present.SearchPresenter;
-import com.lyl.wanandroid.service.view.SearchView;
+import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
-import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -172,13 +171,12 @@ public class FragmentSearchResult extends BaseFragment implements SearchView, Co
             } else {
                 mDataList = dataList;
                 mAdapter = new ArticleListAdapter(mContext, mDataList);
-                mAdapter.setOnArticleItemListener(new OnArticleItemListener() {
+                mAdapter.setOnArticleListListener(new OnArticleListListener() {
                     @Override
                     public void onItemClick(ArticleBean bean) {
                         PhoneUtil.openInWebView(mContext, bean);
                     }
-                });
-                mAdapter.setOnItemCollectListener(new OnItemCollectListener(){
+
                     @Override
                     public void onItemCollect(int articleId, int position, boolean isCollect) {
                         if (null == mCollectPresenter) return;

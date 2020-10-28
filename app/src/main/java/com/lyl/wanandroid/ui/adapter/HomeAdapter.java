@@ -22,8 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
-import com.lyl.wanandroid.listener.OnArticleItemListener;
-import com.lyl.wanandroid.listener.OnItemCollectListener;
+import com.lyl.wanandroid.listener.OnArticleListListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.entity.BannerResult;
 import com.lyl.wanandroid.service.entity.HomeBean;
@@ -236,7 +235,6 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
-
         LogUtil.e(TAG, "bindBannerHolder end");
     }
 
@@ -289,8 +287,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mArticleItemListener) {
-                    mArticleItemListener.onItemClick(bean);
+                if (null != mListener) {
+                    mListener.onItemClick(bean);
                 }
             }
         });
@@ -403,20 +401,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    /**
-     * 收藏和取消收藏 点击item的对外接口
-     */
-    private OnItemCollectListener mListener;
-    public void setOnItemCollectListener(OnItemCollectListener l){
+    private OnArticleListListener mListener;
+    public void setOnArticleListListener(OnArticleListListener l){
         mListener = l;
-    }
-
-    /**
-     * 文章 点击item的对外接口
-     */
-    private OnArticleItemListener mArticleItemListener;
-    public void setOnArticleItemListener(OnArticleItemListener l){
-        mArticleItemListener = l;
     }
 
     public void restartHandler(boolean reset){

@@ -15,22 +15,21 @@ import android.view.ViewGroup;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
+import com.lyl.wanandroid.base.BaseFragment;
 import com.lyl.wanandroid.base.BaseResult;
-import com.lyl.wanandroid.listener.OnArticleItemListener;
-import com.lyl.wanandroid.listener.OnItemCollectListener;
+import com.lyl.wanandroid.listener.OnArticleListListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
+import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
 import com.lyl.wanandroid.service.present.CollectPresenter;
+import com.lyl.wanandroid.service.present.ProjectArticleListPresenter;
 import com.lyl.wanandroid.service.view.CollectView;
+import com.lyl.wanandroid.service.view.ProjectArticleListView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.ui.adapter.ArticleListAdapter;
-import com.lyl.wanandroid.base.BaseFragment;
-import com.lyl.wanandroid.service.entity.ProjectArticleListResult;
-import com.lyl.wanandroid.service.present.ProjectArticleListPresenter;
-import com.lyl.wanandroid.service.view.ProjectArticleListView;
+import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
-import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
@@ -180,7 +179,12 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
             } else {
                 dataList = tempList;
                 mAdapter = new ArticleListAdapter(mContext, dataList);
-                mAdapter.setOnItemCollectListener(new OnItemCollectListener(){
+                mAdapter.setOnArticleListListener(new OnArticleListListener() {
+                    @Override
+                    public void onItemClick(ArticleBean bean) {
+                        PhoneUtil.openInWebView(mContext, bean);
+                    }
+
                     @Override
                     public void onItemCollect(int articleId, int position, boolean isCollect) {
                         if (null == mCollectPresenter) return;
@@ -189,12 +193,6 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                         } else { //收藏
                             mCollectPresenter.collectArticle(articleId, position);
                         }
-                    }
-                });
-                mAdapter.setOnArticleItemListener(new OnArticleItemListener() {
-                    @Override
-                    public void onItemClick(ArticleBean bean) {
-                        PhoneUtil.openInWebView(mContext, bean);
                     }
                 });
                 mRv.setAdapter(mAdapter);

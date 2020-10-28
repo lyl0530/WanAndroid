@@ -16,8 +16,7 @@ import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
-import com.lyl.wanandroid.listener.OnArticleItemListener;
-import com.lyl.wanandroid.listener.OnItemCollectListener;
+import com.lyl.wanandroid.listener.OnArticleListListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -34,34 +33,22 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     private Context mContext;
     private ArrayList<ArticleBean> mList;
-//    private RequestOptions requestOptions;
 
-    private OnArticleItemListener mOnItemClickListener;
-    public void setOnArticleItemListener(OnArticleItemListener l) {
-        mOnItemClickListener = l;
-    }
-
-    /**
-     * 收藏和取消收藏
-     */
-    private OnItemCollectListener mCollectListener;
-    public void setOnItemCollectListener(OnItemCollectListener l){
-        mCollectListener = l;
+    private OnArticleListListener mListener;
+    public void setOnArticleListListener(OnArticleListListener l){
+        mListener = l;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTvAuthor, mTvTime, mTvTitle/*, mTvSubTitle*/;
-//        ImageView mImg;
+        TextView mTvAuthor, mTvTime, mTvTitle;
         ImageButton ibtnCollect;
         ImageView imgNew, imgTop;
 
-        public ViewHolder(@NonNull View itemView, final OnArticleItemListener listener) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvAuthor = itemView.findViewById(R.id.tv_author);
             mTvTime = itemView.findViewById(R.id.tv_time);
             mTvTitle = itemView.findViewById(R.id.tv_title);
-//            mTvSubTitle = (TextView) itemView.findViewById(R.id.sub_title);
-//            mImg = (ImageView) itemView.findViewById(R.id.project_img);
             ibtnCollect = itemView.findViewById(R.id.ibtn_collect);
             imgNew= itemView.findViewById(R.id.img_new);
             imgTop= itemView.findViewById(R.id.img_top);
@@ -87,7 +74,7 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.layout_article_list, viewGroup, false);
-        return new ViewHolder(itemView, mOnItemClickListener);
+        return new ViewHolder(itemView);
     }
 
     @SuppressLint("SetTextI18n")
@@ -115,8 +102,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             public void onClick(View v) {
                 Log.d(TAG, "onClick: 20200729: " + pos);
 //                Toast.makeText(mContext, "点击了"+pos, Toast.LENGTH_SHORT).show();
-                if (null != mCollectListener){
-                    mCollectListener.onItemCollect(mList.get(pos).getId(), pos, mList.get(pos).isCollect());
+                if (null != mListener){
+                    mListener.onItemCollect(mList.get(pos).getId(), pos, mList.get(pos).isCollect());
                 }
             }
         });
@@ -124,8 +111,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mOnItemClickListener){
-                    mOnItemClickListener.onItemClick(mList.get(pos));
+                if (null != mListener){
+                    mListener.onItemClick(mList.get(pos));
                 }
             }
         });
