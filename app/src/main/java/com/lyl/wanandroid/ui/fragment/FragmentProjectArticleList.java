@@ -30,10 +30,11 @@ import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
+import com.scwang.smartrefresh.header.DropBoxHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -124,8 +125,8 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                     mRefreshLayout.finishLoadMoreWithNoMoreData();
                 }
             }
-        }).setRefreshHeader(new ClassicsHeader(mContext).setEnableLastTime(true))
-          .setRefreshFooter(new ClassicsFooter(mContext));
+        }).setRefreshHeader(new DropBoxHeader(mContext))
+        .setRefreshFooter(new BallPulseFooter(mContext).setSpinnerStyle(SpinnerStyle.FixedBehind));
 
         mRv = mRootView.findViewById(R.id.project_article_rv);
         LinearLayoutManager lm = new LinearLayoutManager(mContext);

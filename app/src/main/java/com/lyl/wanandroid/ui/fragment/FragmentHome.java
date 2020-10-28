@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,10 +37,11 @@ import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
+import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -130,8 +130,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 getMainInfo();
             }
-        });
-        mRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+        }).setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
 //                mRefreshLayout.finishLoadMore();
@@ -143,15 +142,14 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
                     mRefreshLayout.finishLoadMoreWithNoMoreData();  //全部加载完成,没有数据了调用此方法
                 }
             }
-        });
+        }).setRefreshHeader(new DeliveryHeader(mContext))//设置 Header为飞行气球, Footer为球脉冲
+        .setRefreshFooter(new BallPulseFooter(mContext).setSpinnerStyle(SpinnerStyle.FixedBehind));
         //设置 Header 为 经典风格
-        mRefreshLayout.setRefreshHeader(new ClassicsHeader(mContext).setEnableLastTime(true));
+//        mRefreshLayout.setRefreshHeader(new ClassicsHeader(mContext).setEnableLastTime(true));
         //设置 Header 为 Material风格
 //        mRefreshLayout.setRefreshHeader(new MaterialHeader(mContext).setShowBezierWave(true));
-        //设置 Footer 为 球脉冲
-//        mRefreshLayout.setRefreshFooter(new BallPulseFooter(mContext).setSpinnerStyle(SpinnerStyle.Scale));
         //设置 Footer 为 经典风格
-        mRefreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
+//        mRefreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
 
         mRv = mView.findViewById(R.id.rv);
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
@@ -159,12 +157,12 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         mRv.setLayoutManager(manager);
         mRv.addItemDecoration(new SpacesItemDecoration(20));
 
-        mRv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
+//        mRv.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return false;
+//            }
+//        });
     }
 
     private void getMainInfo(){

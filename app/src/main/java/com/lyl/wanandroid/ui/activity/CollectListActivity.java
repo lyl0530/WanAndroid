@@ -20,10 +20,10 @@ import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.LogUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
-import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
@@ -76,10 +76,8 @@ public class CollectListActivity extends BaseActivity implements CollectListView
                 }
 
             }
-        }).setRefreshHeader(new DeliveryHeader(mContext))
-        .setRefreshFooter(new FalsifyFooter(mContext));
-
-        //new BallPulseFooter(mContext) //小红点闪烁
+        }).setRefreshHeader(new ClassicsHeader(mContext).setEnableLastTime(true))
+        .setRefreshFooter(new ClassicsFooter(mContext));
 
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
