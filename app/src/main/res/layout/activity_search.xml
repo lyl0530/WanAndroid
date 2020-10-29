@@ -49,7 +49,10 @@
             tools:ignore="RtlSymmetry"
             android:id="@+id/et_search"
             android:autofillHints="@string/search_hint"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textCursorDrawable="@color/white"
+            android:imeOptions="actionSearch"
+            />
     </RelativeLayout>
 
     <FrameLayout

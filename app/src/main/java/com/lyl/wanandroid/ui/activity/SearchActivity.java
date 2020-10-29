@@ -6,8 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseActivity;
@@ -31,7 +34,16 @@ public class SearchActivity extends BaseActivity{
 
     private void initView() {
         mEtSearch = findViewById(R.id.et_search);
-
+        mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    onSearch(null);
+                    return true;
+                }
+                return false;
+            }
+        });
         mFragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
