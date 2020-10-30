@@ -72,6 +72,4 @@ public class ViewPagerTransformer implements ViewPager.PageTransformer {
             view.setScaleY(scaleFactor);
         }
     }
-
-
 }

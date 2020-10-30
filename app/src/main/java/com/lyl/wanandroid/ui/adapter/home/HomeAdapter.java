@@ -1,4 +1,4 @@
-package com.lyl.wanandroid.ui.adapter;
+package com.lyl.wanandroid.ui.adapter.home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,7 +25,7 @@ import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.listener.OnArticleListListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.entity.BannerResult;
-import com.lyl.wanandroid.service.entity.HomeBean;
+import com.lyl.wanandroid.service.entity.DataBean;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.LogUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
@@ -56,14 +56,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private RequestOptions requestOptions;
     private MyPagerAdapter mPagerAdapter;
-    private List<HomeBean> mResList;
-    private List<BannerResult.DataBean> mBannerDataList = new ArrayList<>();
+    private List<DataBean> mResList;
     private int topArticleCnt;
 
     private final int MSG_BANNER = 1;
     private final int DELAY = 4 * 1000;
 
-    public HomeAdapter(Context context,List<HomeBean> resList, int cnt) {
+    public HomeAdapter(Context context, List<DataBean> resList, int cnt) {
         mContext = context;
         mResList = resList;
         topArticleCnt = cnt;
@@ -83,13 +82,15 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void getBannerData() {
-        HomeBean bean = mResList.get(0);
-        if (ConstUtil.TYPE_BANNER != bean.getType()) return;
+        DataBean bean = mResList.get(0);
+        if (ConstUtil.TYPE_BANNER != bean.getType() ||
+                !(bean.getContent() instanceof BannerResult)) return;
         try {
-            mBannerDataList.clear();
-            mBannerDataList = (List<BannerResult.DataBean>)bean.getContent();
-            for (int i = 0; i < mBannerDataList.size(); i++) {
-                BannerResult.DataBean banner = mBannerDataList.get(i);
+            BannerResult mBannerData = (BannerResult)bean.getContent();
+            if (null == mBannerData) return;
+            List<BannerResult.DataBean> dataList = mBannerData.getData();
+            for (int i = 0; i < dataList.size(); i++) {
+                BannerResult.DataBean banner = dataList.get(i);
                 if (null == banner) continue;
                 mImgPathList.add(banner.getImagePath());
                 mUrlList.add(banner.getUrl());

@@ -6,11 +6,11 @@ import org.jetbrains.annotations.NotNull;
  * Created by lym on 2020/10/21
  * Describe :
  */
-public class HomeBean {
+public class DataBean {
     int type;
     Object res;
 
-    public HomeBean(int type, Object res) {
+    public DataBean(int type, Object res) {
         this.type = type;
         this.res = res;
     }

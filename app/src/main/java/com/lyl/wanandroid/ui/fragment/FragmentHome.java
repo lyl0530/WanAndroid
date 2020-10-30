@@ -21,7 +21,7 @@ import com.lyl.wanandroid.base.BaseResult;
 import com.lyl.wanandroid.listener.OnArticleListListener;
 import com.lyl.wanandroid.service.entity.ArticleBean;
 import com.lyl.wanandroid.service.entity.BannerResult;
-import com.lyl.wanandroid.service.entity.HomeBean;
+import com.lyl.wanandroid.service.entity.DataBean;
 import com.lyl.wanandroid.service.entity.MainArticleResult;
 import com.lyl.wanandroid.service.entity.TopArticleResult;
 import com.lyl.wanandroid.service.present.CollectPresenter;
@@ -31,7 +31,9 @@ import com.lyl.wanandroid.service.view.MainView;
 import com.lyl.wanandroid.ui.activity.LoginActivity;
 import com.lyl.wanandroid.ui.activity.MainActivity;
 import com.lyl.wanandroid.ui.activity.SearchActivity;
-import com.lyl.wanandroid.ui.adapter.HomeAdapter;
+import com.lyl.wanandroid.ui.adapter.home.ArticleAdapter;
+import com.lyl.wanandroid.ui.adapter.home.BannerAdapter;
+import com.lyl.wanandroid.ui.adapter.home.BaseMultiAdapter;
 import com.lyl.wanandroid.ui.view.CircleView;
 import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ConstUtil;
@@ -74,8 +76,9 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
     private MainPresenter mPresenter;
     private CollectPresenter mCollectPresenter;
     private RecyclerView mRv;
-    private HomeAdapter mHomeAdapter;
-    private List<HomeBean> mResList = new ArrayList<>();
+    private BaseMultiAdapter mHomeAdapter;
+    private BannerAdapter mBannerAdapter;
+    private List<DataBean> mResList = new ArrayList<>();
     private int articleId;//用于收藏和取消收藏
     private List<ArticleBean> dataList = new ArrayList<>();
     private int topArticleCnt = 0;
@@ -90,6 +93,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         mContext = getContext();
 
         initView();
+        initData();
         EventBus.getDefault().register(this);//这句话要放在初始化组件(findViewById)之后，不然页面接收不到参数
 
         mPresenter = new MainPresenter();
@@ -119,12 +123,15 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         });
 
         mRefreshLayout = mView.findViewById(R.id.srl);
-//        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                getMainInfo();
-//            }
-//        });
+        mRv = mView.findViewById(R.id.rv);
+    }
+
+    private void initData() {
+        setRefreshLayout();
+        setRecycleView();
+    }
+
+    private void setRefreshLayout() {
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -143,26 +150,28 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
                 }
             }
         }).setRefreshHeader(new DeliveryHeader(mContext))//设置 Header为飞行气球, Footer为球脉冲
-        .setRefreshFooter(new BallPulseFooter(mContext).setSpinnerStyle(SpinnerStyle.FixedBehind));
+                .setRefreshFooter(new BallPulseFooter(mContext).setSpinnerStyle(SpinnerStyle.FixedBehind));
         //设置 Header 为 经典风格
 //        mRefreshLayout.setRefreshHeader(new ClassicsHeader(mContext).setEnableLastTime(true));
         //设置 Header 为 Material风格
 //        mRefreshLayout.setRefreshHeader(new MaterialHeader(mContext).setShowBezierWave(true));
         //设置 Footer 为 经典风格
 //        mRefreshLayout.setRefreshFooter(new ClassicsFooter(mContext));
+    }
 
-        mRv = mView.findViewById(R.id.rv);
+    private void setRecycleView() {
         LinearLayoutManager manager = new LinearLayoutManager(mContext);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         mRv.setLayoutManager(manager);
         mRv.addItemDecoration(new SpacesItemDecoration(20));
 
-//        mRv.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return false;
-//            }
-//        });
+        mHomeAdapter = new BaseMultiAdapter();
+        mBannerAdapter = new BannerAdapter(mContext);
+        mHomeAdapter.addDelegate(mBannerAdapter);
+        ArticleAdapter articleAdapter = new ArticleAdapter(mContext);
+        articleAdapter.setOnArticleListListener(mListener);
+        mHomeAdapter.addDelegate(articleAdapter);
+        mRv.setAdapter(mHomeAdapter);
     }
 
     private void getMainInfo(){
@@ -182,7 +191,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         super.setUserVisibleHint(isVisibleToUser);
         Log.d(TAG, "111234 setUserVisibleHint: " + isVisibleToUser);
         if (null != mHomeAdapter){
-            mHomeAdapter.restartHandler(isVisibleToUser);//main fragment 不可见时，停止轮播图
+            mBannerAdapter.restartHandler(isVisibleToUser);//main fragment 不可见时，停止轮播图
         }
     }
 
@@ -199,7 +208,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         super.onResume();
         Log.d(TAG, "onResume: loginRefresh = " + refreshMain);
         if (null != mHomeAdapter){
-            mHomeAdapter.restartHandler(true);
+            mBannerAdapter.restartHandler(true);
         }
         if (refreshMain) {
             getMainInfo();
@@ -211,7 +220,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
     public void onStop() {
         super.onStop();
         if (null != mHomeAdapter){
-            mHomeAdapter.restartHandler(false);
+            mBannerAdapter.restartHandler(false);
         }
     }
 
@@ -227,31 +236,12 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
 
     @Override
     public void getBannerSuccess(BannerResult res) {
-//        LogUtils.d(TAG, "banner Success: " + res);
         if (null == res || null == res.getData()) return;
 
         mResList.clear();
-        mResList.add(new HomeBean(ConstUtil.TYPE_BANNER, res.getData()));
-
-        mHomeAdapter = new HomeAdapter(mContext, mResList, topArticleCnt);
-        mHomeAdapter.restartHandler(true);
-        mHomeAdapter.setOnArticleListListener(new OnArticleListListener() {
-            @Override
-            public void onItemClick(ArticleBean bean) {
-                PhoneUtil.openInWebView(mContext, bean);
-            }
-
-            @Override
-            public void onItemCollect(int articleId, int position, boolean isCollect) {
-                if (null == mCollectPresenter) return;
-                if (isCollect){//取消收藏
-                    mCollectPresenter.unCollectArticle(articleId, position);
-                } else { //收藏
-                    mCollectPresenter.collectArticle(articleId, position);
-                }
-            }
-        });
-        mRv.setAdapter(mHomeAdapter);
+        mResList.add(new DataBean(ConstUtil.TYPE_BANNER, res/*.getData()*/));
+        mHomeAdapter.setDataItems(mResList, topArticleCnt);
+        mBannerAdapter.restartHandler(true);
     }
 
     @Override
@@ -262,15 +252,14 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
 
     @Override
     public void getTopArticleSuccess(TopArticleResult res) {
-//        LogUtils.d(TAG, "top_article Success: " + res);
         if (null == res || null == res.getData()) return;
 
         dataList = res.getData();
         topArticleCnt = dataList.size();
         for (int i = 0; i < topArticleCnt; i++) {
-            mResList.add(new HomeBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
+            mResList.add(new DataBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
         }
-        mHomeAdapter.notifyDataSetChanged();
+        mHomeAdapter.setDataItems(mResList, topArticleCnt);
     }
 
     @Override
@@ -281,14 +270,13 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
 
     @Override
     public void getMainArticleSuccess(MainArticleResult res) {
-//        LogUtils.d(TAG, "main article Success: " + res);
         if (null == res || null == res.getData()) return;
 
         dataList = res.getData().getDatas();
         for (int i = 0; i < dataList.size(); i++) {
-            mResList.add(new HomeBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
+            mResList.add(new DataBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
         }
-        mHomeAdapter.notifyDataSetChanged();
+        mHomeAdapter.setDataItems(mResList, topArticleCnt);
 
         curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
         allPage = res.getData().getPageCount();
@@ -357,10 +345,10 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
     @Override
     public void collectArticleSuccess(BaseResult res, int position) {
         Log.d(TAG, "collectArticleSuccess: " + res);
-        HomeBean bean = mResList.get(position);
+        DataBean bean = mResList.get(position);
         ((ArticleBean)bean.getContent()).setCollect(true);
         mResList.set(position, bean);
-        mHomeAdapter.notifyDataSetChanged();
+        mHomeAdapter.setDataItems(mResList, topArticleCnt);
         showToast(R.string.collect_success);
     }
 
@@ -380,17 +368,16 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         } else {
             String str = ErrorUtil.getErrorInfo(mContext, code, msg);
             showToast(str);
-//            showToast(getString(R.string.collect_failed) + msg);
         }
     }
 
     @Override
     public void unCollectArticleSuccess(BaseResult res, int position) {
         Log.d(TAG, "unCollectArticleSuccess: " + res);
-        HomeBean bean = mResList.get(position);
+        DataBean bean = mResList.get(position);
         ((ArticleBean)bean.getContent()).setCollect(false);
         mResList.set(position, bean);
-        mHomeAdapter.notifyDataSetChanged();
+        mHomeAdapter.setDataItems(mResList, topArticleCnt);
         showToast(R.string.un_collect_success);
     }
 
@@ -416,7 +403,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
     @Override
     public void onDestroy() {
         if (null != mHomeAdapter){
-            mHomeAdapter.restartHandler(false);
+            mBannerAdapter.restartHandler(false);
         }
         if (null != mPresenter) {
             mPresenter.detach();
@@ -428,4 +415,21 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         }
         super.onDestroy();
     }
+
+    private OnArticleListListener mListener = new OnArticleListListener() {
+        @Override
+        public void onItemClick(ArticleBean bean) {
+            PhoneUtil.openInWebView(mContext, bean);
+        }
+
+        @Override
+        public void onItemCollect(int articleId, int position, boolean isCollect) {
+            if (null == mCollectPresenter) return;
+            if (isCollect){//取消收藏
+                mCollectPresenter.unCollectArticle(articleId, position);
+            } else { //收藏
+                mCollectPresenter.collectArticle(articleId, position);
+            }
+        }
+    };
 }
