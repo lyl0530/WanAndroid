@@ -22,14 +22,23 @@ import android.widget.TextView;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseActivity;
+import com.lyl.wanandroid.listener.DialogListener;
+import com.lyl.wanandroid.service.entity.LogoutResult;
+import com.lyl.wanandroid.service.present.LogoutPresenter;
+import com.lyl.wanandroid.service.view.LogoutView;
 import com.lyl.wanandroid.ui.fragment.FragmentHome;
+import com.lyl.wanandroid.utils.ConstUtil;
+import com.lyl.wanandroid.utils.ErrorUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.ui.fragment.FrgmHierarchy;
 import com.lyl.wanandroid.ui.fragment.FrgmNavigation;
 import com.lyl.wanandroid.utils.LogUtil;
 import com.lyl.wanandroid.ui.view.CircleView;
+import com.lyl.wanandroid.widget.ConfirmDialog;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+import org.greenrobot.eventbus.EventBus;
+
+public class MainActivity extends BaseActivity implements View.OnClickListener, LogoutView {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private DrawerLayout mDrawerLayout;
@@ -53,10 +62,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private TextView mSliderBarNickName;
     private FragmentPagerAdapter mAdapter;
     private static final int FM_CNT = 3;//fragment的数量
+
+    private Menu menu;
+    private static final String DIALOG_TAG = "dialog_tag";
+    private LogoutPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (null != savedInstanceState && null != getSupportFragmentManager()){
+            dialog = (ConfirmDialog)getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
+            if (null != dialog) {
+                dialog.setOnDialogClickListener(mListener);
+            }
+        }
+
         initView();
         initAdapter();
         initData();
@@ -160,13 +182,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         //BottomNavigationView 3个以上图标不显示文字 http://www.bloguan.com/?id=507
         mBottomView.setLabelVisibilityMode(1);
 
-        Menu menu = mNavigationView.getMenu();
+        menu = mNavigationView.getMenu();
         menu.getItem(0).setOnMenuItemClickListener(mMenuItemClickListener);
         menu.getItem(1).setOnMenuItemClickListener(mMenuItemClickListener);
         menu.getItem(2).setOnMenuItemClickListener(mMenuItemClickListener);
+        menu.getItem(3).setOnMenuItemClickListener(mMenuItemClickListener);
+        menu.getItem(3).setVisible(BaseApplication.isLogin());
 
         initToggle();
         mDrawerLayout.addDrawerListener(mToggle);
+
+        mPresenter = new LogoutPresenter();
+        mPresenter.attach(this);
     }
 
     private void initToggle() {
@@ -188,6 +215,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mSliderBarNickName.setText(BaseApplication.isLogin()
                         ? PreferenceUtil.instance().getAccount()
                         : getString(R.string.pls_login));
+                //20201101
+                menu.getItem(3).setVisible(BaseApplication.isLogin());
             }
 
             @Override
@@ -204,6 +233,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mToggle.syncState();
     }
 
+    private ConfirmDialog dialog;
+
     private final MenuItem.OnMenuItemClickListener mMenuItemClickListener
             = new MenuItem.OnMenuItemClickListener() {
         @Override
@@ -219,19 +250,57 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 case R.id.item_reading_history:
                     if(BaseApplication.isLogin()){
                         //阅读历史
-
+                        showToast(R.string.wait);
                     } else {
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
                     break;
                 case R.id.item_system_setting:
-                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
+//                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                    showToast(R.string.wait);
+                    break;
+                case R.id.item_logout:
+                    dialog = ConfirmDialog.getInstance(getString(R.string.are_you_sure_to_logout));
+                    dialog.setOnDialogClickListener(mListener);
+                    dialog.show(getSupportFragmentManager(), DIALOG_TAG);
                     break;
             }
             mDrawerLayout.closeDrawers();
             return true;
         }
     };
+
+    private DialogListener mListener = new DialogListener() {
+        @Override
+        public void leftClick() {
+            //do nothing
+        }
+
+        @Override
+        public void rightClick() {
+            if (null != mPresenter){
+                mPresenter.logout();
+            }
+        }
+    };
+
+    @Override
+    public void Success(LogoutResult result) {
+        LogUtil.d(TAG, "loginSuccess: " + result);
+        EventBus.getDefault().post(ConstUtil.REFRESH_MAIN);//刷新首页
+        //退出登录成功 - 清除缓存
+        PreferenceUtil.instance().setUserId(0);
+//        PreferenceUtil.instance().setAccount("");
+//        PreferenceUtil.instance().setPwd("");
+        PreferenceUtil.instance().setCookieSet(null);//清除本地cookie
+        finish();
+    }
+
+    @Override
+    public void Failed(int code, String msg) {
+        String str = ErrorUtil.getErrorInfo(this, code, msg);
+        showToast(str);
+    }
 
     private final ViewPager.OnPageChangeListener mPageChangeListener =
             new ViewPager.OnPageChangeListener() {
@@ -293,7 +362,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (BaseApplication.isLogin()) {
                     //edit user info
                     LogUtil.d(TAG, "will edit user info");
-                    showToast("will edit user info");
+//                    showToast("will edit user info");
                 } else {
                     startActivity(new Intent(this, LoginActivity.class));
                 }

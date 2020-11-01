@@ -56,4 +56,6 @@
     <string name="un_collect_success">取消收藏成功</string>
     <string name="un_collect_failed">取消收藏失败:</string>
     <string name="collect_list_failed">收藏列表获取失败:</string>
+
+    <string name="wait">敬请期待…</string>
 </resources>
