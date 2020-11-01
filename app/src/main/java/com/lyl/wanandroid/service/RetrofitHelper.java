@@ -51,9 +51,9 @@ public class RetrofitHelper {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .connectTimeout(8000, TimeUnit.SECONDS)
-//                .cookieJar(cookieJar)//增加 cookieJar，登录后使用cookie，可获取用户的收藏列表等信息
-                .addInterceptor(new AddCookiesInterceptor())
-                .addInterceptor(new ReceivedCookiesInterceptor())
+                .cookieJar(cookieJar)//增加 cookieJar，登录后使用cookie，可获取用户的收藏列表等信息
+//                .addInterceptor(new AddCookiesInterceptor())
+//                .addInterceptor(new ReceivedCookiesInterceptor())
 //                .addInterceptor(new AddCookieInterceptor())
 //                .addInterceptor(new GetCookieInterceptor())
                 .build();

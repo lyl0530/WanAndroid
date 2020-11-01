@@ -14,7 +14,7 @@ import java.util.List;
  * Describe :
  */
 public class BaseMultiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "HomeAdapter";
+    private static final String TAG = "BaseMultiAdapter";
 
     private List<DataBean> mDataList = new ArrayList<>();
     private int topArticleCnt;

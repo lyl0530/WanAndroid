@@ -52,6 +52,7 @@ public class ArticleAdapter implements IDelegateAdapter {
         viewHolder.mTvAuthor.setText(author);
         viewHolder.mTvTime.setText(b.getNiceDate());
         viewHolder.mTvTitle.setText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(b.getTitle())));
+        viewHolder.mTvNum.setText(position+"");
         int drawableResId = b.isCollect() && BaseApplication.isLogin() ?
                 R.drawable.icon_collected :
                 R.drawable.icon_collecte;
@@ -89,12 +90,10 @@ public class ArticleAdapter implements IDelegateAdapter {
                 }
             }
         });
-//        viewHolder.imgNew.setVisibility(View.GONE);
-//        viewHolder.imgTop.setVisibility(View.GONE);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView mTvAuthor, mTvTime, mTvTitle;
+        TextView mTvAuthor, mTvTime, mTvTitle, mTvNum;
         ImageButton ibtnCollect;
         ImageView imgNew, imgTop;
 
@@ -103,6 +102,7 @@ public class ArticleAdapter implements IDelegateAdapter {
             mTvAuthor = itemView.findViewById(R.id.tv_author);
             mTvTime = itemView.findViewById(R.id.tv_time);
             mTvTitle = itemView.findViewById(R.id.tv_title);
+            mTvNum = itemView.findViewById(R.id.tv_num);
             ibtnCollect = itemView.findViewById(R.id.ibtn_collect);
             imgNew= itemView.findViewById(R.id.img_new);
             imgTop= itemView.findViewById(R.id.img_top);

@@ -135,6 +135,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mBannerAdapter.restartHandler(false);
                 getMainInfo();
             }
         }).setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -178,6 +179,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         if (null == mPresenter) return;
         Log.d(TAG, "getMainInfo");
         curPage = 0;
+        mResList.clear();
 //        showProgressDialog();
         //获取Banner信息，得到Banner图张数
         mPresenter.getBanner();
@@ -237,9 +239,14 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
     @Override
     public void getBannerSuccess(BannerResult res) {
         if (null == res || null == res.getData()) return;
-
-        mResList.clear();
-        mResList.add(new DataBean(ConstUtil.TYPE_BANNER, res/*.getData()*/));
+        if (0 != mResList.size()){//文章列表先得到，把banner放在第一位
+            ArrayList<DataBean> temList = new ArrayList<>(mResList);
+            mResList.clear();
+            mResList.add(new DataBean(ConstUtil.TYPE_BANNER, res/*.getData()*/));
+            mResList.addAll(temList);
+        } else {
+            mResList.add(new DataBean(ConstUtil.TYPE_BANNER, res/*.getData()*/));
+        }
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
         mBannerAdapter.restartHandler(true);
     }
@@ -276,6 +283,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         for (int i = 0; i < dataList.size(); i++) {
             mResList.add(new DataBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
         }
+        mResList = PhoneUtil.removeDuplicate(mResList);
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
 
         curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据

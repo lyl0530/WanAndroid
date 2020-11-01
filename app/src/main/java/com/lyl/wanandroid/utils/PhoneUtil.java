@@ -11,7 +11,10 @@ import android.widget.Toast;
 
 import com.lyl.wanandroid.service.entity.Article1Bean;
 import com.lyl.wanandroid.service.entity.ArticleBean;
+import com.lyl.wanandroid.service.entity.DataBean;
 import com.lyl.wanandroid.ui.activity.WebActivity;
+
+import java.util.List;
 
 
 public class PhoneUtil {
@@ -81,5 +84,28 @@ public class PhoneUtil {
         et.requestFocus();
         et.setText(content);
         et.setSelection(content.length());
+    }
+
+    //list 去重
+    public static List<DataBean> removeDuplicate(List<DataBean> list) {
+        for (int i = 0; i < list.size(); i++) {
+            int t1 = list.get(i).getType();
+            if (t1 != ConstUtil.TYPE_ARTICLE) continue;
+            ArticleBean b1 = (ArticleBean)list.get(i).getContent();
+            if (null == b1) continue;
+
+            for (int j = 0; j < list.size(); j++) {
+                int t2 = list.get(j).getType();
+                if (t2 != ConstUtil.TYPE_ARTICLE) continue;
+                ArticleBean b2 = (ArticleBean)list.get(j).getContent();
+                if (null == b2) continue;
+
+                if (i != j && b1.getTitle().equalsIgnoreCase(b2.getTitle())) {
+                    Log.e(TAG, "removeDuplicate: j = " + j + ", title = " + b2.getTitle());
+                    list.remove(list.get(j));
+                }
+            }
+        }
+        return list;
     }
 }
