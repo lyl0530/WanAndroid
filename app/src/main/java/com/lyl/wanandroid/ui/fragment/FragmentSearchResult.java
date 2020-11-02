@@ -29,6 +29,7 @@ import com.lyl.wanandroid.ui.adapter.ArticleListAdapter;
 import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.ErrorUtil;
+import com.lyl.wanandroid.utils.LogUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -162,7 +163,13 @@ public class FragmentSearchResult extends BaseFragment implements SearchView, Co
             if (loadMore){
                 loadMore = false;
                 mDataList.addAll(dataList);
-                mAdapter.notifyDataSetChanged();
+//                mAdapter.notifyDataSetChanged();
+                int beginIndex = dataList.size()- dataList.size();
+                int endIndex = dataList.size();
+                LogUtil.d(TAG, "beginIndex = " + beginIndex + ", endIndex = " + endIndex);
+                for (int i = beginIndex; i < endIndex; i++) {
+                    mAdapter.notifyItemChanged(i);
+                }
                 if (mCurPageIndex < pageCnt){
                     mRefreshLayout.finishLoadMore();
                 } else {
@@ -217,7 +224,8 @@ public class FragmentSearchResult extends BaseFragment implements SearchView, Co
         ArticleBean bean = mDataList.get(position);
         bean.setCollect(true);
         mDataList.set(position, bean);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemChanged(position);
         showToast(R.string.collect_success);
     }
 
@@ -246,7 +254,8 @@ public class FragmentSearchResult extends BaseFragment implements SearchView, Co
         ArticleBean bean = mDataList.get(position);
         bean.setCollect(false);
         mDataList.set(position, bean);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemChanged(position);
         showToast(R.string.un_collect_success);
     }
 

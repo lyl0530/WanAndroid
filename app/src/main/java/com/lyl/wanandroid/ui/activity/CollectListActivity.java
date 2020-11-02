@@ -101,7 +101,15 @@ public class CollectListActivity extends BaseActivity implements CollectListView
             if (loadMore){
                 loadMore = false;
                 mDataList.addAll(tempDataList);
-                mAdapter.notifyDataSetChanged();
+
+                //mAdapter.notifyDataSetChanged();
+                int beginIndex = mDataList.size()- tempDataList.size();
+                int endIndex = mDataList.size();
+                LogUtil.d(TAG, "beginIndex = " + beginIndex + ", endIndex = " + endIndex);
+                for (int i = beginIndex; i < endIndex; i++) {
+                    mAdapter.notifyItemChanged(i);
+                }
+
                 if (mCurPageId < mAllPage){
                     mRefreshLayout.finishLoadMore();
                 } else {
@@ -133,7 +141,8 @@ public class CollectListActivity extends BaseActivity implements CollectListView
     @Override
     public void unCollectSuccess(BaseResult res, int pos) {
         mDataList.remove(pos);
-        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemChanged(pos);
     }
 
     @Override

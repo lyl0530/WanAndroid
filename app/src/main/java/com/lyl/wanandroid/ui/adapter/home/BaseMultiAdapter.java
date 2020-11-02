@@ -22,7 +22,7 @@ public class BaseMultiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void setDataItems(List<DataBean> list, int cnt) {
         mDataList = list;
         topArticleCnt = cnt;
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
     }
 
     List<IDelegateAdapter> delegateAdapters = new ArrayList<>();

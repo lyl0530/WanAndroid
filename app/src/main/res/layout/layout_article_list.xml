@@ -81,7 +81,8 @@
                 android:textSize="12sp"
                 android:id="@+id/tv_num"
                 android:layout_toStartOf="@id/tv_time"
-                android:layout_marginEnd="15dp"/>
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>
 

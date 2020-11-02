@@ -29,6 +29,7 @@ import com.lyl.wanandroid.ui.adapter.ArticleListAdapter;
 import com.lyl.wanandroid.ui.view.SpacesItemDecoration;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.ErrorUtil;
+import com.lyl.wanandroid.utils.LogUtil;
 import com.lyl.wanandroid.utils.PhoneUtil;
 import com.scwang.smartrefresh.header.DropBoxHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -176,7 +177,13 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
             if (loadMore){
                 loadMore = false;
                 dataList.addAll(tempList);
-                mAdapter.notifyDataSetChanged();
+//                mAdapter.notifyDataSetChanged();
+                int beginIndex = dataList.size()- tempList.size();
+                int endIndex = dataList.size();
+                LogUtil.d(TAG, "beginIndex = " + beginIndex + ", endIndex = " + endIndex);
+                for (int i = beginIndex; i < endIndex; i++) {
+                    mAdapter.notifyItemChanged(i);
+                }
             } else {
                 dataList = tempList;
                 mAdapter = new ArticleListAdapter(mContext, dataList);
@@ -226,7 +233,8 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
         ArticleBean bean = dataList.get(position);
         bean.setCollect(true);
         dataList.set(position, bean);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemChanged(position);
         showToast(R.string.collect_success);
     }
 
@@ -255,7 +263,8 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
         ArticleBean bean = dataList.get(position);
         bean.setCollect(false);
         dataList.set(position, bean);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyItemChanged(position);
         showToast(R.string.un_collect_success);
     }
 

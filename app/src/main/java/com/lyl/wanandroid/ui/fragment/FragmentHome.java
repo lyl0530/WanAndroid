@@ -248,6 +248,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
             mResList.add(new DataBean(ConstUtil.TYPE_BANNER, res/*.getData()*/));
         }
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
+        mHomeAdapter.notifyDataSetChanged();
         mBannerAdapter.restartHandler(true);
     }
 
@@ -267,6 +268,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
             mResList.add(new DataBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
         }
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
+        mHomeAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -283,9 +285,13 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         for (int i = 0; i < dataList.size(); i++) {
             mResList.add(new DataBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
         }
+        int preCnt = mResList.size();
         mResList = PhoneUtil.removeDuplicate(mResList);
+        int curCnt = mResList.size();
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
-
+        for (int i = preCnt; i < curCnt; i++){
+            mHomeAdapter.notifyItemChanged(i);
+        }
         curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
         allPage = res.getData().getPageCount();
         Log.d(TAG, "getMainArticleSuccess: curPage = " + curPage + ", pageCount = " + allPage);
@@ -357,6 +363,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         ((ArticleBean)bean.getContent()).setCollect(true);
         mResList.set(position, bean);
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
+        mHomeAdapter.notifyItemChanged(position);
         showToast(R.string.collect_success);
     }
 
@@ -386,6 +393,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         ((ArticleBean)bean.getContent()).setCollect(false);
         mResList.set(position, bean);
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
+        mHomeAdapter.notifyItemChanged(position);
         showToast(R.string.un_collect_success);
     }
 
