@@ -106,9 +106,10 @@ public class CollectListActivity extends BaseActivity implements CollectListView
                 int beginIndex = mDataList.size()- tempDataList.size();
                 int endIndex = mDataList.size();
                 LogUtil.d(TAG, "beginIndex = " + beginIndex + ", endIndex = " + endIndex);
-                for (int i = beginIndex; i < endIndex; i++) {
-                    mAdapter.notifyItemChanged(i);
-                }
+                mAdapter.notifyItemRangeChanged(beginIndex, endIndex-1);
+//                for (int i = beginIndex; i < endIndex; i++) {
+//                    mAdapter.notifyItemChanged(i);
+//                }
 
                 if (mCurPageId < mAllPage){
                     mRefreshLayout.finishLoadMore();

@@ -68,8 +68,8 @@ public class WebActivity extends BaseActivity{
         webSetting.setDatabaseEnabled(true); //-> 是否数据缓存
         webSetting.setDomStorageEnabled(true);//-> 是否节点缓存
         webSetting.setGeolocationEnabled(true);//-> 设置开启定位功能
-        webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
-        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
+//        webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
+//        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
         webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);//（默认）根据cache-control决定是否从网络上取数据。
 
         //当WebView加载的链接为Https开头，但是链接里面的内容，比如图片为Http链接，这时候，图片就会加载不出来

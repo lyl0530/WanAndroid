@@ -181,9 +181,10 @@ public class FragmentProjectArticleList extends BaseFragment implements ProjectA
                 int beginIndex = dataList.size()- tempList.size();
                 int endIndex = dataList.size();
                 LogUtil.d(TAG, "beginIndex = " + beginIndex + ", endIndex = " + endIndex);
-                for (int i = beginIndex; i < endIndex; i++) {
-                    mAdapter.notifyItemChanged(i);
-                }
+                mAdapter.notifyItemRangeChanged(beginIndex, endIndex-1);
+//                for (int i = beginIndex; i < endIndex; i++) {
+//                    mAdapter.notifyItemChanged(i);
+//                }
             } else {
                 dataList = tempList;
                 mAdapter = new ArticleListAdapter(mContext, dataList);

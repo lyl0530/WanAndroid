@@ -108,7 +108,7 @@ public class RetrofitHelper {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request.Builder builder = chain.request().newBuilder();
-            HashSet<String> preferences = (HashSet) PreferenceUtil.instance().getCookieSet();
+            HashSet<String> preferences = (HashSet<String>) PreferenceUtil.instance().getCookieSet();
             if (null != preferences) {
                 for (String cookie : preferences) {
                     builder.addHeader("Cookie", cookie);

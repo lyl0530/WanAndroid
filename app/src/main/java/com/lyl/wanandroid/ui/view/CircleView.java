@@ -132,6 +132,7 @@ public class CircleView extends View implements Runnable{
         canvas.restore();//合并图层的操作，作用是将save之后绘制的图像和save之前的图像进行合并。save/restore成对出现
     }
 
+    @SuppressWarnings("InfiniteLoopStatement")
     @Override
     public void run() {
         while (true) {

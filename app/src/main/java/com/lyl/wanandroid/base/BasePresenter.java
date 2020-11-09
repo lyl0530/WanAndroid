@@ -30,6 +30,7 @@ public abstract class BasePresenter<V extends BaseView> {
     /**
      * 关联V层和P层
      */
+    @SuppressWarnings("unchecked")
     public void attach(V view){
         mWeakReference = new WeakReference<>(view);
         MvpViewHandler h = new MvpViewHandler(view);

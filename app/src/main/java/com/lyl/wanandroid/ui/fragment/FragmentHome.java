@@ -289,9 +289,10 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
         mResList = PhoneUtil.removeDuplicate(mResList);
         int curCnt = mResList.size();
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
-        for (int i = preCnt; i < curCnt; i++){
-            mHomeAdapter.notifyItemChanged(i);
-        }
+        mHomeAdapter.notifyItemRangeChanged(preCnt, curCnt-1);
+//        for (int i = preCnt; i < curCnt; i++){
+//            mHomeAdapter.notifyItemChanged(i);
+//        }
         curPage = res.getData().getCurPage();//成功后，得到curPage=1，下次则使用1作为下标，获取第二页的数据
         allPage = res.getData().getPageCount();
         Log.d(TAG, "getMainArticleSuccess: curPage = " + curPage + ", pageCount = " + allPage);

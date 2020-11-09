@@ -531,12 +531,14 @@ public class DataManager {
         }
     }
 
-    protected <T> ObservableTransformer getTransformer() {
-        return /*(ObservableTransformer<T, T>) */RESULT_TRANSFORMER;
+    @SuppressWarnings("unchecked")
+    protected <T> ObservableTransformer<T, T> getTransformer() {
+        return (ObservableTransformer<T, T>) RESULT_TRANSFORMER;
     }
 
     protected static final ObservableTransformer RESULT_TRANSFORMER = new ResultTransformer();
 
+    @SuppressWarnings("unchecked")
     private static class ResultTransformer<T, R> implements ObservableTransformer<T, R> {
         @Override
         public ObservableSource<R> apply(Observable<T> upstream) {
@@ -567,35 +569,35 @@ public class DataManager {
         }
     }
 
-    private <T, V> ObservableTransformer<T, V> getResultTransformer() {
-        return new ObservableTransformer<T, V>() {
-            @Override
-            public ObservableSource<V> apply(Observable<T> upstream) {
-                return upstream
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .map(new Function<T, V>() {
-                            @Override
-                            public V apply(T result) throws Exception {
-                                if (result == null) {
-                                    LogUtil.e(TAG, "result == null");
-                                    throw new RuntimeException("response body is null");
-                                }
-                                if (result instanceof BaseResult) {
-                                    BaseResult r = (BaseResult) result;
-                                    int code = r.getErrorCode();
-                                    LogUtil.e(TAG, "result error code " + code);
-                                }
-                                return (V) result;
-                            }
-                        })
-                        .doOnError(new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                LogUtil.e(TAG, throwable.getMessage());
-                            }
-                        });
-            }
-        };
-    }
+//    private <T, V> ObservableTransformer<T, V> getResultTransformer() {
+//        return new ObservableTransformer<T, V>() {
+//            @Override
+//            public ObservableSource<V> apply(Observable<T> upstream) {
+//                return upstream
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribeOn(Schedulers.io())
+//                        .map(new Function<T, V>() {
+//                            @Override
+//                            public V apply(T result) throws Exception {
+//                                if (result == null) {
+//                                    LogUtil.e(TAG, "result == null");
+//                                    throw new RuntimeException("response body is null");
+//                                }
+//                                if (result instanceof BaseResult) {
+//                                    BaseResult r = (BaseResult) result;
+//                                    int code = r.getErrorCode();
+//                                    LogUtil.e(TAG, "result error code " + code);
+//                                }
+//                                return (V) result;
+//                            }
+//                        })
+//                        .doOnError(new Consumer<Throwable>() {
+//                            @Override
+//                            public void accept(Throwable throwable) throws Exception {
+//                                LogUtil.e(TAG, throwable.getMessage());
+//                            }
+//                        });
+//            }
+//        };
+//    }
 }
