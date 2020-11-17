@@ -8,18 +8,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rl_username"
-        android:layout_marginLeft="@dimen/dp_40"
-        android:layout_marginRight="@dimen/dp_40">
+        android:layout_marginLeft="@dimen/input_margin"
+        android:layout_marginRight="@dimen/input_margin">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/selector_username"
             android:textCursorDrawable="@drawable/text_cursor_shape"
-            android:drawablePadding="@dimen/dp_20"
+            android:drawablePadding="@dimen/large_dis"
             android:hint="@string/login_username"
             android:background="@drawable/shape_login_edit_text"
-            android:padding="@dimen/dp_10"
+            android:padding="@dimen/normal_dis"
             android:maxLines="1"
             android:maxLength="23"
             android:id="@+id/et_username"
@@ -34,7 +34,7 @@
             android:visibility="invisible"
             android:id="@+id/btn_cancel"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dp_10" />
+            android:layout_marginEnd="@dimen/normal_dis" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -43,19 +43,19 @@
         android:layout_below="@id/rl_username"
         android:layout_alignEnd="@id/rl_username"
         android:layout_alignStart="@id/rl_username"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="@dimen/large_dis"
         android:id="@+id/rl_pwd">
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/selector_pwd"
-            android:drawablePadding="@dimen/dp_20"
+            android:drawablePadding="@dimen/large_dis"
             android:textCursorDrawable="@drawable/text_cursor_shape"
             android:hint="@string/login_pwd"
             android:autofillHints="@string/login_pwd"
             android:background="@drawable/shape_login_edit_text"
-            android:padding="@dimen/dp_10"
+            android:padding="@dimen/normal_dis"
             android:inputType="textPassword"
             android:maxLines="1"
             android:maxLength="23"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:button="@drawable/selector_checkbox_see_pwd"
             android:layout_alignEnd="@id/et_pwd"
-            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/normal_dis"
             android:visibility="invisible"
             android:id="@+id/see_pwd"
             android:layout_centerVertical="true"
@@ -79,11 +79,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_pwd"
         android:layout_alignStart="@id/rl_username"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="@dimen/large_dis"
         android:button="@drawable/selector_checkbox_remember_pwd"
-        android:paddingStart="@dimen/dp_10"
+        android:paddingStart="@dimen/normal_dis"
         android:text="@string/login_remember_pwd"
-        android:textSize="@dimen/sp_20"
+        android:textSize="@dimen/bigTextSize"
         android:textColor="@color/little_black"
         android:id="@+id/remember_pwd"
         android:clickable="true"
@@ -97,10 +97,10 @@
         android:text="@string/login"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_18"
+        android:textSize="@dimen/normalTextSize"
         android:background="@drawable/shape_login_btn"
         android:layout_alignStart="@id/rl_username"
         android:layout_alignEnd="@id/rl_username"
         android:layout_below="@id/remember_pwd"
-        android:layout_marginTop="@dimen/dp_30" />
+        android:layout_marginTop="@dimen/btn_margin" />
 </RelativeLayout>

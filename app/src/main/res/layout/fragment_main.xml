@@ -34,12 +34,12 @@
             android:layout_height="wrap_content"
             android:background="@color/little_black_bg"
             android:layout_alignBottom="@id/vp_banner"
-            android:padding="@dimen/dp_8">
+            android:padding="@dimen/padding">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
+                android:textSize="@dimen/smallTextSize"
                 android:text="@string/banner_title"
                 android:textColor="@color/white"
                 android:id="@+id/tv_banner_title"
@@ -57,11 +57,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
+                android:textSize="@dimen/smallTextSize"
                 android:text="@string/banner_title_number"
                 android:textColor="@color/white"
                 android:id="@+id/tv_banner_number"
-                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginStart="@dimen/normal_dis"
                 android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </RelativeLayout>
