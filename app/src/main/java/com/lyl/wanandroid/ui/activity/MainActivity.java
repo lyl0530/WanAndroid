@@ -256,8 +256,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     }
                     break;
                 case R.id.item_system_setting:
-//                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                    showToast(R.string.wait);
+                    startActivity(new Intent(MainActivity.this, SettingActivity.class));
+//                    showToast(R.string.wait);
                     break;
                 case R.id.item_logout:
                     dialog = ConfirmDialog.getInstance(getString(R.string.are_you_sure_to_logout));

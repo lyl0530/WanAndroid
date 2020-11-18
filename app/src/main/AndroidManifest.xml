@@ -52,6 +52,7 @@
         <activity android:name=".ui.activity.ArticleListActivity"/>
         <activity android:name=".ui.activity.SearchActivity"/>
         <activity android:name=".ui.activity.CollectListActivity"/>
+        <activity android:name=".ui.activity.MeActivity"/>
     </application>
 
 </manifest>

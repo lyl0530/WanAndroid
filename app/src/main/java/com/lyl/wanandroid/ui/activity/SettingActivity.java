@@ -1,10 +1,12 @@
 package com.lyl.wanandroid.ui.activity;
 
-
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.lyl.wanandroid.BuildConfig;
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.app.BaseApplication;
 import com.lyl.wanandroid.base.BaseActivity;
@@ -23,7 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 public class SettingActivity extends BaseActivity implements LogoutView {
     private static final String TAG = SettingActivity.class.getSimpleName();
 
-    private TextView mLogout;
+    private TextView mLogout, tvVerInfo;
     private LogoutPresenter mPresenter;
     private ConfirmDialog dialog;
     private static final String DIALOG_TAG = "dialog_tag";
@@ -41,8 +43,13 @@ public class SettingActivity extends BaseActivity implements LogoutView {
         initData();
     }
 
+    @SuppressLint("SetTextI18n")
     private void initView() {
         mLogout = findViewById(R.id.tv_logout);
+        tvVerInfo = findViewById(R.id.tv_version_info);
+
+        //检查版本后，不需更新
+        tvVerInfo.setText("v"+BuildConfig.VERSION_NAME);
     }
 
     private void initData() {
@@ -95,6 +102,9 @@ public class SettingActivity extends BaseActivity implements LogoutView {
         showToast(str);
     }
 
+    public void onAboutUs(View v){
+        startActivity(new Intent(this, MeActivity.class));
+    }
     @Override
     protected void onDestroy() {
         if (null != mPresenter) {

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.activity.MeActivity"
+    android:background="@color/little_dark1"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titleBarH"
+        android:background="@color/colorPrimary">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_title_back"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/titleLeftMargin"
+            android:onClick="onBack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_us"
+            android:textSize="@dimen/titleTextSize"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <com.lyl.wanandroid.ui.view.CircleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:r="60dp"
+        app:src="@drawable/about_me"
+        android:id="@+id/avatar"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/input_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/normalTextSize"
+        android:text="@string/author_name"
+        android:textColor="#000"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/normal_dis"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/want_say"
+        android:textSize="@dimen/normalTextSize"
+        android:padding="30dp"
+        android:id="@+id/tv_say"
+        android:gravity="center_horizontal"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+
+        android:padding="50dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/blog"
+            android:drawableTop="@drawable/ic_csdn"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:textSize="@dimen/normalTextSize"
+            android:onClick="onBlog"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/git"
+            android:drawableTop="@drawable/ic_github"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:textSize="@dimen/normalTextSize"
+            android:onClick="onGithub"/>
+    </LinearLayout>
+</LinearLayout>
