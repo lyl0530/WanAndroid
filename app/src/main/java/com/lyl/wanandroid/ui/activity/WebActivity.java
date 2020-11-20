@@ -139,7 +139,7 @@ public class WebActivity extends BaseActivity{
             stopTimer();
             super.onReceivedError(view, request, error);
             Log.e(TAG, "onReceivedError: " + request.getUrl() + ", " + error.getDescription());
-            showToast(request.getUrl() + ", " + error.getDescription());
+//            showToast(request.getUrl() + ", " + error.getDescription());
 //            view.loadUrl(mErrorUrl);
         }
 

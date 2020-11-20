@@ -18,7 +18,7 @@ public abstract class BaseFragment extends Fragment implements BaseView{
     private static final String TAG = BaseFragment.class.getSimpleName();
 
     private Context mContext;
-    private LoadingDialog mLoadingDialog;
+    private static LoadingDialog mLoadingDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -42,8 +42,9 @@ public abstract class BaseFragment extends Fragment implements BaseView{
 
     @Override
     public void hideProgressDialog() {
-        if (null != mLoadingDialog) {
+        if (null != mLoadingDialog && mLoadingDialog.isShow()) {
             mLoadingDialog.dismiss();
+            mLoadingDialog = null;
         }
     }
 
