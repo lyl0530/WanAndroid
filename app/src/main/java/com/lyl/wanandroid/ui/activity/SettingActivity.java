@@ -55,9 +55,7 @@ public class SettingActivity extends BaseActivity implements LogoutView {
     private void initData() {
         mPresenter = new LogoutPresenter();
         mPresenter.attach(this);
-        if (BaseApplication.isLogin()){
-            mLogout.setVisibility(View.VISIBLE);
-        }
+        mLogout.setVisibility(BaseApplication.isLogin() ? View.VISIBLE : View.GONE);
     }
 
     public void onLogout(View v) {

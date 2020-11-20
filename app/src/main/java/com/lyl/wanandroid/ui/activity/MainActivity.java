@@ -186,8 +186,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         menu.getItem(0).setOnMenuItemClickListener(mMenuItemClickListener);
         menu.getItem(1).setOnMenuItemClickListener(mMenuItemClickListener);
         menu.getItem(2).setOnMenuItemClickListener(mMenuItemClickListener);
-        menu.getItem(3).setOnMenuItemClickListener(mMenuItemClickListener);
-        menu.getItem(3).setVisible(BaseApplication.isLogin());
+//        menu.getItem(3).setOnMenuItemClickListener(mMenuItemClickListener);
+//        menu.getItem(3).setVisible(BaseApplication.isLogin());
 
         initToggle();
         mDrawerLayout.addDrawerListener(mToggle);
@@ -203,6 +203,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
                 //LogUtils.d(TAG, "onDrawerSlide: " + slideOffset);
+                mSliderBarNickName.setText(BaseApplication.isLogin()
+                        ? PreferenceUtil.instance().getAccount()
+                        : getString(R.string.pls_login));
             }
 
             @Override
@@ -212,11 +215,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
                 //使用sp change的监听！
                 //mSliderBarAvatar.setBackgroundResource(R.drawable.ic_default_avatar);
-                mSliderBarNickName.setText(BaseApplication.isLogin()
-                        ? PreferenceUtil.instance().getAccount()
-                        : getString(R.string.pls_login));
+//                mSliderBarNickName.setText(BaseApplication.isLogin()
+//                        ? PreferenceUtil.instance().getAccount()
+//                        : getString(R.string.pls_login));
                 //20201101
-                menu.getItem(3).setVisible(BaseApplication.isLogin());
+//                menu.getItem(3).setVisible(BaseApplication.isLogin());
             }
 
             @Override
@@ -259,11 +262,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     startActivity(new Intent(MainActivity.this, SettingActivity.class));
 //                    showToast(R.string.wait);
                     break;
-                case R.id.item_logout:
-                    dialog = ConfirmDialog.getInstance(getString(R.string.are_you_sure_to_logout));
-                    dialog.setOnDialogClickListener(mListener);
-                    dialog.show(getSupportFragmentManager(), DIALOG_TAG);
-                    break;
+//                case R.id.item_logout:
+//                    dialog = ConfirmDialog.getInstance(getString(R.string.are_you_sure_to_logout));
+//                    dialog.setOnDialogClickListener(mListener);
+//                    dialog.show(getSupportFragmentManager(), DIALOG_TAG);
+//                    break;
             }
             mDrawerLayout.closeDrawers();
             return true;
