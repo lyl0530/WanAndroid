@@ -1,6 +1,6 @@
 # WanAndroid 
 
-# 1.功能及特色
+## 1.功能及特色
 RxJava + Retrofit2 + okHttp3 + MVP实现的wanAndroid客户端。<br>
 主要功能：<br>
 1. Android体系和网站导航<br>
@@ -9,7 +9,7 @@ RxJava + Retrofit2 + okHttp3 + MVP实现的wanAndroid客户端。<br>
 
 在此特别感谢[玩Android开放API](https://www.wanandroid.com/blog/show/2)
 
-# 2.主要开源框架
+## 2.主要开源框架
 - [square/retrofit](https://github.com/square/retrofit)
 - [square/okhttp](https://github.com/square/okhttp)
 - [ReactiveX/RxJava](https://github.com/ReactiveX/RxJava/)  
@@ -21,6 +21,6 @@ RxJava + Retrofit2 + okHttp3 + MVP实现的wanAndroid客户端。<br>
 - [scwang90/SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
 
          
-# 3.历史版本
+## 3.历史版本
 ### V1.0.0_20201120 
 基础模块实现
