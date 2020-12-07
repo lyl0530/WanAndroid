@@ -69,6 +69,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);//消除启动时的白屏/黑屏 20201207
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -80,8 +81,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
 
         initView();
-        initAdapter();
-        initData();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initAdapter();
+                initData();
+            }
+        }).start();
     }
 
     private void initView() {
