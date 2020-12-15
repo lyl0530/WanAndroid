@@ -53,7 +53,7 @@
                 <action android:name="com.lyl.wanandroid.ACTION.login"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.WebActivity"/>
+        <activity android:name=".ui.activity.WebActivity" android:process="com.lyl.new.process" />
         <activity android:name=".ui.activity.ArticleListActivity"/>
         <activity android:name=".ui.activity.SearchActivity"/>
         <activity android:name=".ui.activity.CollectListActivity"/>

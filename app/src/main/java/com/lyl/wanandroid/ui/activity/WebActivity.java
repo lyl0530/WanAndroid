@@ -229,6 +229,7 @@ public class WebActivity extends BaseActivity{
         //释放资源
         mWebView.destroy();
         mWebView = null;
+        android.os.Process.killProcess(android.os.Process.myPid());
         super.onDestroy();
     }
 }

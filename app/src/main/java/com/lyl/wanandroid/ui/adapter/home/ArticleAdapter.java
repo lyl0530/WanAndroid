@@ -52,7 +52,7 @@ public class ArticleAdapter implements IDelegateAdapter {
         viewHolder.mTvAuthor.setText(author);
         viewHolder.mTvTime.setText(b.getNiceDate());
         viewHolder.mTvTitle.setText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(b.getTitle())));
-        viewHolder.mTvNum.setText(position+"");
+//        viewHolder.mTvNum.setText(position+"");
         int drawableResId = b.isCollect() && BaseApplication.isLogin() ?
                 R.drawable.icon_collected :
                 R.drawable.icon_collecte;
