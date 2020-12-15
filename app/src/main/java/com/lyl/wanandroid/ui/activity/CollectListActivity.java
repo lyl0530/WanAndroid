@@ -142,8 +142,8 @@ public class CollectListActivity extends BaseActivity implements CollectListView
     @Override
     public void unCollectSuccess(BaseResult res, int pos) {
         mDataList.remove(pos);
-        //mAdapter.notifyDataSetChanged();
-        mAdapter.notifyItemChanged(pos);
+        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyItemChanged(pos);
     }
 
     @Override

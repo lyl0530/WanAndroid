@@ -2,13 +2,10 @@ package com.lyl.wanandroid.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.lyl.wanandroid.R;
 import com.lyl.wanandroid.base.BaseActivity;
-import com.lyl.wanandroid.service.present.LogoutPresenter;
 import com.lyl.wanandroid.utils.PhoneUtil;
-import com.lyl.wanandroid.widget.ConfirmDialog;
 
 public class MeActivity extends BaseActivity{
     private static final String TAG = MeActivity.class.getSimpleName();

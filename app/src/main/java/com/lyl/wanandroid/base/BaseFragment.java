@@ -4,11 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.lyl.wanandroid.widget.LoadingDialog;
 
 /**
  * Created by lym on 2020/5/6
@@ -18,7 +17,7 @@ public abstract class BaseFragment extends Fragment implements BaseView{
     private static final String TAG = BaseFragment.class.getSimpleName();
 
     private Context mContext;
-    private static LoadingDialog mLoadingDialog;
+//    private LoadingDialog mLoadingDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -32,19 +31,27 @@ public abstract class BaseFragment extends Fragment implements BaseView{
 
     @Override
     public void showProgressDialog() {
-        if (null == mLoadingDialog) {
-            mLoadingDialog = LoadingDialog.with(mContext);
-        }
-        if(!mLoadingDialog.isShow()) {
-            mLoadingDialog.show();
+//        if (null == mLoadingDialog) {
+//            mLoadingDialog = LoadingDialog.with(mContext);
+//        }
+//        if(!mLoadingDialog.isShow()) {
+//            mLoadingDialog.show();
+//        }
+        FragmentActivity activity = getActivity();
+        if (activity instanceof BaseActivity){
+            ((BaseActivity)activity).showProgressDialog();
         }
     }
 
     @Override
     public void hideProgressDialog() {
-        if (null != mLoadingDialog && mLoadingDialog.isShow()) {
-            mLoadingDialog.dismiss();
-            mLoadingDialog = null;
+//        if (null != mLoadingDialog && mLoadingDialog.isShow()) {
+//            mLoadingDialog.dismiss();
+//            mLoadingDialog = null;
+//        }
+        FragmentActivity activity = getActivity();
+        if (activity instanceof BaseActivity){
+            ((BaseActivity)activity).hideProgressDialog();
         }
     }
 

@@ -21,12 +21,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (null == mLoadingDialog) {
             mLoadingDialog = LoadingDialog.with(this);
         }
-        mLoadingDialog.show();
+        if(!mLoadingDialog.isShow()) {
+            mLoadingDialog.show();
+        }
     }
 
     public void hideProgressDialog() {
-        if (null != mLoadingDialog) {
+        if (null != mLoadingDialog && mLoadingDialog.isShow()) {
             mLoadingDialog.dismiss();
+            mLoadingDialog = null;
         }
     }
 
