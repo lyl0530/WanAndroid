@@ -17,7 +17,8 @@
             android:background="@drawable/ic_title_back"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/titleLeftMargin"
-            android:onClick="onBack"/>
+            android:onClick="onBack"
+            android:contentDescription="@string/back" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

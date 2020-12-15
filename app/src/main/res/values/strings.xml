@@ -63,4 +63,6 @@
     <string name="blog">博客</string>
     <string name="git">github</string>
     <string name="author_name">lyl0530</string>
+
+    <string name="back">回退</string>
 </resources>
