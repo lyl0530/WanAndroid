@@ -155,14 +155,14 @@ public class WebActivity extends BaseActivity{
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(WebActivity.this);
-            builder.setMessage("lalalal");
-            builder.setPositiveButton("continue", new DialogInterface.OnClickListener() {
+            builder.setMessage(R.string.ssl_cer_err);
+            builder.setPositiveButton(R.string.go_on, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     handler.proceed();
                 }
             });
-            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     handler.cancel();

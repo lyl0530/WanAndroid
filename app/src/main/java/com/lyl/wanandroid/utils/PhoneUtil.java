@@ -87,7 +87,7 @@ public class PhoneUtil {
     }
 
     //list 去重
-    public static List<DataBean> removeDuplicate(List<DataBean> list) {
+    public static /*List<DataBean> */void removeDuplicate(List<DataBean> list) {
         for (int i = 0; i < list.size(); i++) {
             int t1 = list.get(i).getType();
             if (t1 != ConstUtil.TYPE_ARTICLE) continue;
@@ -106,6 +106,6 @@ public class PhoneUtil {
                 }
             }
         }
-        return list;
+//        return list;
     }
 }

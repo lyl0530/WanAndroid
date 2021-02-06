@@ -19,7 +19,7 @@ public class LogUtil {
     //https://www.jb51.net/article/129636.htm
     //https://www.jianshu.com/p/658eb18838df
     public static boolean isDebug(){
-        return 0 != (BaseApplication.getContext().getApplicationInfo().flags
+        return 0 != (BaseApplication.getAppContext().getApplicationInfo().flags
                         & ApplicationInfo.FLAG_DEBUGGABLE);
     }
 

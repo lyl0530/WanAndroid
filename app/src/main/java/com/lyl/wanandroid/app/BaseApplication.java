@@ -6,6 +6,7 @@ import android.content.Context;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.service.RetrofitHelper;
+import com.lyl.wanandroid.widget.InitIntentService;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -15,17 +16,26 @@ import com.tencent.bugly.crashreport.CrashReport;
  */
 public class BaseApplication extends Application {
 
-    private static Context mAppContext;
-    public static Context getContext() {
-        return mAppContext;
+    private static Application application = null;
+    public static Application getApp() {
+        if (application == null) {
+            throw new NullPointerException("App is not registered in the manifest");
+        } else {
+            return application;
+        }
+    }
+
+    public static Context getAppContext() {
+        return getApp().getApplicationContext();
     }
 
     //application的生命周期
     @Override
     public void onCreate() {
         super.onCreate();
-        mAppContext = this;
-
+        application = this;
+//        RetrofitHelper.init();
+//        initThirdSdk();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -33,6 +43,8 @@ public class BaseApplication extends Application {
                 initThirdSdk();
             }
         }).start();
+
+//        InitIntentService.start(this.getApplicationContext());
     }
 
     private void initThirdSdk(){
@@ -43,15 +55,15 @@ public class BaseApplication extends Application {
         // 每一条Crash都会被立即上报；
         // 自定义日志将会在Logcat中输出。
         // 建议在测试阶段建议设置成true，发布时设置为false。
-        CrashReport.initCrashReport(mAppContext, ConstUtil.BUGLY_ID, false);
+        CrashReport.initCrashReport(getAppContext(), ConstUtil.BUGLY_ID, true);
 
         //LeakCanary
-        if (LeakCanary.isInAnalyzerProcess(this)) {
+        if (LeakCanary.isInAnalyzerProcess(getAppContext())) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
             return;
         }
-        LeakCanary.install(this);
+        LeakCanary.install(application);
     }
 
     public static boolean isLogin() {

@@ -16,18 +16,18 @@ import android.widget.Toast;
 public abstract class BaseFragment extends Fragment implements BaseView{
     private static final String TAG = BaseFragment.class.getSimpleName();
 
-    private Context mContext;
+//    private Context mContext;
 //    private LoadingDialog mLoadingDialog;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        mContext = context;
+//    }
 
-    public Context getContext() {
-        return mContext;
-    }
+//    public Context getContext() {
+//        return mContext;
+//    }
 
     @Override
     public void showProgressDialog() {
@@ -79,7 +79,7 @@ public abstract class BaseFragment extends Fragment implements BaseView{
         try {
             mToast.getView().isShown();
         } catch (Exception e) {
-            mToast = Toast.makeText(mContext, message, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(getContext(), message, Toast.LENGTH_SHORT);
         } finally {
             mToast.setText(message);
             mToast.setGravity(Gravity.CENTER, 0, 0);

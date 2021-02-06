@@ -58,6 +58,8 @@
         <activity android:name=".ui.activity.SearchActivity"/>
         <activity android:name=".ui.activity.CollectListActivity"/>
         <activity android:name=".ui.activity.MeActivity"/>
+
+        <service android:name=".widget.InitIntentService"/>
     </application>
 
 </manifest>

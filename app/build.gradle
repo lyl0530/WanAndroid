@@ -18,24 +18,24 @@ android {
     }
 
     buildTypes {
-        debug {
-            minifyEnabled true      //打开混淆
-            shrinkResources true    //打开资源压缩
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            android.applicationVariants.all { variant ->
-                if (variant.buildType.name == "debug") {
-                    variant.outputs.all { output ->
-                        def apkDir = output.outputFile
-                        if (apkDir != null && apkDir.name.endsWith('.apk')) {
-                            // 这里修改apk名称
-                            def fileName = "debug_" + defaultConfig.versionName.replace('.', '_') + ".apk"
-                            outputFileName = new File(fileName)
-                        }
-                    }
-                }
-            }
-        }
+//        debug {
+//            minifyEnabled true      //打开混淆
+//            shrinkResources true    //打开资源压缩
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//
+//            android.applicationVariants.all { variant ->
+//                if (variant.buildType.name == "debug") {
+//                    variant.outputs.all { output ->
+//                        def apkDir = output.outputFile
+//                        if (apkDir != null && apkDir.name.endsWith('.apk')) {
+//                            // 这里修改apk名称
+//                            def fileName = "debug_" + defaultConfig.versionName.replace('.', '_') + ".apk"
+//                            outputFileName = new File(fileName)
+//                        }
+//                    }
+//                }
+//            }
+//        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -286,7 +286,7 @@ public class FragmentHome extends BaseFragment implements MainView, CollectView,
             mResList.add(new DataBean(ConstUtil.TYPE_ARTICLE, dataList.get(i)));
         }
         int preCnt = mResList.size();
-        mResList = PhoneUtil.removeDuplicate(mResList);
+        PhoneUtil.removeDuplicate(mResList);
         int curCnt = mResList.size();
         mHomeAdapter.setDataItems(mResList, topArticleCnt);
         mHomeAdapter.notifyItemRangeChanged(preCnt, curCnt-1);

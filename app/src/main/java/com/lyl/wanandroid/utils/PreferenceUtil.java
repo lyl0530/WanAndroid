@@ -20,7 +20,7 @@ public class PreferenceUtil {
 
     private PreferenceUtil() {
         mPreference =
-                BaseApplication.getContext().getSharedPreferences(ConstUtil.PREFERENCE_NAME, Context.MODE_PRIVATE);
+                BaseApplication.getAppContext().getSharedPreferences(ConstUtil.PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
 
     public static PreferenceUtil instance() {

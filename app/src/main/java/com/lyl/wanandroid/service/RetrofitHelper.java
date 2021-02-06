@@ -47,7 +47,7 @@ public class RetrofitHelper {
         // https://blog.csdn.net/sinat_36553913/article/details/104054028
         // 此处是在application中初始化一次
         PersistentCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(),
-                new SharedPrefsCookiePersistor(BaseApplication.getContext()));
+                new SharedPrefsCookiePersistor(/*BaseApplication.getContext()*/BaseApplication.getAppContext()));
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .connectTimeout(8000, TimeUnit.SECONDS)

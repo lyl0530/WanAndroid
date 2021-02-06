@@ -65,4 +65,7 @@
     <string name="author_name">lyl0530</string>
 
     <string name="back">回退</string>
+
+    <string name="ssl_cer_err">SSL证书错误</string>
+    <string name="go_on">继续</string>
 </resources>
