@@ -6,7 +6,6 @@ import android.content.Context;
 import com.lyl.wanandroid.utils.ConstUtil;
 import com.lyl.wanandroid.utils.PreferenceUtil;
 import com.lyl.wanandroid.service.RetrofitHelper;
-import com.lyl.wanandroid.widget.InitIntentService;
 import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 
